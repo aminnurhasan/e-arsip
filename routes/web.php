@@ -2,6 +2,7 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\SuperAdminDashboardController;
+use App\Http\Controllers\SuperAdminUserController;
 
 /*
 |--------------------------------------------------------------------------
@@ -22,7 +23,13 @@ Auth::routes();
 
 // Hak Akses Super Admin
 Route::middleware(['auth', 'hak_akses:1'])->group(function () {
-    Route::get('/dashboard', [SuperAdminDashboardController::class, 'index'])->name('dashboardSuperAdmin');
+    Route::get('/superadmin/dashboard', [SuperAdminDashboardController::class, 'index'])->name('dashboardSuperAdmin');
+    Route::get('/superadmin/user', [SuperAdminUserController::class, 'index'])->name('userSuperAdmin');
+    Route::get('/superadmin/user/status/{id}', [SuperAdminUserController::class, 'status'])->name('statusUser');
+    Route::get('/superadmin/user/create', [SuperAdminUserController::class, 'create'])->name('createUserSuperAdmin');
+    Route::post('/superadmin/user/store', [SuperAdminUserController::class, 'store'])->name('storeUserSuperAdmin');
+    Route::get('/superadmin/user/{id}/edit', [SuperAdminUserController::class, 'edit'])->name('editUserSuperAdmin');
+    Route::put('/superadmin/user/{id}', [SuperAdminUserController::class, 'update'])->name('updateUserSuperAdmin');
     Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 });
 
