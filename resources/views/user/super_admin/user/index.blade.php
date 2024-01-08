@@ -140,7 +140,7 @@
                                             @endif
                                         </td>
                                         <td>
-                                            <a href='{{ url('/superadmin/user/' . $item->id . '/edit') }}' class="btn btn-warning btn-sm fa-solid fa-pen-to-square"></a>
+                                            <a href='{{ url('/superadmin/user/' . $item->id . '/edit') }}' class="btn btn-warning btn-sm"><ion-icon name="create-outline"></ion-icon></a>
                                         </td>
                                     </tr>
                                 @endforeach

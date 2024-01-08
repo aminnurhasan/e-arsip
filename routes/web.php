@@ -3,6 +3,7 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\SuperAdminDashboardController;
 use App\Http\Controllers\SuperAdminUserController;
+use App\Http\Controllers\SuperAdminAgendaController;
 
 /*
 |--------------------------------------------------------------------------
@@ -24,12 +25,21 @@ Auth::routes();
 // Hak Akses Super Admin
 Route::middleware(['auth', 'hak_akses:1'])->group(function () {
     Route::get('/superadmin/dashboard', [SuperAdminDashboardController::class, 'index'])->name('dashboardSuperAdmin');
+    // User
     Route::get('/superadmin/user', [SuperAdminUserController::class, 'index'])->name('userSuperAdmin');
     Route::get('/superadmin/user/status/{id}', [SuperAdminUserController::class, 'status'])->name('statusUser');
     Route::get('/superadmin/user/create', [SuperAdminUserController::class, 'create'])->name('createUserSuperAdmin');
     Route::post('/superadmin/user/store', [SuperAdminUserController::class, 'store'])->name('storeUserSuperAdmin');
     Route::get('/superadmin/user/{id}/edit', [SuperAdminUserController::class, 'edit'])->name('editUserSuperAdmin');
     Route::put('/superadmin/user/{id}', [SuperAdminUserController::class, 'update'])->name('updateUserSuperAdmin');
+
+    // Agenda
+    Route::get('/superadmin/agenda', [SuperAdminAgendaController::class, 'index'])->name('agendaSuperAdmin');
+    Route::get('/superadmin/agenda/create', [SuperAdminAgendaController::class, 'create'])->name('createAgendaSuperAdmin');
+    Route::post('/superadmin/agenda/store', [SuperAdminAgendaController::class, 'store'])->name('storeAgendaSuperAdmin');
+    Route::get('/superadmin/agenda/{id}/edit', [SuperAdminAgendaController::class, 'edit'])->name('editAgendaSuperAdmin');
+    Route::put('/superadmin/agenda/{id}', [SuperAdminAgendaController::class, 'update'])->name('updateAgendaSuperAdmin');
+    Route::get('/superadmin/agenda/delete/{id}', [SuperAdminAgendaController::class, 'destroy'])->name('deleteAgendaSuperAdmin');
     Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 });
 
