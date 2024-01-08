@@ -39,7 +39,8 @@ Route::middleware(['auth', 'hak_akses:1'])->group(function () {
     Route::post('/superadmin/agenda/store', [SuperAdminAgendaController::class, 'store'])->name('storeAgendaSuperAdmin');
     Route::get('/superadmin/agenda/{id}/edit', [SuperAdminAgendaController::class, 'edit'])->name('editAgendaSuperAdmin');
     Route::put('/superadmin/agenda/{id}', [SuperAdminAgendaController::class, 'update'])->name('updateAgendaSuperAdmin');
-    Route::get('/superadmin/agenda/delete/{id}', [SuperAdminAgendaController::class, 'destroy'])->name('deleteAgendaSuperAdmin');
+    Route::delete('/superadmin/agenda/{id}', [SuperAdminAgendaController::class, 'destroy'])->name('deleteAgendaSuperAdmin');
+
     Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 });
 

@@ -39,7 +39,7 @@
                     </div>
 
                     <div class="card-body">
-                        <table id="example1" class="table table-bordered table-striped">
+                        <table id="datatable" class="table table-bordered table-striped">
                             <thead>
                                 <tr>
                                     <th class="col-1">Tanggal</th>
@@ -57,7 +57,14 @@
                                         <td>{{ $item->asal_dokumen }}</td>
                                         <td>
                                             <a href="{{asset('storage/' .$item->file_path)}}" download class="btn btn-primary btn-sm "><ion-icon name="cloud-download-outline"></ion-icon></a>
-                                            <a href="{{route('deleteAgendaSuperAdmin', $item->id)}}" class="btn btn-danger btn-sm" onclick="return confirm('Apakah Anda Ingin Menghapus Data?')"><ion-icon name="trash-outline"></ion-icon></a>
+                                            <form onsubmit="return confirm('Apakah Anda Ingin Menghapus Data ?')" data-confirm-delete="true" class="d-inline" 
+                                            action="{{ url('superadmin/agenda/' . $item->id) }}" method="post">
+                                                @csrf
+                                                @method('DELETE')
+                                                <button type="submit" name='submit' class="btn btn-danger btn-sm fas fa-trash-can"></button>
+                                            </form>
+                                            {{-- <button class="btn btn-danger" onclick="konfirmasiHapus({{ $item->id }})">Hapus</button> --}}
+                                            {{-- <a href="{{route('deleteAgendaSuperAdmin', $item->id)}}" onsubmit="return confirm('Apakah Anda Ingin Menghapus Data ?')" class="btn btn-danger btn-sm" data-confirm-delete="true"><ion-icon name="trash-outline"></ion-icon></a> --}}
                                         </td>
                                     </tr>
                                 @endforeach
@@ -69,4 +76,21 @@
         </div>
     </div>
 </section>
+{{-- <script>
+    function konfirmasiHapus(id) {
+        Swal.fire({
+            title: 'Anda yakin?',
+            text: 'Anda tidak dapat mengembalikan ini!',
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonText: 'Ya, hapus!',
+            cancelButtonText: 'Batal',
+        }).then((result) => {
+            if (result.isConfirmed) {
+                // Redirect atau kirim form penghapusan ke server
+                window.location.href = '/superadmin/agenda/' + id; // Gantilah dengan rute penghapusan yang sesuai
+            }
+        });
+    }
+</script> --}}
 @endsection

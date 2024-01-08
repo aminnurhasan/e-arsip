@@ -8,8 +8,10 @@ use Illuminate\Database\Eloquent\Model;
 class Agenda extends Model
 {
     use HasFactory;
+    protected $guarded=[];
     protected $table = 'agenda';
     public $timestamps = false;
+    
     protected $fillable = [
         'jenis_dokumen',
         'tanggal_dokumen',

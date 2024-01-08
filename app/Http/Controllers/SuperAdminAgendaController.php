@@ -7,6 +7,7 @@ use App\Models\Agenda;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Storage;
+use RealRashid\SweetAlert\Facades\Alert;
 
 class SuperAdminAgendaController extends Controller
 {
@@ -23,6 +24,10 @@ class SuperAdminAgendaController extends Controller
     public function index()
     {
         $agenda = Agenda::all();
+        $title = 'Delete Data!';
+        $text = "Are you sure you want to delete?";
+        confirmDelete($title, $text);
+
         return view ('user.super_admin.agenda.index', compact('agenda'));
     }
 
@@ -74,7 +79,8 @@ class SuperAdminAgendaController extends Controller
             'file_path' => $file_path,
         ];
         Agenda::create($agenda);
-        return redirect()->route('agendaSuperAdmin')->with('success', 'Data Agenda Berhasil Ditambahkan');
+        Alert::success('Berhasil', 'Berhasil Menambahkan Data User');
+        return redirect()->route('agendaSuperAdmin');
     }
 
     /**
@@ -123,6 +129,7 @@ class SuperAdminAgendaController extends Controller
 
         Agenda::where('id', $id)->delete();
         Storage::disk('public')->delete($agenda->file_path);
-        return redirect()->route('agendaSuperAdmin')->with('success', 'Data Agenda Berhasil Dihapus');
+        alert()->success('Berhasil', 'Berhasil Menghapus Data Agenda');
+        return redirect()->route('agendaSuperAdmin');
     }
 }

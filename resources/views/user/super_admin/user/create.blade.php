@@ -78,6 +78,11 @@
                                     <option value="16">Kepala Sub Bidang Verifikasi</option>
                                     <option value="17">Kepala Sub Bidang Perencanaan dan Penatausahaan</option>
                                     <option value="18">Kepala Sub Bidang Penggunaan dan Pemanfaatan</option>
+                                    <option value="19">Admin Pembantu Sekretaris</option>
+                                    <option value="20">Admin Pembantu Bidang Anggaran</option>
+                                    <option value="21">Admin Pembantu Bidang Perbendaharaan</option>
+                                    <option value="22">Admin Pembantu Bidang Akuntansi</option>
+                                    <option value="23">Admin Pembantu Bidang Aset</option>
                                 </select>
                                 @error('role')
                                     <span style="font-size: 12px; color:red" class="error-message">{{ $message }}</span>

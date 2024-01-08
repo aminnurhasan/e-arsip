@@ -6,6 +6,7 @@ use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
+use RealRashid\SweetAlert\Facades\Alert;
 
 class SuperAdminUserController extends Controller
 {
@@ -23,6 +24,7 @@ class SuperAdminUserController extends Controller
     public function index()
     {
         $user = User::where('role', '!=', 1)->get();
+
         return view ('user.super_admin.user.index', compact('user'));
     }
 
@@ -95,10 +97,19 @@ class SuperAdminUserController extends Controller
             $jabatan = "Kepala Subbid Verifikasi";
         }elseif ($role == 17){
             $jabatan = "Kepala Subbid Perencanaan dan Penatausahaan";
-        }else{
+        }elseif ($role == 18){
             $jabatan = "Kepala Subbid Penggunaan dan Pemanfaatan";
+        }elseif ($role == 19){
+            $jabatan = "Admin Pembantu Sekretaris";
+        }elseif ($role == 20){
+            $jabatan = "Admin Pembantu Bidang Anggaran";
+        }elseif ($role == 21){
+            $jabatan = "Admin Pembantu Bidang Perbendaharaan";
+        }elseif ($role == 22){
+            $jabatan = "Admin Pembantu Bidang Akuntansi";
+        }else{
+            $jabatan = "Admin Pembantu Bidang Aset";
         }
-
         $request -> validate ([
             'nip' => 'required| unique:user',
             'name' => 'required',
@@ -124,7 +135,8 @@ class SuperAdminUserController extends Controller
         ];
         // dd($user);
         User::create($user);
-        return redirect ('/superadmin/user') -> with ('status', 'Data User Berhasil Ditambahkan!');
+        Alert::success('Berhasil', 'Berhasil Menambahkan Data User');
+        return redirect ('/superadmin/user');
     }
 
     /**
@@ -166,6 +178,11 @@ class SuperAdminUserController extends Controller
             ['id' => 16, 'name' => 'Kepala Subbid Verifikasi' ],
             ['id' => 17, 'name' => 'Kepala Subbid Perencanaan dan Penatausahaan' ],
             ['id' => 18, 'name' => 'Kepala Subbid Penggunaan dan Pemanfaatan' ],
+            ['id' => 19, 'name' => 'Admin Pembantu Sekretaris' ],
+            ['id' => 20, 'name' => 'Admin Pembantu Bidang Anggaran' ],
+            ['id' => 21, 'name' => 'Admin Pembantu Bidang Perbendaharaan' ],
+            ['id' => 22, 'name' => 'Admin Pembantu Bidang Akuntansi' ],
+            ['id' => 23, 'name' => 'Admin Pembantu Bidang Aset' ],
           ];
           return view ('user.super_admin.user.edit', compact('user', 'roles'));
     }
@@ -217,8 +234,18 @@ class SuperAdminUserController extends Controller
             $jabatan = "Kepala Subbid Verifikasi";
         }elseif ($role == 17){
             $jabatan = "Kepala Subbid Perencanaan dan Penatausahaan";
-        }else{
+        }elseif ($role == 18){
             $jabatan = "Kepala Subbid Penggunaan dan Pemanfaatan";
+        }elseif ($role == 19){
+            $jabatan = "Admin Pembantu Sekretaris";
+        }elseif ($role == 20){
+            $jabatan = "Admin Pembantu Bidang Anggaran";
+        }elseif ($role == 21){
+            $jabatan = "Admin Pembantu Bidang Perbendaharaan";
+        }elseif ($role == 22){
+            $jabatan = "Admin Pembantu Bidang Akuntansi";
+        }else{
+            $jabatan = "Admin Pembantu Bidang Aset";
         }
 
         $update = [
@@ -229,7 +256,8 @@ class SuperAdminUserController extends Controller
             'jabatan' => $jabatan,
         ];
         $user -> update($update);
-        return redirect ('/superadmin/user') -> with ('status', 'Data User Berhasil Diubah!');
+        Alert::success('Berhasil', 'Berhasil Merubah Data User');
+        return redirect ('/superadmin/user');
     }
 
     /**
