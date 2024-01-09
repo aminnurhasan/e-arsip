@@ -35,28 +35,32 @@
 
                         <form action="{{ route('updateUserSuperAdmin', $user->id) }}" method="post" enctype="multipart/form-data">
                             @csrf @method('PUT')
-                            <div class="form-group">
-                                <label for="">NIP</label>
-                                <input type="text" name="nip" class="form-control" value="{{ old('nip', $user->nip) }}">
+                            <div class="form-group row">
+                                <div class="col-6">
+                                    <label for="">NIP</label>
+                                    <input type="text" name="nip" class="form-control" value="{{ old('nip', $user->nip) }}">
+                                </div>
+                                <div class="col-6">
+                                    <label for="">Nama</label>
+                                    <input type="text" name="name" class="form-control" value="{{ old('name', $user->name) }}">
+                                </div>
                             </div>
-                            <div class="form-group">
-                                <label for="">Nama</label>
-                                <input type="text" name="name" class="form-control" value="{{ old('name', $user->name) }}">
-                            </div>
-                            <div class="form-group">
-                                <label for="">Email</label>
-                                <input type="email" name="email" class="form-control" value="{{ old('email', $user->email) }}">
-                            </div>
-                            <div class="form-group">
-                                <label for="role">Jabatan</label>
-                                <select class="form-control" id="role" name="role">
-                                    @foreach($roles as $role)
-                                        <option value="{{ $role['id'] }}" {{ $user->role == $role['id'] ? 'selected' : '' }}>
-                                            {{ $role['name'] }}
-                                        </option>
-                                    @endforeach
-                                </select>
-                            </div>                            
+                            <div class="form-group row">
+                                <div class="col-6">
+                                    <label for="">Email</label>
+                                    <input type="email" name="email" class="form-control" value="{{ old('email', $user->email) }}">
+                                </div>
+                                <div class="col-6">
+                                    <label for="role">Jabatan</label>
+                                    <select class="form-control" id="role" name="role">
+                                        @foreach($roles as $role)
+                                            <option value="{{ $role['id'] }}" {{ $user->role == $role['id'] ? 'selected' : '' }}>
+                                                {{ $role['name'] }}
+                                            </option>
+                                        @endforeach
+                                    </select>
+                                </div>
+                            </div>                           
                             <button type="submit" class="btn btn-primary">Simpan</button>
                         </form>
                     </div>

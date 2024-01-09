@@ -35,47 +35,51 @@
 
                         <form action="{{route('storeAgendaSuperAdmin')}}" method="post" enctype="multipart/form-data">
                             @csrf
-                            <div class="form-group">
-                                <label for="">
-                                    Jenis Dokumen
-                                    <span style="color:red">*</span>
-                                </label>
-                                <select name="jenis_dokumen" id="jenis_dokumen" class="form-control">
-                                    <option value="">-- PILIH JENIS DOKUMEN --</option>
-                                    <option value="surat masuk">Surat Masuk</option>
-                                </select>
-                                @error('jenis_dokumen')
-                                    <span style="font-size: 12px; color:red" class="error-message">{{ $message }}</span>
-                                @enderror
+                            <div class="form-group row">
+                                <div class="col-6">
+                                    <label for="">
+                                        Jenis Dokumen
+                                        <span style="color:red">*</span>
+                                    </label>
+                                    <select name="jenis_dokumen" id="jenis_dokumen" class="form-control">
+                                        <option value="">-- PILIH JENIS DOKUMEN --</option>
+                                        <option value="surat masuk">Surat Masuk</option>
+                                    </select>
+                                    @error('jenis_dokumen')
+                                        <span style="font-size: 12px; color:red" class="error-message">{{ $message }}</span>
+                                    @enderror
+                                </div>
+                                <div class="col-6">
+                                     <label for="">
+                                        Tanggal Dokumen
+                                        <span style="color:red">*</span>
+                                    </label>
+                                    <input type="date" name="tanggal_dokumen" class="form-control" value="{{ old('tanggal_dokumen') }}">
+                                    @error('tanggal_dokumen')
+                                        <span style="font-size: 12px; color:red" class="error-message">{{ $message }}</span>
+                                    @enderror
+                                </div>
                             </div>
-                            <div class="form-group">
-                                <label for="">
-                                    Tanggal Dokumen
-                                    <span style="color:red">*</span>
-                                </label>
-                                <input type="date" name="tanggal_dokumen" class="form-control" value="{{ old('tanggal_dokumen') }}">
-                                @error('tanggal_dokumen')
-                                    <span style="font-size: 12px; color:red" class="error-message">{{ $message }}</span>
-                                @enderror
-                            </div>
-                            <div class="form-group">
-                                <label for="">
-                                    Nomor Dokumen
-                                </label>
-                                <input type="text" name="nomor_dokumen" cols="3" class="form-control"  value="{{ old('nomor_dokumen') }}"></input>
-                                @error('nomor_dokumen')
-                                    <span style="font-size: 12px; color:red" class="error-message">{{ $message }}</span>
-                                @enderror
-                            </div>
-                            <div class="form-group">
-                                <label for="">
-                                    Asal Dokumen
-                                    <span style="color:red">*</span>
-                                </label>
-                                <input type="text" name="asal_dokumen" cols="3" class="form-control"  value="{{ old('asal_dokumen') }}"></input>
-                                @error('asal_dokumen')
-                                    <span style="font-size: 12px; color:red" class="error-message">{{ $message }}</span>
-                                @enderror
+                            <div class="form-group row">
+                               <div class="col-6">
+                                    <label for="">
+                                        Nomor Dokumen
+                                    </label>
+                                    <input type="text" name="nomor_dokumen" cols="3" class="form-control"  value="{{ old('nomor_dokumen') }}"></input>
+                                    @error('nomor_dokumen')
+                                        <span style="font-size: 12px; color:red" class="error-message">{{ $message }}</span>
+                                    @enderror
+                               </div>
+                               <div class="col-6">
+                                    <label for="">
+                                        Asal Dokumen
+                                        <span style="color:red">*</span>
+                                    </label>
+                                    <input type="text" name="asal_dokumen" cols="3" class="form-control"  value="{{ old('asal_dokumen') }}"></input>
+                                    @error('asal_dokumen')
+                                        <span style="font-size: 12px; color:red" class="error-message">{{ $message }}</span>
+                                    @enderror
+                               </div>
                             </div>
                             <div class="form-group">
                                 <label for="">
@@ -92,7 +96,7 @@
                                     Upload Dokumen
                                     <span style="color:red">*</span>
                                 </label>
-                                <input type="file" name="file">
+                                <input type="file" name="file" class="form-control h-100">
                                 @error('file_path')
                                     <span style="font-size: 12px; color:red" class="error-message">{{ $message }}</span>
                                 @enderror
