@@ -28,8 +28,93 @@
                 </div>
                 @endif
 
-                <a href="{{ route('createAgendaSuperAdmin') }}" class="btn btn-md btn-primary mb-2">Tambah Data Agenda</a>
+                <a href="{{route('createAgendaSuperAdmin')}}" class="btn btn-md btn-primary mb-2">Tambah Data Agenda</a>
                 
+                {{-- Modal Tambah Data Agenda --}}
+                {{-- <div class="modal fade" id="modalCreateAgenda">
+                    <div class="modal-dialog modal-lg">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h4 class="modal-title">Tambah Data Agenda</h4>
+                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                    <span aria-hidden="true">&times;</span>
+                                </button>
+                            </div>
+                            <div class="modal-body">
+                                <form id="formCreateAgenda">
+                                    <div class="form-group">
+                                        <label for="">
+                                            Jenis Dokumen
+                                            <span style="color:red">*</span>
+                                        </label>
+                                        <select name="jenis_dokumen" id="jenis_dokumen" class="form-control">
+                                            <option value="">-- PILIH JENIS DOKUMEN --</option>
+                                            <option value="surat masuk">Surat Masuk</option>
+                                        </select>
+                                        @error('jenis_dokumen')
+                                            <span style="font-size: 12px; color:red" class="error-message">{{ $message }}</span>
+                                        @enderror
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="">
+                                            Tanggal Dokumen
+                                            <span style="color:red">*</span>
+                                        </label>
+                                        <input type="date" name="tanggal_dokumen" class="form-control" value="{{ old('tanggal_dokumen') }}">
+                                        @error('tanggal_dokumen')
+                                            <span style="font-size: 12px; color:red" class="error-message">{{ $message }}</span>
+                                        @enderror
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="">
+                                            Nomor Dokumen
+                                        </label>
+                                        <input type="text" name="nomor_dokumen" cols="3" class="form-control"  value="{{ old('nomor_dokumen') }}"></input>
+                                        @error('nomor_dokumen')
+                                            <span style="font-size: 12px; color:red" class="error-message">{{ $message }}</span>
+                                        @enderror
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="">
+                                            Asal Dokumen
+                                            <span style="color:red">*</span>
+                                        </label>
+                                        <input type="text" name="asal_dokumen" cols="3" class="form-control"  value="{{ old('asal_dokumen') }}"></input>
+                                        @error('asal_dokumen')
+                                            <span style="font-size: 12px; color:red" class="error-message">{{ $message }}</span>
+                                        @enderror
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="">
+                                            Perihal
+                                            <span style="color:red">*</span>
+                                        </label>
+                                        <textarea name="perihal" id="perihal" class="form-control" rows="2"></textarea>
+                                        @error('perihal')
+                                            <span style="font-size: 12px; color:red" class="error-message">{{ $message }}</span>
+                                        @enderror
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="">
+                                            Upload Dokumen
+                                            <span style="color:red">*</span>
+                                        </label>
+                                        <input type="file" name="file">
+                                        @error('file_path')
+                                            <span style="font-size: 12px; color:red" class="error-message">{{ $message }}</span>
+                                        @enderror
+                                    </div>
+                                </form>
+                            </div>
+                            <div class="modal-footer justify-content-between">
+                                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                                <button type="button" class="btn btn-primary" id="btnSimpanAgenda">Simpan</button>
+                            </div>
+                        </div>
+                    </div>
+                </div> --}}
+
+                {{-- List Data Agenda --}}
                 <div class="card">
                     <div class="card-header">
                         <h3 class="card-title">
@@ -63,8 +148,6 @@
                                                 @method('DELETE')
                                                 <button type="submit" name='submit' class="btn btn-danger btn-sm fas fa-trash-can"></button>
                                             </form>
-                                            {{-- <button class="btn btn-danger" onclick="konfirmasiHapus({{ $item->id }})">Hapus</button> --}}
-                                            {{-- <a href="{{route('deleteAgendaSuperAdmin', $item->id)}}" onsubmit="return confirm('Apakah Anda Ingin Menghapus Data ?')" class="btn btn-danger btn-sm" data-confirm-delete="true"><ion-icon name="trash-outline"></ion-icon></a> --}}
                                         </td>
                                     </tr>
                                 @endforeach
@@ -76,21 +159,4 @@
         </div>
     </div>
 </section>
-{{-- <script>
-    function konfirmasiHapus(id) {
-        Swal.fire({
-            title: 'Anda yakin?',
-            text: 'Anda tidak dapat mengembalikan ini!',
-            icon: 'warning',
-            showCancelButton: true,
-            confirmButtonText: 'Ya, hapus!',
-            cancelButtonText: 'Batal',
-        }).then((result) => {
-            if (result.isConfirmed) {
-                // Redirect atau kirim form penghapusan ke server
-                window.location.href = '/superadmin/agenda/' + id; // Gantilah dengan rute penghapusan yang sesuai
-            }
-        });
-    }
-</script> --}}
 @endsection

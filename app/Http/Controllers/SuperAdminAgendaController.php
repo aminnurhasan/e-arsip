@@ -52,13 +52,13 @@ class SuperAdminAgendaController extends Controller
     {
         // $formattedDate = Carbon::parse($request->tanggal_dokumen)->format('d-m-Y');
 
-        $request -> validate ([
+        $validator = Validator::make($request->all(),[
             'jenis_dokumen' => 'required',
             'tanggal_dokumen' => 'required',
             'asal_dokumen' => 'required',
             'perihal' => 'required',
             'file' => 'required|mimes:pdf,doc,docx',
-        ],[
+        ], [
             'jenis_dokumen.required' => 'Jenis Dokumen tidak boleh kosong',
             'tanggal_dokumen.required' => 'Tanggal Dokumen tidak boleh kosong',
             'asal_dokumen.required' => 'Asal Dokumen tidak boleh kosong',
