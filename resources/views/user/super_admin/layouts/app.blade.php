@@ -33,7 +33,7 @@
       font-size: 18px;
     }
     .info-box-content{
-      padding: 10px;
+      max-height: 50px;
     }
 
     .custom-icon{
