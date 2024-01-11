@@ -4,6 +4,8 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\SuperAdminDashboardController;
 use App\Http\Controllers\SuperAdminUserController;
 use App\Http\Controllers\SuperAdminAgendaController;
+use App\Http\Controllers\SuperAdminArsipController;
+use App\Http\Controllers\SuperAdminDokumentasiController;
 
 /*
 |--------------------------------------------------------------------------
@@ -40,6 +42,25 @@ Route::middleware(['auth', 'hak_akses:1'])->group(function () {
     Route::get('/superadmin/agenda/{id}/edit', [SuperAdminAgendaController::class, 'edit'])->name('editAgendaSuperAdmin');
     Route::put('/superadmin/agenda/{id}', [SuperAdminAgendaController::class, 'update'])->name('updateAgendaSuperAdmin');
     Route::delete('/superadmin/agenda/{id}', [SuperAdminAgendaController::class, 'destroy'])->name('deleteAgendaSuperAdmin');
+
+    // Arsip
+    Route::get('/superadmin/arsip', [SuperAdminArsipController::class, 'index'])->name('arsipSuperAdmin');
+    Route::get('/superadmin/arsip/create', [SuperAdminArsipController::class, 'create'])->name('createArsipSuperAdmin');
+    Route::post('/superadmin/arsip/store', [SuperAdminArsipController::class, 'store'])->name('storeArsipSuperAdmin');
+    
+    // Dokumentasi
+    Route::get('/superadmin/dokumentasi', [SuperAdminDokumentasiController::class, 'index'])->name('dokumentasiSuperAdmin');
+    Route::get('/superadmin/dokumentasi/create', [SuperAdminDokumentasiController::class, 'create'])->name('createDokumentasiSuperAdmin');
+    Route::post('/superadmin/dokumentasi/store', [SuperAdminDokumentasiController::class, 'store'])->name('storeDokumentasiSuperAdmin');
+    Route::get('superadmin/dokumentasi/{id}', [SuperAdminDokumentasiController::class, 'show'])->name('showDokumentasiSuperAdmin');
+    Route::delete('/superadmin/dokumentasi/{id}', [SuperAdminDokumentasiController::class, 'destroy'])->name('deleteDokumentasiSuperAdmin');
+
+    // Berkas
+    Route::get('/superadmin/peraturan', [SuperAdminArsipController::class, 'peraturanIndex'])->name('peraturanSuperAdmin');
+    Route::get('/superadmin/apbd', [SuperAdminArsipController::class, 'apbdIndex'])->name('apbdSuperAdmin');
+    Route::get('/superadmin/keuangan', [SuperAdminArsipController::class, 'keuanganIndex'])->name('keuanganSuperAdmin');
+    Route::get('/superadmin/slide', [SuperAdminArsipController::class, 'slideIndex'])->name('slideSuperAdmin');
+    Route::get('/superadmin/lainnya', [SuperAdminArsipController::class, 'lainnyaIndex'])->name('lainnyaSuperAdmin');
 
     Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 });

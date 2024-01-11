@@ -77,6 +77,7 @@ class SuperAdminAgendaController extends Controller
             'asal_dokumen' => $request->asal_dokumen,
             'perihal' => $request->perihal,
             'file_path' => $file_path,
+            'status' => 1
         ];
         Agenda::create($agenda);
         Alert::success('Berhasil', 'Berhasil Menambahkan Data User');

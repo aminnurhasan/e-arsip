@@ -132,6 +132,7 @@ class SuperAdminUserController extends Controller
             'password' => Hash::make($request -> nip),
             'role' => $request -> role,
             'jabatan' => $jabatan,
+            'status' => 1
         ];
         // dd($user);
         User::create($user);

@@ -28,7 +28,7 @@
                 </div>
                 @endif
 
-                <a href="{{ url()->previous() }}" class="btn btn-md btn-primary mb-2">Kembali</a>
+                <a href="{{ url()->previous() }}" class="btn btn-md btn-info mb-2">Kembali</a>
 
                 <div class="card">  
                     <div class="card-body">
@@ -61,7 +61,7 @@
                                     </select>
                                 </div>
                             </div>                           
-                            <button type="submit" class="btn btn-primary">Simpan</button>
+                            <button type="submit" class="btn btn-info">Simpan</button>
                         </form>
                     </div>
                 </div>

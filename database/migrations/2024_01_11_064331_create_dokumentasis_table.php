@@ -13,15 +13,11 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('agenda', function (Blueprint $table) {
+        Schema::create('dokumentasi', function (Blueprint $table) {
             $table->id();
-            $table->string('jenis_dokumen');
-            $table->date('tanggal_dokumen');
-            $table->string('nomor_dokumen');
-            $table->string('asal_dokumen');
-            $table->string('perihal');
-            $table->string('file_path');
-            $table->integer('status');
+            $table->string('nama_kegiatan');
+            $table->date('tanggal_kegiatan');
+            $table->timestamps();
         });
     }
 
@@ -32,6 +28,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('agenda');
+        Schema::dropIfExists('dokumentasi');
     }
 };

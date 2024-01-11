@@ -28,7 +28,7 @@
                 </div>
                 @endif
 
-                <a href="{{route('createAgendaSuperAdmin')}}" class="btn btn-md btn-primary mb-2">Tambah Data Agenda</a>
+                <a href="{{route('createAgendaSuperAdmin')}}" class="btn btn-md btn-info mb-2">Tambah Data Agenda</a>
                 
                 {{-- Modal Tambah Data Agenda --}}
                 {{-- <div class="modal fade" id="modalCreateAgenda">

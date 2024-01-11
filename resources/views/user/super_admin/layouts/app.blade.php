@@ -23,6 +23,24 @@
   {{-- Datatables --}}
   <link rel="stylesheet" href="{{asset('adminlte/plugins/datatables-bs4/css/dataTables.bootstrap4.min.css')}}">
   <link rel="stylesheet" href="{{asset('adminlte/plugins/datatables-responsive/css/responsive.bootstrap4.min.css')}}">
+
+  <style>
+    .info-box-text{
+      font-size: 14px;
+    }
+
+    .info-box-number{
+      font-size: 18px;
+    }
+    .info-box-content{
+      padding: 10px;
+    }
+
+    .custom-icon{
+      font-size: 24px;
+    }
+  </style>
+
 </head>
 <body class="hold-transition sidebar-mini">
   @include('sweetalert::alert')
@@ -42,8 +60,6 @@
   @include('user.super_admin.layouts.footer')
 </div>
 <!-- ./wrapper -->
-
-<!-- REQUIRED SCRIPTS -->
 
 <!-- jQuery -->
 <script src="{{asset('adminlte/plugins/jquery/jquery.min.js')}}"></script>
@@ -76,8 +92,8 @@
   $(function () {
     $('#datatable').DataTable({
       "paging": true,
-      "lengthChange": false,
-      "searching": false,
+      "lengthChange": true,
+      "searching": true,
       "ordering": true,
       "info": true,
       "autoWidth": false,

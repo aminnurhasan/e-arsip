@@ -32,7 +32,7 @@
                 </script>
                 @endif
 
-                <a href="{{ route('createUserSuperAdmin') }}" class="btn btn-md btn-primary mb-2">Tambah Data User</a>
+                <a href="{{ route('createUserSuperAdmin') }}" class="btn btn-md btn-info mb-2">Tambah Data User</a>
                 {{-- <button type="button" class="btn btn-secondary mb-2">Tambah Data User</button> --}}
 
                 {{-- Modal Tambah Data User --}}
@@ -129,6 +129,7 @@
                                     <th class="col-2">Aksi</th>
                                 </tr>
                             </thead>
+                            <tbody>
                                 @foreach ($user as $item)
                                     <tr>
                                         <td>{{ $loop->iteration }}</td>
@@ -144,7 +145,7 @@
                                             @endif
                                         </td>
                                         <td>
-                                            <a href='{{ url('/superadmin/user/' . $item->id . '/edit') }}' class="btn btn-warning btn-sm"><ion-icon name="create-outline"></ion-icon></a>
+                                            <a href='{{ url('/superadmin/user/' . $item->id . '/edit') }}' class="btn btn-warning btn-sm fas fa-pen-to-square"></a>
                                         </td>
                                     </tr>
                                 @endforeach
