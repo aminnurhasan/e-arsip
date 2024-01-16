@@ -13,15 +13,14 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('agenda', function (Blueprint $table) {
+        Schema::create('disposisi', function (Blueprint $table) {
             $table->id();
-            $table->string('jenis_dokumen');
-            $table->date('tanggal_dokumen');
-            $table->string('nomor_dokumen');
-            $table->string('asal_dokumen');
-            $table->string('perihal');
-            $table->string('file_path');
-            $table->integer('status')->default(0);
+            $table->unsignedBigInteger('agenda_id');
+            $table->integer('disposisi');
+            $table->string('catatan')->nullable();
+            $table->string('laporan')->nullable();
+
+            $table->foreign('agenda_id')->references('id')->on('agenda')->onDelete('cascade')->onUpdate('cascade');
         });
     }
 
@@ -32,6 +31,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('agenda');
+        Schema::dropIfExists('disposisi');
     }
 };

@@ -21,4 +21,9 @@ class Agenda extends Model
         'file_path',
         'status'
     ];
+
+    public function disposisi()
+    {
+        return $this->hasMany(Disposisi::class);
+    }
 }

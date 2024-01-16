@@ -33,6 +33,8 @@ class LoginController extends Controller
     {
        if($user->role == 1){
             return redirect('/superadmin/dashboard');
+       }else if($user->role == 2){
+            return redirect('/kepalabadan/dashboard');
        }
     }
 

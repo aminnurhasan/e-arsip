@@ -1,17 +1,11 @@
-@extends('user.super_admin.layouts.app')
+@extends('user.kepala_badan.layouts.app')
 
 @section('content')
 <div class="content-header">
     <div class="container-fluid">
         <div class="row mb-2">
             <div class="col-sm-6">
-                <h1 class="m-0 text-dark">Tambah Data Agenda</h1>
-            </div>
-            <div class="col-sm-6">
-                <ol class="breadcrumb float-sm-right">
-                    <li class="breadcrumb-item"><a href="">Agenda</a></li>
-                    <li class="breadcrumb-item active">Tambah</li>
-                </ol>
+                <h1 class="m-0 text-dark">Tambah Data Dokumen</h1>
             </div>
         </div>
     </div>
@@ -33,9 +27,27 @@
                 <div class="card">
                     <div class="card-body">
 
-                        <form action="{{route('storeAgendaSuperAdmin')}}" method="post" enctype="multipart/form-data">
+                        <form action="{{route('storeArsipKepalaBadan')}}" method="post" enctype="multipart/form-data">
                             @csrf
                             <div class="form-group row">
+                                <div class="col-6">
+                                    <label for="">
+                                        Pengelola
+                                        <span style="color:red">*</span>
+                                    </label>
+                                    <select name="pengelola" id="pengelola" class="form-control">
+                                        <option value="">-- PILIH PENGELOLA --</option>
+                                        <option value="1">Kepala Badan</option>
+                                        <option value="2">Sekretaris</option>
+                                        <option value="3">Bidang Anggaran</option>
+                                        <option value="4">Bidang Perbendaharaan</option>
+                                        <option value="5">Bidang Akuntansi</option>
+                                        <option value="6">Bidang Aset</option>
+                                    </select>
+                                    @error('pengelola')
+                                        <span style="font-size: 12px; color:red" class="error-message">{{ $message }}</span>
+                                    @enderror
+                                </div>
                                 <div class="col-6">
                                     <label for="">
                                         Jenis Dokumen
@@ -43,14 +55,20 @@
                                     </label>
                                     <select name="jenis_dokumen" id="jenis_dokumen" class="form-control">
                                         <option value="">-- PILIH JENIS DOKUMEN --</option>
-                                        <option value="Surat Masuk">Surat Masuk</option>
+                                        <option value="1">Peraturan</option>
+                                        <option value="2">APBD</option>
+                                        <option value="3">Laporan Keuangan</option>
+                                        <option value="4">Presentasi / Slide</option>
+                                        <option value="5">Dokumen Lainnya</option>
                                     </select>
                                     @error('jenis_dokumen')
                                         <span style="font-size: 12px; color:red" class="error-message">{{ $message }}</span>
-                                    @enderror
+                                    @enderror                                     
                                 </div>
-                                <div class="col-6">
-                                     <label for="">
+                            </div>
+                            <div class="form-group row">
+                               <div class="col-6">
+                                    <label for="">
                                         Tanggal Dokumen
                                         <span style="color:red">*</span>
                                     </label>
@@ -58,9 +76,7 @@
                                     @error('tanggal_dokumen')
                                         <span style="font-size: 12px; color:red" class="error-message">{{ $message }}</span>
                                     @enderror
-                                </div>
-                            </div>
-                            <div class="form-group row">
+                               </div>
                                <div class="col-6">
                                     <label for="">
                                         Nomor Dokumen
@@ -70,16 +86,16 @@
                                         <span style="font-size: 12px; color:red" class="error-message">{{ $message }}</span>
                                     @enderror
                                </div>
-                               <div class="col-6">
-                                    <label for="">
-                                        Asal Dokumen
-                                        <span style="color:red">*</span>
-                                    </label>
-                                    <input type="text" name="asal_dokumen" cols="3" class="form-control"  value="{{ old('asal_dokumen') }}"></input>
-                                    @error('asal_dokumen')
-                                        <span style="font-size: 12px; color:red" class="error-message">{{ $message }}</span>
-                                    @enderror
-                               </div>
+                            </div>
+                            <div class="form-group">
+                                <label for="">
+                                    Asal Dokumen
+                                    <span style="color:red">*</span>
+                                </label>
+                                <input type="text" name="asal_dokumen" cols="3" class="form-control"  value="{{ old('asal_dokumen') }}"></input>
+                                @error('asal_dokumen')
+                                    <span style="font-size: 12px; color:red" class="error-message">{{ $message }}</span>
+                                @enderror
                             </div>
                             <div class="form-group">
                                 <label for="">
