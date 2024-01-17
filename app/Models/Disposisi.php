@@ -16,7 +16,9 @@ class Disposisi extends Model
         'agenda_id',
         'disposisi',
         'catatan',
-        'laporan'
+        'laporan',
+        'dp2',
+        'dp3',
     ];
 
     public function agenda()

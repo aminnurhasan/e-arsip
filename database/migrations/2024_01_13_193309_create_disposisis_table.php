@@ -19,6 +19,8 @@ return new class extends Migration
             $table->integer('disposisi');
             $table->string('catatan')->nullable();
             $table->string('laporan')->nullable();
+            $table->integer('dp2')->nullable();
+            $table->integer('dp3')->nullable();
 
             $table->foreign('agenda_id')->references('id')->on('agenda')->onDelete('cascade')->onUpdate('cascade');
         });

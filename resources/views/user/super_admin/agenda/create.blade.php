@@ -7,12 +7,6 @@
             <div class="col-sm-6">
                 <h1 class="m-0 text-dark">Tambah Data Agenda</h1>
             </div>
-            <div class="col-sm-6">
-                <ol class="breadcrumb float-sm-right">
-                    <li class="breadcrumb-item"><a href="">Agenda</a></li>
-                    <li class="breadcrumb-item active">Tambah</li>
-                </ol>
-            </div>
         </div>
     </div>
 </div>

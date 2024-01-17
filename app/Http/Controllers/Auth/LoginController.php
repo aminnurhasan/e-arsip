@@ -31,11 +31,15 @@ class LoginController extends Controller
 
     protected function authenticated(Request $request, $user)
     {
-       if($user->role == 1){
+        if($user->role == 1){
             return redirect('/superadmin/dashboard');
-       }else if($user->role == 2){
+        }else if($user->role == 2){
             return redirect('/kepalabadan/dashboard');
-       }
+        }else if($user->role == 3){
+            return redirect('/sekretaris/dashboard');
+        }else if($user->role == 4){
+            return redirect('/bidangAggaran/dashboard');
+        }
     }
 
     public function username()

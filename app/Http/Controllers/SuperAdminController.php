@@ -71,7 +71,7 @@ class SuperAdminController extends Controller
             'asal_dokumen' => $request->asal_dokumen,
             'perihal' => $request->perihal,
             'file_path' => $file_path,
-            'status' => 1
+            'status' => 0
         ];
         Agenda::create($agenda);
         Alert::success('Berhasil', 'Berhasil Menambahkan Data Agenda');
@@ -119,7 +119,7 @@ class SuperAdminController extends Controller
             'tanggal_dokumen' => 'required',
             'asal_dokumen' => 'required',
             'perihal' => 'required',
-            'file' => 'required|mimes:pdf,doc,docx',
+            'file' => 'required|mimes:pdf,doc,docx,ppt,pptx',
         ], [
             'pengelola.required' => 'Pengelola harus diisi!',
             'jenis_dokumen.required' => 'Jenis Dokumen harus diisi!',
@@ -127,7 +127,7 @@ class SuperAdminController extends Controller
             'asal_dokumen.required' => 'Asal Dokumen harus diisi!',
             'perihal.required' => 'Perihal harus diisi!',
             'file.required' => 'File harus diisi!',
-            'file.mimes' => 'File harus berupa pdf, doc, atau docx!',
+            'file.mimes' => 'File harus berupa pdf, doc, docx, ppt, atau pptx!',
         ]);
 
         $file = $request->file('file');
@@ -145,6 +145,59 @@ class SuperAdminController extends Controller
 
         Arsip::create($arsip);
         Alert::success('Berhasil', 'Berhasil Menambahkan Data Dokumen');
+        return redirect()->route('arsipSuperAdmin');
+    }
+
+    public function editArsip($id)
+    {
+        $arsip = Arsip::findOrFail($id);
+        return view ('user.super_admin.arsip.edit', compact('arsip'));
+    }
+
+    public function updateArsip(Request $request, $id)
+    {
+        $arsip = Arsip::findOrFail($id);
+        $request->validate([
+            'pengelola' => 'required',
+            'jenis_dokumen' => 'required',
+            'tanggal_dokumen' => 'required',
+            'asal_dokumen' => 'required',
+            'perihal' => 'required',
+            'file' => 'sometimes|mimes:pdf,doc,docx,ppt,pptx',
+        ], [
+            'pengelola.required' => 'Pengelola harus diisi!',
+            'jenis_dokumen.required' => 'Jenis Dokumen harus diisi!',
+            'tanggal_dokumen.required' => 'Tanggal Dokumen harus diisi!',
+            'asal_dokumen.required' => 'Asal Dokumen harus diisi!',
+            'perihal.required' => 'Perihal harus diisi!',
+            'file.mimes' => 'File harus berupa pdf, doc, docx, ppt, atau pptx!',
+        ]);
+
+        if ($request->file('file') == '') {
+            $arsip->update([
+                'pengelola' => $request->pengelola,
+                'jenis_dokumen' => $request->jenis_dokumen,
+                'tanggal_dokumen' => $request->tanggal_dokumen,
+                'nomor_dokumen' => $request->nomor_dokumen,
+                'asal_dokumen' => $request->asal_dokumen,
+                'perihal' => $request->perihal,
+            ]);
+        } else {
+            $file = $request->file('file');
+            $file_path = $file->storeAs('arsip', $file->getClientOriginalName(), 'public');
+
+            $arsip->update([
+                'pengelola' => $request->pengelola,
+                'jenis_dokumen' => $request->jenis_dokumen,
+                'tanggal_dokumen' => $request->tanggal_dokumen,
+                'nomor_dokumen' => $request->nomor_dokumen,
+                'asal_dokumen' => $request->asal_dokumen,
+                'perihal' => $request->perihal,
+                'file_path' => $file_path,
+            ]);
+        }
+
+        Alert::success('Berhasil', 'Berhasil Mengubah Data Dokumen');
         return redirect()->route('arsipSuperAdmin');
     }
 
@@ -234,6 +287,52 @@ class SuperAdminController extends Controller
         $foto = Foto::where('dokumentasi_id', $id)->get();
 
         return view ('user.super_admin.dokumentasi.show', compact('dokumentasi', 'foto'));
+    }
+
+    public function editDokumentasi($id)
+    {
+        $dokumentasi = Dokumentasi::with('foto')->findOrFail($id);
+        return view ('user.super_admin.dokumentasi.edit', ['dokumentasi' => $dokumentasi]);
+    }
+
+    public function updateDokumentasi(Request $request, $id)
+    {
+        $dokumentasi = Dokumentasi::findOrFail($id);
+        $request->validate([
+            'tanggal_kegiatan' => 'required',
+            'nama_kegiatan' => 'required',
+            'file' => 'sometimes|mimes:jpg,jpeg,png',
+        ], [
+            'tanggal_kegiatan.required' => 'Tanggal harus diisi!',
+            'nama_kegiatan.required' => 'Nama Kegiatan harus diisi!',
+            'file.mimes' => 'File harus berupa jpg, jpeg, atau png!',
+        ]);
+
+        foreach ($dokumentasi->foto as $foto) {
+            Storage::delete($foto->file);
+            $foto->delete();
+        }
+
+        if ($request->file('file') == '') {
+            $dokumentasi->update([
+                'tanggal_kegiatan' => $request->tanggal_kegiatan,
+                'nama_kegiatan' => $request->nama_kegiatan,
+            ]);
+        } else {
+            $files = $request->file('file');
+            foreach($files as $file)
+            {
+                $file_path = $file->storeAs('dokumentasi', $file->getClientOriginalName(), 'public');
+                $foto = [
+                    'dokumentasi_id' => $dokumentasi->latest()->first()->id,
+                    'file' => $file_path,
+                ];
+                Foto::create($foto);
+            }
+        }
+
+        Alert::success('Berhasil', 'Berhasil Mengubah Data Dokumentasi');
+        return redirect()->route('dokumentasiSuperAdmin');
     }
 
     public function destroyDokumentasi($id)

@@ -7,12 +7,6 @@
             <div class="col-sm-6">
                 <h1 class="m-0 text-dark">Data Dokumentasi</h1>
             </div>
-            <div class="col-sm-6">
-                <ol class="breadcrumb float-sm-right">
-                    <li class="breadcrumb-item"><a href="">Dokumentasi</a></li>
-                    <li class="breadcrumb-item"></li>
-                </ol>
-            </div>
         </div>
     </div>
 </div>
@@ -58,6 +52,7 @@
                                         <td>{{$item->nama_kegiatan}}</td>
                                         <td>
                                             <a href='{{ route('showDokumentasiSuperAdmin', $item->id) }}' class="btn btn-warning btn-sm fas fa-eye"></a>
+                                            <a href="{{url('/superadmin/dokumentasi/' . $item->id . '/edit')}}" class="btn btn-warning btn-sm fas fa-pen-to-square"></a>
                                             <form onsubmit="return confirm('Apakah Anda Ingin Menghapus Data ?')" data-confirm-delete="true" class="d-inline" 
                                             action="{{ url('superadmin/dokumentasi/' . $item->id) }}" method="post">
                                                 @csrf

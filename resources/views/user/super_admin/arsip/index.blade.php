@@ -124,8 +124,9 @@
                                         <td>{{$item->nomor_dokumen}}</td>
                                         <td>{{$item->perihal}}</td>
                                         <td>{{$item->asal_dokumen}}</td>
-                                        <td>
+                                        <td style="text-align: center">
                                             <a href="{{asset('storage/' .$item->file_path)}}" download class="btn btn-primary btn-sm "><ion-icon name="cloud-download-outline"></ion-icon></a>
+                                            <a href="{{url('/superadmin/arsip/' . $item->id . '/edit')}}" class="btn btn-warning btn-sm fas fa-pen-to-square"></a>
                                         </td>
                                     </tr>
                                 @endforeach

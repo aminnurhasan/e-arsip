@@ -7,12 +7,6 @@
             <div class="col-sm-6">
                 <h1 class="m-0 text-dark">Data Dokumentasi</h1>
             </div>
-            <div class="col-sm-6">
-                <ol class="breadcrumb float-sm-right">
-                    <li class="breadcrumb-item"><a href="">Dokumentasi</a></li>
-                    <li class="breadcrumb-item"></li>
-                </ol>
-            </div>
         </div>
     </div>
 </div>

@@ -50,8 +50,9 @@
                                         <td>{{$loop->iteration}}</td>
                                         <td>{{\Carbon\Carbon::parse($item->tanggal_kegiatan)->format('d M Y')}}</td>
                                         <td>{{$item->nama_kegiatan}}</td>
-                                        <td>
+                                        <td style="text-align: center">
                                             <a href='{{ route('showDokumentasiKepalaBadan', $item->id) }}' class="btn btn-warning btn-sm fas fa-eye"></a>
+                                            <a href="{{url('/kepalabadan/dokumentasi/' . $item->id . '/edit')}}" class="btn btn-warning btn-sm fas fa-pen-to-square"></a>
                                             <form onsubmit="return confirm('Apakah Anda Ingin Menghapus Data ?')" data-confirm-delete="true" class="d-inline" 
                                             action="{{ url('kepalabadan/dokumentasi/' . $item->id) }}" method="post">
                                                 @csrf
