@@ -6,6 +6,7 @@ use App\Http\Controllers\SuperAdminController;
 use App\Http\Controllers\KepalaBadanController;
 use App\Http\Controllers\SekretarisController;
 use App\Http\Controllers\BidangAnggaranController;
+use App\Http\Controllers\BidangPerbendaharaanController;
 
 /*
 |--------------------------------------------------------------------------
@@ -156,7 +157,6 @@ Route::middleware(['auth', 'sekretaris'])->group(function () {
 
 // Hak Akses Bidang Anggaran
 Route::middleware(['auth', 'bidangAnggaran'])->group(function () {
-
     Route::get('/b_anggaran/dashboard', [BidangAnggaranController::class, 'dashboard'])->name('dashboardBidangAnggaran');
 
     // Agenda
@@ -198,8 +198,45 @@ Route::middleware(['auth', 'bidangAnggaran'])->group(function () {
 });
 
 // Hak Akses Bidang Perbendaharaan
-Route::middleware(['auth', 'hak_akses:5'])->group(function () {
-    
+Route::middleware(['auth', 'bidangPerbendaharaan'])->group(function () {
+    Route::get('/b_perbendaharaan/dashboard', [BidangPerbendaharaanController::class, 'dashboard'])->name('dashboardBidangPerbendaharaan');
+
+    // Agenda
+    Route::get('/b_perbendaharaan/agenda', [BidangPerbendaharaanController::class, 'indexAgenda'])->name('agendaBidangPerbendaharaan');
+    Route::get('/b_perbendaharaan/agenda/{id}/disposisi', [BidangPerbendaharaanController::class, 'disposisiAgenda'])->name('disposisiAgendaBidangPerbendaharaan');
+    Route::put('/b_perbendaharaan/agenda/{id}', [BidangPerbendaharaanController::class, 'storeDisposisiAgenda'])->name('updateDisposisiAgendaBidangPerbendaharaan');
+
+    // Laporan
+    Route::get('/b_perbendaharaan/laporan/{id}/upload', [BidangPerbendaharaanController::class, 'uploadLaporan'])->name('uploadLaporanBidangPerbendaharaan');
+    Route::put('/b_perbendaharaan/laporan/{id}', [BidangPerbendaharaanController::class, 'storeLaporan'])->name('storeLaporanBidangPerbendaharaan');
+
+    // Disposisi
+    Route::get('/b_perbendaharaan/disposisi', [BidangPerbendaharaanController::class, 'indexDisposisi'])->name('disposisiBidangPerbendaharaan');
+
+    // Arsip
+    Route::get('/b_perbendaharaan/arsip', [BidangPerbendaharaanController::class, 'indexArsip'])->name('arsipBidangPerbendaharaan');
+    Route::get('/b_perbendaharaan/arsip/create', [BidangPerbendaharaanController::class, 'createArsip'])->name('createArsipBidangPerbendaharaan');
+    Route::post('/b_perbendaharaan/arsip/store', [BidangPerbendaharaanController::class, 'storeArsip'])->name('storeArsipBidangPerbendaharaan');
+    Route::get('/b_perbendaharaan/arsip/{id}/edit', [BidangPerbendaharaanController::class, 'editArsip'])->name('editArsipBidangPerbendaharaan');
+    Route::put('/b_perbendaharaan/arsip/{id}', [BidangPerbendaharaanController::class, 'updateArsip'])->name('updateArsipBidangPerbendaharaan');
+
+    // Berkas
+    Route::get('/b_perbendaharaan/peraturan', [BidangPerbendaharaanController::class, 'peraturanIndex'])->name('peraturanBidangPerbendaharaan');
+    Route::get('/b_perbendaharaan/apbd', [BidangPerbendaharaanController::class, 'apbdIndex'])->name('apbdBidangPerbendaharaan');
+    Route::get('/b_perbendaharaan/keuangan', [BidangPerbendaharaanController::class, 'keuanganIndex'])->name('keuanganBidangPerbendaharaan');
+    Route::get('/b_perbendaharaan/slide', [BidangPerbendaharaanController::class, 'slideIndex'])->name('slideBidangPerbendaharaan');
+    Route::get('/b_perbendaharaan/lainnya', [BidangPerbendaharaanController::class, 'lainnyaIndex'])->name('lainnyaBidangPerbendaharaan');
+
+    // Dokumentasi
+    Route::get('/b_perbendaharaan/dokumentasi', [BidangPerbendaharaanController::class, 'indexDokumentasi'])->name('dokumentasiBidangPerbendaharaan');
+    Route::get('/b_perbendaharaan/dokumentasi/create', [BidangPerbendaharaanController::class, 'createDokumentasi'])->name('createDokumentasiBidangPerbendaharaan');
+    Route::post('/b_perbendaharaan/dokumentasi/store', [BidangPerbendaharaanController::class, 'storeDokumentasi'])->name('storeDokumentasiBidangPerbendaharaan');
+    Route::get('/b_perbendaharaan/dokumentasi/{id}', [BidangPerbendaharaanController::class, 'showDokumentasi'])->name('showDokumentasiBidangPerbendaharaan');
+    Route::get('/b_perbendaharaan/dokumentasi/{id}/edit', [BidangPerbendaharaanController::class, 'editDokumentasi'])->name('editDokumentasiBidangPerbendaharaan');
+    Route::put('/b_perbendaharaan/dokumentasi/{id}', [BidangPerbendaharaanController::class, 'updateDokumentasi'])->name('updateDokumentasiBidangPerbendaharaan');
+    Route::delete('/b_perbendaharaan/dokumentasi/{id}', [BidangPerbendaharaanController::class, 'destroyDokumentasi'])->name('deleteDokumentasiBidangPerbendaharaan');
+
+    Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 });
 
 // Hak Akses Bidang Akuntansi

@@ -46,7 +46,7 @@ class SuperAdminController extends Controller
 
     public function storeAgenda(Request $request)
     {
-        $validator = Validator::make($request->all(),[
+        $request->validate([
             'jenis_dokumen' => 'required',
             'tanggal_dokumen' => 'required',
             'asal_dokumen' => 'required',

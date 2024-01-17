@@ -31,14 +31,16 @@ class LoginController extends Controller
 
     protected function authenticated(Request $request, $user)
     {
-        if($user->role == 1){
+        if($user->role == 1 && $user->status == 1){
             return redirect('/superadmin/dashboard');
-        }else if($user->role == 2){
+        }else if($user->role == 2 && $user->status == 1){
             return redirect('/kepalabadan/dashboard');
-        }else if($user->role == 3){
+        }else if($user->role == 3 && $user->status == 1){
             return redirect('/sekretaris/dashboard');
-        }else if($user->role == 4){
+        }else if($user->role == 4 && $user->status == 1){
             return redirect('/b_anggaran/dashboard');
+        }else if($user->role == 5 && $user->status == 1){
+            return redirect('/b_perbendaharaan/dashboard');
         }
     }
 
