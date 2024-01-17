@@ -7,6 +7,7 @@ use App\Http\Controllers\KepalaBadanController;
 use App\Http\Controllers\SekretarisController;
 use App\Http\Controllers\BidangAnggaranController;
 use App\Http\Controllers\BidangPerbendaharaanController;
+use App\Http\Controllers\BidangAkuntansiController;
 
 /*
 |--------------------------------------------------------------------------
@@ -240,8 +241,45 @@ Route::middleware(['auth', 'bidangPerbendaharaan'])->group(function () {
 });
 
 // Hak Akses Bidang Akuntansi
-Route::middleware(['auth', 'hak_akses:6'])->group(function () {
-    
+Route::middleware(['auth', 'bidangAkuntansi'])->group(function () {
+    Route::get('/b_akuntansi/dashboard', [BidangAkuntansiController::class, 'dashboard'])->name('dashboardBidangAkuntansi');
+
+    // Agenda
+    Route::get('/b_akuntansi/agenda', [BidangAkuntansiController::class, 'indexAgenda'])->name('agendaBidangAkuntansi');
+    Route::get('/b_akuntansi/agenda/{id}/disposisi', [BidangAkuntansiController::class, 'disposisiAgenda'])->name('disposisiAgendaBidangAkuntansi');
+    Route::put('/b_akuntansi/agenda/{id}', [BidangAkuntansiController::class, 'storeDisposisiAgenda'])->name('updateDisposisiAgendaBidangAkuntansi');
+
+    // Laporan
+    Route::get('/b_akuntansi/laporan/{id}/upload', [BidangAkuntansiController::class, 'uploadLaporan'])->name('uploadLaporanBidangAkuntansi');
+    Route::put('/b_akuntansi/laporan/{id}', [BidangAkuntansiController::class, 'storeLaporan'])->name('storeLaporanBidangAkuntansi');
+
+    // Disposisi
+    Route::get('/b_akuntansi/disposisi', [BidangAkuntansiController::class, 'indexDisposisi'])->name('disposisiBidangAkuntansi');
+
+    // Arsip
+    Route::get('/b_akuntansi/arsip', [BidangAkuntansiController::class, 'indexArsip'])->name('arsipBidangAkuntansi');
+    Route::get('/b_akuntansi/arsip/create', [BidangAkuntansiController::class, 'createArsip'])->name('createArsipBidangAkuntansi');
+    Route::post('/b_akuntansi/arsip/store', [BidangAkuntansiController::class, 'storeArsip'])->name('storeArsipBidangAkuntansi');
+    Route::get('/b_akuntansi/arsip/{id}/edit', [BidangAkuntansiController::class, 'editArsip'])->name('editArsipBidangAkuntansi');
+    Route::put('/b_akuntansi/arsip/{id}', [BidangAkuntansiController::class, 'updateArsip'])->name('updateArsipBidangAkuntansi');
+
+    // Berkas
+    Route::get('/b_akuntansi/peraturan', [BidangAkuntansiController::class, 'peraturanIndex'])->name('peraturanBidangAkuntansi');
+    Route::get('/b_akuntansi/apbd', [BidangAkuntansiController::class, 'apbdIndex'])->name('apbdBidangAkuntansi');
+    Route::get('/b_akuntansi/keuangan', [BidangAkuntansiController::class, 'keuanganIndex'])->name('keuanganBidangAkuntansi');
+    Route::get('/b_akuntansi/slide', [BidangAkuntansiController::class, 'slideIndex'])->name('slideBidangAkuntansi');
+    Route::get('/b_akuntansi/lainnya', [BidangAkuntansiController::class, 'lainnyaIndex'])->name('lainnyaBidangAkuntansi');
+
+    // Dokumentasi
+    Route::get('/b_akuntansi/dokumentasi', [BidangAkuntansiController::class, 'indexDokumentasi'])->name('dokumentasiBidangAkuntansi');
+    Route::get('/b_akuntansi/dokumentasi/create', [BidangAkuntansiController::class, 'createDokumentasi'])->name('createDokumentasiBidangAkuntansi');
+    Route::post('/b_akuntansi/dokumentasi/store', [BidangAkuntansiController::class, 'storeDokumentasi'])->name('storeDokumentasiBidangAkuntansi');
+    Route::get('/b_akuntansi/dokumentasi/{id}', [BidangAkuntansiController::class, 'showDokumentasi'])->name('showDokumentasiBidangAkuntansi');
+    Route::get('/b_akuntansi/dokumentasi/{id}/edit', [BidangAkuntansiController::class, 'editDokumentasi'])->name('editDokumentasiBidangAkuntansi');
+    Route::put('/b_akuntansi/dokumentasi/{id}', [BidangAkuntansiController::class, 'updateDokumentasi'])->name('updateDokumentasiBidangAkuntansi');
+    Route::delete('/b_akuntansi/dokumentasi/{id}', [BidangAkuntansiController::class, 'destroyDokumentasi'])->name('deleteDokumentasiBidangAkuntansi');
+
+    Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 });
 
 // Hak Akses Bidang Aset

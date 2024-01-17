@@ -71,5 +71,6 @@ class Kernel extends HttpKernel
         'sekretaris' => \App\Http\Middleware\SekretarisMiddleware::class,
         'bidangAnggaran' => \App\Http\Middleware\BidangAnggaranMiddleware::class,
         'bidangPerbendaharaan' => \App\Http\Middleware\BidangPerbendaharaanMiddleware::class,
+        'bidangAkuntansi' => \App\Http\Middleware\BidangAkuntansiMiddleware::class,
     ];
 }
