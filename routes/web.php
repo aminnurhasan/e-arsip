@@ -8,17 +8,7 @@ use App\Http\Controllers\SekretarisController;
 use App\Http\Controllers\BidangAnggaranController;
 use App\Http\Controllers\BidangPerbendaharaanController;
 use App\Http\Controllers\BidangAkuntansiController;
-
-/*
-|--------------------------------------------------------------------------
-| Web Routes
-|--------------------------------------------------------------------------
-|
-| Here is where you can register web routes for your application. These
-| routes are loaded by the RouteServiceProvider within a group which
-| contains the "web" middleware group. Now create something great!
-|
-*/
+use App\Http\Controllers\BidangAsetController;
 
 Route::get('/', function () {
     return view('welcome');
@@ -283,8 +273,45 @@ Route::middleware(['auth', 'bidangAkuntansi'])->group(function () {
 });
 
 // Hak Akses Bidang Aset
-Route::middleware(['auth', 'hak_akses:7'])->group(function () {
-    
+Route::middleware(['auth', 'bidangAset'])->group(function () {
+    Route::get('/b_aset/dashboard', [BidangAsetController::class, 'dashboard'])->name('dashboardBidangAset');
+
+    // Agenda
+    Route::get('/b_aset/agenda', [BidangAsetController::class, 'indexAgenda'])->name('agendaBidangAset');
+    Route::get('/b_aset/agenda/{id}/disposisi', [BidangAsetController::class, 'disposisiAgenda'])->name('disposisiAgendaBidangAset');
+    Route::put('/b_aset/agenda/{id}', [BidangAsetController::class, 'storeDisposisiAgenda'])->name('updateDisposisiAgendaBidangAset');
+
+    // Laporan
+    Route::get('/b_aset/laporan/{id}/upload', [BidangAsetController::class, 'uploadLaporan'])->name('uploadLaporanBidangAset');
+    Route::put('/b_aset/laporan/{id}', [BidangAsetController::class, 'storeLaporan'])->name('storeLaporanBidangAset');
+
+    // Disposisi
+    Route::get('/b_aset/disposisi', [BidangAsetController::class, 'indexDisposisi'])->name('disposisiBidangAset');
+
+    // Arsip
+    Route::get('/b_aset/arsip', [BidangAsetController::class, 'indexArsip'])->name('arsipBidangAset');
+    Route::get('/b_aset/arsip/create', [BidangAsetController::class, 'createArsip'])->name('createArsipBidangAset');
+    Route::post('/b_aset/arsip/store', [BidangAsetController::class, 'storeArsip'])->name('storeArsipBidangAset');
+    Route::get('/b_aset/arsip/{id}/edit', [BidangAsetController::class, 'editArsip'])->name('editArsipBidangAset');
+    Route::put('/b_aset/arsip/{id}', [BidangAsetController::class, 'updateArsip'])->name('updateArsipBidangAset');
+
+    // Berkas
+    Route::get('/b_aset/peraturan', [BidangAsetController::class, 'peraturanIndex'])->name('peraturanBidangAset');
+    Route::get('/b_aset/apbd', [BidangAsetController::class, 'apbdIndex'])->name('apbdBidangAset');
+    Route::get('/b_aset/keuangan', [BidangAsetController::class, 'keuanganIndex'])->name('keuanganBidangAset');
+    Route::get('/b_aset/slide', [BidangAsetController::class, 'slideIndex'])->name('slideBidangAset');
+    Route::get('/b_aset/lainnya', [BidangAsetController::class, 'lainnyaIndex'])->name('lainnyaBidangAset');
+
+    // Dokumentasi
+    Route::get('/b_aset/dokumentasi', [BidangAsetController::class, 'indexDokumentasi'])->name('dokumentasiBidangAset');
+    Route::get('/b_aset/dokumentasi/create', [BidangAsetController::class, 'createDokumentasi'])->name('createDokumentasiBidangAset');
+    Route::post('/b_aset/dokumentasi/store', [BidangAsetController::class, 'storeDokumentasi'])->name('storeDokumentasiBidangAset');
+    Route::get('/b_aset/dokumentasi/{id}', [BidangAsetController::class, 'showDokumentasi'])->name('showDokumentasiBidangAset');
+    Route::get('/b_aset/dokumentasi/{id}/edit', [BidangAsetController::class, 'editDokumentasi'])->name('editDokumentasiBidangAset');
+    Route::put('/b_aset/dokumentasi/{id}', [BidangAsetController::class, 'updateDokumentasi'])->name('updateDokumentasiBidangAset');
+    Route::delete('/b_aset/dokumentasi/{id}', [BidangAsetController::class, 'destroyDokumentasi'])->name('deleteDokumentasiBidangAset');
+
+    Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 });
 
 // Hak Akses Subbag Perencanaan dan Evaluasi
