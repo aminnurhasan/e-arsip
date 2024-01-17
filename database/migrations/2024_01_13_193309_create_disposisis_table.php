@@ -21,6 +21,7 @@ return new class extends Migration
             $table->string('laporan')->nullable();
             $table->integer('dp2')->nullable();
             $table->integer('dp3')->nullable();
+            $table->integer('dp4')->nullable();
 
             $table->foreign('agenda_id')->references('id')->on('agenda')->onDelete('cascade')->onUpdate('cascade');
         });

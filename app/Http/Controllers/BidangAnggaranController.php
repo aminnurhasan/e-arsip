@@ -12,9 +12,10 @@ use App\Models\Disposisi;
 use RealRashid\SweetAlert\Facades\Alert;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 
-class SekretarisController extends Controller
+class BidangAnggaranController extends Controller
 {
     public function __construct()
     {
@@ -23,7 +24,7 @@ class SekretarisController extends Controller
 
     public function dashboard()
     {
-        return view ('user.sekretaris.dashboard');
+        return view ('user.b_anggaran.dashboard');
     }
 
     // Agenda Start
@@ -33,17 +34,17 @@ class SekretarisController extends Controller
             SELECT disposisi.id AS id, agenda.tanggal_dokumen AS tanggal_dokumen, agenda.nomor_dokumen AS nomor_dokumen, agenda.asal_dokumen AS asal_dokumen, agenda.perihal AS perihal, agenda.file_path AS file_path, disposisi.disposisi AS disposisi, disposisi.catatan AS catatan, disposisi.laporan AS laporan
             FROM disposisi
             JOIN agenda ON disposisi.agenda_id = agenda.id
-            WHERE disposisi.disposisi = 3 AND disposisi.laporan IS NULL
+            WHERE disposisi.disposisi = 4 AND disposisi.laporan IS NULL
         '));
 
         $agendaSelesai = DB::select(DB::raw('
             SELECT disposisi.id AS id, agenda.tanggal_dokumen AS tanggal_dokumen, agenda.nomor_dokumen AS nomor_dokumen, agenda.asal_dokumen AS asal_dokumen, agenda.perihal AS perihal, agenda.file_path AS file_path, disposisi.disposisi AS disposisi, disposisi.catatan AS catatan, disposisi.laporan AS laporan
             FROM disposisi
             JOIN agenda ON disposisi.agenda_id = agenda.id
-            WHERE disposisi.disposisi = 3 AND disposisi.laporan IS NOT NULL
+            WHERE disposisi.disposisi = 4 AND disposisi.laporan IS NOT NULL
         '));
 
-        return view('user.sekretaris.agenda.index', compact('agenda', 'agendaSelesai'));
+        return view('user.b_anggaran.agenda.index', compact('agenda', 'agendaSelesai'));
     }
 
     public function uploadLaporan($id)
@@ -51,7 +52,7 @@ class SekretarisController extends Controller
         $disposisi = Disposisi::findOrFail($id);
         $agenda = Agenda::findOrFail($disposisi->agenda_id);
 
-        return view('user.sekretaris.agenda.uploadLaporan', compact('agenda', 'disposisi'));
+        return view('user.b_anggaran.agenda.uploadLaporan', compact('agenda', 'disposisi'));
     }
 
     public function storeLaporan(Request $request, $id)
@@ -72,7 +73,7 @@ class SekretarisController extends Controller
         ]);
 
         Alert::success('Berhasil', 'Laporan Berhasil Diupload');
-        return redirect()->route('agendaSekretaris');
+        return redirect()->route('agendaBidangAnggaran');
     }
 
     public function disposisiAgenda($id)
@@ -80,7 +81,7 @@ class SekretarisController extends Controller
         $disposisi = Disposisi::findOrFail($id);
         $agenda = Agenda::findOrFail($disposisi->agenda_id);
 
-        return view('user.sekretaris.agenda.disposisi', compact('agenda', 'disposisi'));
+        return view('user.b_anggaran.agenda.disposisi', compact('agenda', 'disposisi'));
     }
 
     public function storeDisposisiAgenda(Request $request, $id)
@@ -88,17 +89,27 @@ class SekretarisController extends Controller
         $agenda = Agenda::findOrFail($id);
         $ke = intval($request->disposisi);
         $catatan = $request->catatan;
+        $disposisi = Disposisi::where('agenda_id', $agenda->id)->first();
+        $role = Auth()->user()->role;
 
-        $disposisi = [
-            'disposisi' => $ke,
-            'catatan' => $catatan,
-            'dp2' => Auth->user()->role,
-        ];
+        if($disposisi->dp2 == null){
+            $disposisi = [
+                'disposisi' => $ke,
+                'catatan' => $catatan,
+                'dp2' => $role,
+            ];
+        }else{
+            $disposisi = [
+                'disposisi' => $ke,
+                'catatan' => $catatan,
+                'dp3' => $role,
+            ];
+        }
 
         Disposisi::where('agenda_id', $agenda->id)->update($disposisi);
         
         Alert::success('Berhasil', 'Disposisi Berhasil Dikirim');
-        return redirect()->route('agendaSekretaris');
+        return redirect()->route('agendaBidangAnggaran');
     }
     // Agenda End
 
@@ -109,10 +120,11 @@ class SekretarisController extends Controller
             SELECT agenda.tanggal_dokumen AS tanggal_dokumen, agenda.nomor_dokumen AS nomor_dokumen, agenda.asal_dokumen AS asal_dokumen, agenda.perihal AS perihal, agenda.file_path AS file_path, disposisi.disposisi AS disposisi, disposisi.catatan AS catatan, disposisi.laporan AS laporan
             FROM disposisi
             JOIN agenda ON disposisi.agenda_id = agenda.id
-            WHERE disposisi.dp2 = '.Auth()->user()->role.'
+            WHERE disposisi.dp2 = 4 
+            OR disposisi.dp3 = 4
         '));
 
-        return view('user.sekretaris.disposisi.index', compact('disposisi'));
+        return view('user.b_anggaran.disposisi.index', compact('disposisi'));
     }
     // Disposisi End
 
@@ -129,13 +141,13 @@ class SekretarisController extends Controller
         
         $dokumentasi = Dokumentasi::all()->count();
 
-        return view ('user.sekretaris.arsip.index', compact('arsip', 'peraturan', 'apbd', 'keuangan', 'slide', 'dokumentasi', 'lainnya'));
+        return view ('user.b_anggaran.arsip.index', compact('arsip', 'peraturan', 'apbd', 'keuangan', 'slide', 'dokumentasi', 'lainnya'));
     }
 
     public function createArsip()
     {
         $arsip = Arsip::all();
-        return view ('user.sekretaris.arsip.create', compact('arsip'));
+        return view ('user.b_anggaran.arsip.create', compact('arsip'));
     }
 
     public function storeArsip(Request $request)
@@ -172,13 +184,13 @@ class SekretarisController extends Controller
 
         Arsip::create($arsip);
         Alert::success('Berhasil', 'Berhasil Menambahkan Data Dokumen');
-        return redirect()->route('arsipSekretaris');
+        return redirect()->route('arsipBidangAnggaran');
     }
 
     public function editArsip($id)
     {
         $arsip = Arsip::findOrFail($id);
-        return view ('user.sekretaris.arsip.edit', compact('arsip'));
+        return view ('user.b_anggaran.arsip.edit', compact('arsip'));
     }
 
     public function updateArsip(Request $request, $id)
@@ -225,37 +237,37 @@ class SekretarisController extends Controller
         }
 
         Alert::success('Berhasil', 'Berhasil Mengubah Data Dokumen');
-        return redirect()->route('arsipSekretaris');
+        return redirect()->route('arsipBidangAnggaran');
     }
 
     public function peraturanIndex()
     {
         $peraturan = Arsip::where('jenis_dokumen', 1)->get();
-        return view ('user.sekretaris.arsip.peraturan.index', compact('peraturan'));
+        return view ('user.b_anggaran.arsip.peraturan.index', compact('peraturan'));
     }
 
     public function apbdIndex()
     {
         $apbd = Arsip::where('jenis_dokumen', 2)->get();
-        return view ('user.sekretaris.arsip.apbd.index', compact('apbd'));
+        return view ('user.b_anggaran.arsip.apbd.index', compact('apbd'));
     }
 
     public function keuanganIndex()
     {
         $keuangan = Arsip::where('jenis_dokumen', 3)->get();
-        return view ('user.sekretaris.arsip.keuangan.index', compact('keuangan'));
+        return view ('user.b_anggaran.arsip.keuangan.index', compact('keuangan'));
     }
 
     public function slideIndex()
     {
         $slide = Arsip::where('jenis_dokumen', 4)->get();
-        return view ('user.sekretaris.arsip.slide.index', compact('slide'));
+        return view ('user.b_anggaran.arsip.slide.index', compact('slide'));
     }
 
     public function lainnyaIndex()
     {
         $lainnya = Arsip::where('jenis_dokumen', 6)->get();
-        return view ('user.sekretaris.arsip.lainnya.index', compact('lainnya'));
+        return view ('user.b_anggaran.arsip.lainnya.index', compact('lainnya'));
     }
     // Arsip End
 
@@ -264,13 +276,13 @@ class SekretarisController extends Controller
     {
         $dokumentasi = Dokumentasi::all();
         $foto = Foto::all();
-        return view ('user.sekretaris.dokumentasi.index', compact('dokumentasi', 'foto'));
+        return view ('user.b_anggaran.dokumentasi.index', compact('dokumentasi', 'foto'));
     }
 
     public function createDokumentasi()
     {
         $dokumentasi = Dokumentasi::all();
-        return view ('user.sekretaris.dokumentasi.create', compact('dokumentasi'));
+        return view ('user.b_anggaran.dokumentasi.create', compact('dokumentasi'));
     }
 
     public function storeDokumentasi(Request $request)
@@ -306,7 +318,7 @@ class SekretarisController extends Controller
         }
     
         Alert::success('Berhasil', 'Berhasil Menambahkan Data Dokumentasi');
-        return redirect()->route('dokumentasiSekretaris');
+        return redirect()->route('dokumentasiBidangAnggaran');
     }
 
     public function showDokumentasi($id)
@@ -314,13 +326,13 @@ class SekretarisController extends Controller
         $dokumentasi = Dokumentasi::find($id);
         $foto = Foto::where('dokumentasi_id', $id)->get();
 
-        return view ('user.sekretaris.dokumentasi.show', compact('dokumentasi', 'foto'));
+        return view ('user.b_anggaran.dokumentasi.show', compact('dokumentasi', 'foto'));
     }
 
     public function editDokumentasi($id)
     {
         $dokumentasi = Dokumentasi::with('foto')->findOrFail($id);
-        return view ('user.sekretaris.dokumentasi.edit', ['dokumentasi' => $dokumentasi]);
+        return view ('user.b_anggaran.dokumentasi.edit', ['dokumentasi' => $dokumentasi]);
     }
 
     public function updateDokumentasi(Request $request, $id)
@@ -360,7 +372,7 @@ class SekretarisController extends Controller
         }
 
         Alert::success('Berhasil', 'Berhasil Mengubah Data Dokumentasi');
-        return redirect()->route('dokumentasiSekretaris');
+        return redirect()->route('dokumentasiBidangAnggaran');
     }
 
     public function destroyDokumentasi($id)
@@ -376,7 +388,7 @@ class SekretarisController extends Controller
         $dokumentasi->delete();
 
         Alert::success('Berhasil', 'Berhasil Menghapus Data Dokumentasi');
-        return redirect()->route('dokumentasiSekretaris');
+        return redirect()->route('dokumentasiBidangAnggaran');
     }
-
+    // Dokumentasi End
 }

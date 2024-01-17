@@ -19,6 +19,7 @@ class Disposisi extends Model
         'laporan',
         'dp2',
         'dp3',
+        'dp4',
     ];
 
     public function agenda()

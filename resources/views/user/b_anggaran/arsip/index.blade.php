@@ -1,4 +1,4 @@
-@extends('user.sekretaris.layouts.app')
+@extends('user.b_anggaran.layouts.app')
 
 @section('content')
 <div class="content-header">
@@ -26,7 +26,7 @@
                 </script>
                 @endif
 
-                <a href="{{route('createArsipSekretaris')}}" class="btn btn-md btn-info mb-2">Tambah Data Arsip</a>
+                <a href="{{route('createArsipBidangAnggaran')}}" class="btn btn-md btn-info mb-2">Tambah Data Arsip</a>
 
                 <div class="card">
                     <div class="card-header">
@@ -126,7 +126,7 @@
                                         <td>{{$item->asal_dokumen}}</td>
                                         <td style="text-align: center">
                                             <a href="{{asset('storage/' .$item->file_path)}}" download class="btn btn-primary btn-sm "><ion-icon name="cloud-download-outline"></ion-icon></a>
-                                            <a href="{{url('/sekretaris/arsip/' . $item->id . '/edit')}}" class="btn btn-warning btn-sm fas fa-pen-to-square"></a>
+                                            <a href="{{url('/b_anggaran/arsip/' . $item->id . '/edit')}}" class="btn btn-warning btn-sm fas fa-pen-to-square"></a>
                                         </td>
                                     </tr>
                                 @endforeach
@@ -140,19 +140,19 @@
 </section>
 <script>
     function redirectPeraturan() {
-        window.location.href = "{{route('peraturanSekretaris')}}";
+        window.location.href = "{{route('peraturanBidangAnggaran')}}";
     }
     function redirectAPBD() {
-        window.location.href = "{{route('apbdSekretaris')}}";
+        window.location.href = "{{route('apbdBidangAnggaran')}}";
     }
     function redirectKeuangan() {
-        window.location.href = "{{route('keuanganSekretaris')}}";
+        window.location.href = "{{route('keuanganBidangAnggaran')}}";
     }
     function redirectSlide() {
-        window.location.href = "{{route('slideSekretaris')}}";
+        window.location.href = "{{route('slideBidangAnggaran')}}";
     }
     function redirectLainnya() {
-        window.location.href = "{{route('lainnyaSekretaris')}}";
+        window.location.href = "{{route('lainnyaBidangAnggaran')}}";
     }
 </script>
 @endsection

@@ -18,7 +18,7 @@ return new class extends Migration
             $table->integer('pengelola');
             $table->integer('jenis_dokumen');
             $table->date('tanggal_dokumen');
-            $table->string('nomor_dokumen');
+            $table->string('nomor_dokumen')->nullable();
             $table->string('asal_dokumen');
             $table->string('perihal');
             $table->string('file_path');

@@ -1,11 +1,11 @@
-@extends('user.sekretaris.layouts.app')
+@extends('user.b_anggaran.layouts.app')
 
 @section('content')
 <div class="content-header">
     <div class="container-fluid">
         <div class="row mb-2">
             <div class="col-sm-6">
-                <h1 class="m-0 text-dark">Data Arsip (Slide / PowerPoint)</h1>
+                <h1 class="m-0 text-dark">Data Arsip (APBD)</h1>
             </div>            
         </div>
     </div>
@@ -32,7 +32,7 @@
                     <div class="card-header">
                         <h3 class="card-title">
                             <i class="ion ion-clipboard mr-1"></i>
-                            List Data Slide / PowerPoint
+                            List Data APBD
                         </h3>
                     </div>
 
@@ -49,7 +49,7 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                @foreach ($slide as $item)
+                                @foreach ($apbd as $item)
                                     <tr>
                                         <td>{{\Carbon\Carbon::parse($item->tanggal_dokumen)->format('d M Y')}}</td>
                                         @if ($item->pengelola == 1)
@@ -71,7 +71,7 @@
                                         <td>{{$item->asal_dokumen}}</td>
                                         <td style="text-align: center">
                                             <a href="{{asset('storage/' .$item->file_path)}}" download class="btn btn-primary btn-sm "><ion-icon name="cloud-download-outline"></ion-icon></a>
-                                            <a href="{{url('/sekretaris/arsip/' . $item->id . '/edit')}}" class="btn btn-warning btn-sm fas fa-pen-to-square"></a>
+                                            <a href="{{url('/b_anggaran/arsip/' . $item->id . '/edit')}}" class="btn btn-warning btn-sm fas fa-pen-to-square"></a>
                                         </td>
                                     </tr>
                                 @endforeach
@@ -85,22 +85,22 @@
 </section>
 <script>
     function redirectPeraturan() {
-        window.location.href = "{{route('peraturanSuperAdmin')}}";
+        window.location.href = "{{route('peraturanBidangAnggaran')}}";
     }
     function redirectAPBD() {
-        window.location.href = "{{route('apbdSuperAdmin')}}";
+        window.location.href = "{{route('apbdBidangAnggaran')}}";
     }
     function redirectKeuangan() {
-        window.location.href = "{{route('keuanganSuperAdmin')}}";
+        window.location.href = "{{route('keuanganBidangAnggaran')}}";
     }
     function redirectSlide() {
-        window.location.href = "{{route('slideSuperAdmin')}}";
+        window.location.href = "{{route('slideBidangAnggaran')}}";
     }
     function redirectDokumentasi() {
-        window.location.href = "{{route('dokumentasiSuperAdmin')}}";
+        window.location.href = "{{route('dokumentasiBidangAnggaran')}}";
     }
     function redirectLainnya() {
-        window.location.href = "{{route('lainnyaSuperAdmin')}}";
+        window.location.href = "{{route('lainnyaBidangAnggaran')}}";
     }
 </script>
 @endsection

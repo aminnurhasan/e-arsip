@@ -1,4 +1,4 @@
-@extends('user.sekretaris.layouts.app')
+@extends('user.b_anggaran.layouts.app')
 
 @section('content')
 <div class="content-header">
