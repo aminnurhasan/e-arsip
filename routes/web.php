@@ -78,6 +78,10 @@ Route::middleware(['auth', 'kepalaBadan'])->group(function () {
     // Disposisi
     Route::get('/kepalabadan/disposisi', [KepalaBadanController::class, 'indexDisposisi'])->name('disposisiKepalaBadan');
 
+    // Laporan
+    Route::get('kepalabadan/laporan', [KepalaBadanController::class, 'indexLaporan'])->name('laporanKepalaBadan');
+    Route::get('kepalabadan/laporan/{id}', [KepalaBadanController::class, 'showLaporan'])->name('showLaporanKepalaBadan');
+
     // Arsip
     Route::get('/kepalabadan/arsip', [KepalaBadanController::class, 'indexArsip'])->name('arsipKepalaBadan');
     Route::get('/kepalabadan/arsip/create', [KepalaBadanController::class, 'createArsip'])->name('createArsipKepalaBadan');

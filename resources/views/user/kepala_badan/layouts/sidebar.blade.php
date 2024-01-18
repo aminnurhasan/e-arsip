@@ -46,6 +46,13 @@
           </li>
 
           <li class="nav-item">
+            <a href="{{url('/kepalabadan/laporan')}}" class="nav-link">
+              <i class="nav-icon fa-solid fa-list-check"></i>
+              <p>Laporan</p>
+            </a>
+          </li>
+
+          <li class="nav-item">
             <a href="{{url('/kepalabadan/arsip')}}" class="nav-link">
               <i class="nav-icon fa-solid fa-box-archive"></i>
               <p>Arsip</p>

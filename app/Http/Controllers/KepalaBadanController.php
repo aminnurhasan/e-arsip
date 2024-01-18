@@ -104,6 +104,67 @@ class KepalaBadanController extends Controller
     }
     // Disposisi End
 
+    // Laporan Start
+    public function indexLaporan()
+    {
+        $laporan = DB::select(DB::raw('
+            SELECT agenda.id AS id, agenda.tanggal_dokumen AS tanggal_dokumen, agenda.nomor_dokumen AS nomor_dokumen, agenda.asal_dokumen AS asal_dokumen, agenda.perihal AS perihal, agenda.file_path AS file_path, disposisi.disposisi AS disposisi, disposisi.catatan AS catatan, disposisi.laporan AS laporan
+            FROM disposisi
+            JOIN agenda ON disposisi.agenda_id = agenda.id
+            WHERE disposisi.laporan IS NOT NULL
+        '));
+
+        return view('user.kepala_badan.laporan.index', ['laporan' => $laporan]);
+    }
+
+    public function showLaporan($id)
+    {
+        $agenda = Agenda::findOrFail($id);
+        $disposisi = Disposisi::where('agenda_id', $id)->first();
+
+        $d = Disposisi::where('agenda_id', $id)->first()->disposisi;
+
+        $dis = '';
+        if($d==2){
+            $dis = 'Kepala Badan';
+        }elseif($d==3){
+            $dis = 'Sekretaris';
+        }elseif($d==4){
+            $dis = 'Kepala Bidang Anggaran';
+        }elseif($d==5){
+            $dis = 'Kepala Bidang Perbendaharaan';
+        }elseif($d==6){
+            $dis = 'Kepala Bidang Akuntansi';
+        }elseif($d==7){
+            $dis = 'Kepala Bidang Aset';
+        }elseif($d==8){
+            $dis = 'SubBag Perencanaan & Evaluasi';
+        }elseif($d==9){
+            $dis = 'SubBag Keuangan';
+        }elseif($d==10){
+            $dis = 'SubBag Umum & Kepegawaian';
+        }elseif($d==11){
+            $dis = 'SubBid Anggaran Pendapatan & Pembiayaan';
+        }elseif($d==12){
+            $dis = 'SubBid Anggaran Belanja';
+        }elseif($d==13){
+            $dis = 'SubBid Pengelolaan Kas';
+        }elseif($d==14){
+            $dis = 'SubBid Administrasi Perbendahaan';
+        }elseif($d==15){
+            $dis = 'SubBid Pembukuan & Pelaporan';
+        }elseif($d==16){
+            $dis = 'SubBid Verifikasi';
+        }elseif($d==17){
+            $dis = 'SubBid Perencanaan & Penatausahaan';
+        }elseif($d==18){
+            $dis = 'SubBid Penggunaan dan Pemanfaatan';
+        }
+
+        return view('user.kepala_badan.laporan.show', compact('agenda', 'disposisi', 'dis'));
+    }
+    // Laporan End
+
     // Arsip Start
     public function indexArsip()
     {
