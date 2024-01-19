@@ -11,6 +11,7 @@ use App\Models\Foto;
 use App\Models\Disposisi;
 use RealRashid\SweetAlert\Facades\Alert;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\DB;
 
@@ -88,17 +89,30 @@ class SekretarisController extends Controller
         $agenda = Agenda::findOrFail($id);
         $ke = intval($request->disposisi);
         $catatan = $request->catatan;
+        $disposisi = Disposisi::where('agenda_id', $agenda->id)->first();
+        $role = Auth()->user()->role;
 
-        $disposisi = [
-            'disposisi' => $ke,
-            'catatan' => $catatan,
-            'dp2' => Auth->user()->role,
-        ];
-
-        Disposisi::where('agenda_id', $agenda->id)->update($disposisi);
+        if($disposisi->dp2 == null){
+            $disposisi = [
+                'disposisi' => $ke,
+                'catatan' => $catatan,
+                'dp2' => $role,
+            ];
+            Disposisi::where('agenda_id', $agenda->id)->update($disposisi);
         
-        Alert::success('Berhasil', 'Disposisi Berhasil Dikirim');
-        return redirect()->route('agendaSekretaris');
+            Alert::success('Berhasil', 'Disposisi Berhasil Dikirim');
+            return redirect()->route('agendaSekretaris');
+        }else{
+            $disposisi = [
+                'disposisi' => $ke,
+                'catatan' => $catatan,
+                'dp3' => $role,
+            ];
+            Disposisi::where('agenda_id', $agenda->id)->update($disposisi);
+        
+            Alert::success('Berhasil', 'Disposisi Berhasil Dikirim');
+            return redirect()->route('agendaSekretaris');
+        }
     }
     // Agenda End
 
@@ -254,7 +268,7 @@ class SekretarisController extends Controller
 
     public function lainnyaIndex()
     {
-        $lainnya = Arsip::where('jenis_dokumen', 6)->get();
+        $lainnya = Arsip::where('jenis_dokumen', 5)->get();
         return view ('user.sekretaris.arsip.lainnya.index', compact('lainnya'));
     }
     // Arsip End

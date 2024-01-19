@@ -98,18 +98,21 @@ class BidangAsetController extends Controller
                 'catatan' => $catatan,
                 'dp2' => $role,
             ];
+            Disposisi::where('agenda_id', $agenda->id)->update($disposisi);
+        
+            Alert::success('Berhasil', 'Disposisi Berhasil Dikirim');
+            return redirect()->route('agendaBidangAset');
         }else{
             $disposisi = [
                 'disposisi' => $ke,
                 'catatan' => $catatan,
                 'dp3' => $role,
             ];
-        }
-
-        Disposisi::where('agenda_id', $agenda->id)->update($disposisi);
+            Disposisi::where('agenda_id', $agenda->id)->update($disposisi);
         
-        Alert::success('Berhasil', 'Disposisi Berhasil Dikirim');
-        return redirect()->route('agendaBidangAset');
+            Alert::success('Berhasil', 'Disposisi Berhasil Dikirim');
+            return redirect()->route('agendaBidangAset');
+        }
     }
     // Agenda End
 

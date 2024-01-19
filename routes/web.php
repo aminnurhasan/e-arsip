@@ -9,6 +9,7 @@ use App\Http\Controllers\BidangAnggaranController;
 use App\Http\Controllers\BidangPerbendaharaanController;
 use App\Http\Controllers\BidangAkuntansiController;
 use App\Http\Controllers\BidangAsetController;
+use App\Http\Controllers\SubbagPerencanaanController;
 
 Route::get('/', function () {
     return view('welcome');
@@ -319,8 +320,45 @@ Route::middleware(['auth', 'bidangAset'])->group(function () {
 });
 
 // Hak Akses Subbag Perencanaan dan Evaluasi
-Route::middleware(['auth', 'hak_akses:8'])->group(function () {
-    
+Route::middleware(['auth', 'subbagPerencanaan'])->group(function () {
+    Route::get('/subbag_perencanaan/dashboard', [SubbagPerencanaanController::class, 'dashboard'])->name('dashboardSubbagPerencanaan');
+
+    // Agenda
+    Route::get('/subbag_perencanaan/agenda', [SubbagPerencanaanController::class, 'indexAgenda'])->name('agendaSubbagPerencanaan');
+    Route::get('/subbag_perencanaan/agenda/{id}/disposisi', [SubbagPerencanaanController::class, 'disposisiAgenda'])->name('disposisiAgendaSubbagPerencanaan');
+    Route::put('/subbag_perencanaan/agenda/{id}', [SubbagPerencanaanController::class, 'storeDisposisiAgenda'])->name('updateDisposisiAgendaSubbagPerencanaan');
+
+    // Laporan
+    Route::get('/subbag_perencanaan/laporan/{id}/upload', [SubbagPerencanaanController::class, 'uploadLaporan'])->name('uploadLaporanSubbagPerencanaan');
+    Route::put('/subbag_perencanaan/laporan/{id}', [SubbagPerencanaanController::class, 'storeLaporan'])->name('storeLaporanSubbagPerencanaan');
+
+    // Disposisi
+    Route::get('/subbag_perencanaan/disposisi', [SubbagPerencanaanController::class, 'indexDisposisi'])->name('disposisiSubbagPerencanaan');
+
+    // Arsip
+    Route::get('/subbag_perencanaan/arsip', [SubbagPerencanaanController::class, 'indexArsip'])->name('arsipSubbagPerencanaan');
+    Route::get('/subbag_perencanaan/arsip/create', [SubbagPerencanaanController::class, 'createArsip'])->name('createArsipSubbagPerencanaan');
+    Route::post('/subbag_perencanaan/arsip/store', [SubbagPerencanaanController::class, 'storeArsip'])->name('storeArsipSubbagPerencanaan');
+    Route::get('/subbag_perencanaan/arsip/{id}/edit', [SubbagPerencanaanController::class, 'editArsip'])->name('editArsipSubbagPerencanaan');
+    Route::put('/subbag_perencanaan/arsip/{id}', [SubbagPerencanaanController::class, 'updateArsip'])->name('updateArsipSubbagPerencanaan');
+
+    // Berkas
+    Route::get('/subbag_perencanaan/peraturan', [SubbagPerencanaanController::class, 'peraturanIndex'])->name('peraturanSubbagPerencanaan');
+    Route::get('/subbag_perencanaan/apbd', [SubbagPerencanaanController::class, 'apbdIndex'])->name('apbdSubbagPerencanaan');
+    Route::get('/subbag_perencanaan/keuangan', [SubbagPerencanaanController::class, 'keuanganIndex'])->name('keuanganSubbagPerencanaan');
+    Route::get('/subbag_perencanaan/slide', [SubbagPerencanaanController::class, 'slideIndex'])->name('slideSubbagPerencanaan');
+    Route::get('/subbag_perencanaan/lainnya', [SubbagPerencanaanController::class, 'lainnyaIndex'])->name('lainnyaSubbagPerencanaan');
+
+    // Dokumentasi
+    Route::get('/subbag_perencanaan/dokumentasi', [SubbagPerencanaanController::class, 'indexDokumentasi'])->name('dokumentasiSubbagPerencanaan');
+    Route::get('/subbag_perencanaan/dokumentasi/create', [SubbagPerencanaanController::class, 'createDokumentasi'])->name('createDokumentasiSubbagPerencanaan');
+    Route::post('/subbag_perencanaan/dokumentasi/store', [SubbagPerencanaanController::class, 'storeDokumentasi'])->name('storeDokumentasiSubbagPerencanaan');
+    Route::get('/subbag_perencanaan/dokumentasi/{id}', [SubbagPerencanaanController::class, 'showDokumentasi'])->name('showDokumentasiSubbagPerencanaan');
+    Route::get('/subbag_perencanaan/dokumentasi/{id}/edit', [SubbagPerencanaanController::class, 'editDokumentasi'])->name('editDokumentasiSubbagPerencanaan');
+    Route::put('/subbag_perencanaan/dokumentasi/{id}', [SubbagPerencanaanController::class, 'updateDokumentasi'])->name('updateDokumentasiSubbagPerencanaan');
+    Route::delete('/subbag_perencanaan/dokumentasi/{id}', [SubbagPerencanaanController::class, 'destroyDokumentasi'])->name('deleteDokumentasiSubbagPerencanaan');
+
+    Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 });
 
 // Hak Akses Subbag Keuangan

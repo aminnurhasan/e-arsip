@@ -227,7 +227,7 @@ class SuperAdminController extends Controller
 
     public function lainnyaIndex()
     {
-        $lainnya = Arsip::where('jenis_dokumen', 6)->get();
+        $lainnya = Arsip::where('jenis_dokumen', 5)->get();
         return view ('user.super_admin.arsip.lainnya.index', compact('lainnya'));
     }
     // Arsip End

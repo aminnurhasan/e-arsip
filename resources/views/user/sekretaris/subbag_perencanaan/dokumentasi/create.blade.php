@@ -1,4 +1,4 @@
-@extends('user.sekretaris.layouts.app')
+@extends('user.sekretaris.subbag_perencanaan.layouts.app')
 
 @section('content')
 <div class="content-header">
@@ -15,19 +15,12 @@
     <div class="container-fluid">
         <div class="row">
             <section class="col-lg-12">
-
-                @if (session('status'))
-                <div class="alert alert-success" role="alert">
-                    {{ session('status') }}
-                </div>
-                @endif
-
-                <a href="{{ url()->previous() }}" class="btn btn-md btn-info mb-2">Kembali</a>
+                <a href="{{ route('dokumentasiSubbagPerencanaan') }}" class="btn btn-md btn-info mb-2">Kembali</a>
 
                 <div class="card">
                     <div class="card-body">
 
-                        <form action="{{route('storeDokumentasiSekretaris')}}" method="post" enctype="multipart/form-data">
+                        <form action="{{route('storeDokumentasiSubbagPerencanaan')}}" method="post" enctype="multipart/form-data">
                             @csrf
                             <div class="form-group row">
                                 <div class="col-6">
