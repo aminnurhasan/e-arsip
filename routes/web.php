@@ -11,6 +11,7 @@ use App\Http\Controllers\BidangAkuntansiController;
 use App\Http\Controllers\BidangAsetController;
 use App\Http\Controllers\SubbagPerencanaanController;
 use App\Http\Controllers\SubbagKeuanganController;
+use App\Http\Controllers\SubbagUmumController;
 
 Route::get('/', function () {
     return view('welcome');
@@ -405,8 +406,45 @@ Route::middleware(['auth', 'subbagKeuangan'])->group(function () {
 });
 
 // Hak Akses Subbag Umum dan Kepegawaian
-Route::middleware(['auth', 'hak_akses:10'])->group(function () {
-    
+Route::middleware(['auth', 'subbagUmum'])->group(function () {
+    Route::get('/subbag_umum/dashboard', [SubbagUmumController::class, 'dashboard'])->name('dashboardSubbagUmum');
+
+    // Agenda
+    Route::get('/subbag_umum/agenda', [SubbagUmumController::class, 'indexAgenda'])->name('agendaSubbagUmum');
+    Route::get('/subbag_umum/agenda/{id}/disposisi', [SubbagUmumController::class, 'disposisiAgenda'])->name('disposisiAgendaSubbagUmum');
+    Route::put('/subbag_umum/agenda/{id}', [SubbagUmumController::class, 'storeDisposisiAgenda'])->name('updateDisposisiAgendaSubbagUmum');
+
+    // Laporan
+    Route::get('/subbag_umum/laporan/{id}/upload', [SubbagUmumController::class, 'uploadLaporan'])->name('uploadLaporanSubbagUmum');
+    Route::put('/subbag_umum/laporan/{id}', [SubbagUmumController::class, 'storeLaporan'])->name('storeLaporanSubbagUmum');
+
+    // Disposisi
+    Route::get('/subbag_umum/disposisi', [SubbagUmumController::class, 'indexDisposisi'])->name('disposisiSubbagUmum');
+
+    // Arsip
+    Route::get('/subbag_umum/arsip', [SubbagUmumController::class, 'indexArsip'])->name('arsipSubbagUmum');
+    Route::get('/subbag_umum/arsip/create', [SubbagUmumController::class, 'createArsip'])->name('createArsipSubbagUmum');
+    Route::post('/subbag_umum/arsip/store', [SubbagUmumController::class, 'storeArsip'])->name('storeArsipSubbagUmum');
+    Route::get('/subbag_umum/arsip/{id}/edit', [SubbagUmumController::class, 'editArsip'])->name('editArsipSubbagUmum');
+    Route::put('/subbag_umum/arsip/{id}', [SubbagUmumController::class, 'updateArsip'])->name('updateArsipSubbagUmum');
+
+    // Berkas
+    Route::get('/subbag_umum/peraturan', [SubbagUmumController::class, 'peraturanIndex'])->name('peraturanSubbagUmum');
+    Route::get('/subbag_umum/apbd', [SubbagUmumController::class, 'apbdIndex'])->name('apbdSubbagUmum');
+    Route::get('/subbag_umum/keuangan', [SubbagUmumController::class, 'keuanganIndex'])->name('keuanganSubbagUmum');
+    Route::get('/subbag_umum/slide', [SubbagUmumController::class, 'slideIndex'])->name('slideSubbagUmum');
+    Route::get('/subbag_umum/lainnya', [SubbagUmumController::class, 'lainnyaIndex'])->name('lainnyaSubbagUmum');
+
+    // Dokumentasi
+    Route::get('/subbag_umum/dokumentasi', [SubbagUmumController::class, 'indexDokumentasi'])->name('dokumentasiSubbagUmum');
+    Route::get('/subbag_umum/dokumentasi/create', [SubbagUmumController::class, 'createDokumentasi'])->name('createDokumentasiSubbagUmum');
+    Route::post('/subbag_umum/dokumentasi/store', [SubbagUmumController::class, 'storeDokumentasi'])->name('storeDokumentasiSubbagUmum');
+    Route::get('/subbag_umum/dokumentasi/{id}', [SubbagUmumController::class, 'showDokumentasi'])->name('showDokumentasiSubbagUmum');
+    Route::get('/subbag_umum/dokumentasi/{id}/edit', [SubbagUmumController::class, 'editDokumentasi'])->name('editDokumentasiSubbagUmum');
+    Route::put('/subbag_umum/dokumentasi/{id}', [SubbagUmumController::class, 'updateDokumentasi'])->name('updateDokumentasiSubbagUmum');
+    Route::delete('/subbag_umum/dokumentasi/{id}', [SubbagUmumController::class, 'destroyDokumentasi'])->name('deleteDokumentasiSubbagUmum');
+
+    Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 });
 
 // Hak Akses Subbid Anggaran Pendapatan dan Pembiayaan

@@ -75,5 +75,6 @@ class Kernel extends HttpKernel
         'bidangAset' => \App\Http\Middleware\BidangAsetMiddleware::class,
         'subbagPerencanaan' => \App\Http\Middleware\SubbagPerencanaanMiddleware::class,
         'subbagKeuangan' => \App\Http\Middleware\SubbagKeuanganMiddleware::class,
+        'subbagUmum' => \App\Http\Middleware\SubbagUmumMiddleware::class,
     ];
 }
