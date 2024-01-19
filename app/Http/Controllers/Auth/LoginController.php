@@ -47,6 +47,8 @@ class LoginController extends Controller
             return redirect('/b_aset/dashboard');
         }else if($user->role == 8 && $user->status == 1){
             return redirect('/subbag_perencanaan/dashboard');
+        }else if($user->role == 9 && $user->status == 1){
+            return redirect('/subbag_keuangan/dashboard');
         }
     }
 

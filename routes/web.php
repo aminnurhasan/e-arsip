@@ -10,6 +10,7 @@ use App\Http\Controllers\BidangPerbendaharaanController;
 use App\Http\Controllers\BidangAkuntansiController;
 use App\Http\Controllers\BidangAsetController;
 use App\Http\Controllers\SubbagPerencanaanController;
+use App\Http\Controllers\SubbagKeuanganController;
 
 Route::get('/', function () {
     return view('welcome');
@@ -362,8 +363,45 @@ Route::middleware(['auth', 'subbagPerencanaan'])->group(function () {
 });
 
 // Hak Akses Subbag Keuangan
-Route::middleware(['auth', 'hak_akses:9'])->group(function () {
-    
+Route::middleware(['auth', 'subbagKeuangan'])->group(function () {
+    Route::get('/subbag_keuangan/dashboard', [SubbagKeuanganController::class, 'dashboard'])->name('dashboardSubbagKeuangan');
+
+    // Agenda
+    Route::get('/subbag_keuangan/agenda', [SubbagKeuanganController::class, 'indexAgenda'])->name('agendaSubbagKeuangan');
+    Route::get('/subbag_keuangan/agenda/{id}/disposisi', [SubbagKeuanganController::class, 'disposisiAgenda'])->name('disposisiAgendaSubbagKeuangan');
+    Route::put('/subbag_keuangan/agenda/{id}', [SubbagKeuanganController::class, 'storeDisposisiAgenda'])->name('updateDisposisiAgendaSubbagKeuangan');
+
+    // Laporan
+    Route::get('/subbag_keuangan/laporan/{id}/upload', [SubbagKeuanganController::class, 'uploadLaporan'])->name('uploadLaporanSubbagKeuangan');
+    Route::put('/subbag_keuangan/laporan/{id}', [SubbagKeuanganController::class, 'storeLaporan'])->name('storeLaporanSubbagKeuangan');
+
+    // Disposisi
+    Route::get('/subbag_keuangan/disposisi', [SubbagKeuanganController::class, 'indexDisposisi'])->name('disposisiSubbagKeuangan');
+
+    // Arsip
+    Route::get('/subbag_keuangan/arsip', [SubbagKeuanganController::class, 'indexArsip'])->name('arsipSubbagKeuangan');
+    Route::get('/subbag_keuangan/arsip/create', [SubbagKeuanganController::class, 'createArsip'])->name('createArsipSubbagKeuangan');
+    Route::post('/subbag_keuangan/arsip/store', [SubbagKeuanganController::class, 'storeArsip'])->name('storeArsipSubbagKeuangan');
+    Route::get('/subbag_keuangan/arsip/{id}/edit', [SubbagKeuanganController::class, 'editArsip'])->name('editArsipSubbagKeuangan');
+    Route::put('/subbag_keuangan/arsip/{id}', [SubbagKeuanganController::class, 'updateArsip'])->name('updateArsipSubbagKeuangan');
+
+    // Berkas
+    Route::get('/subbag_keuangan/peraturan', [SubbagKeuanganController::class, 'peraturanIndex'])->name('peraturanSubbagKeuangan');
+    Route::get('/subbag_keuangan/apbd', [SubbagKeuanganController::class, 'apbdIndex'])->name('apbdSubbagKeuangan');
+    Route::get('/subbag_keuangan/keuangan', [SubbagKeuanganController::class, 'keuanganIndex'])->name('keuanganSubbagKeuangan');
+    Route::get('/subbag_keuangan/slide', [SubbagKeuanganController::class, 'slideIndex'])->name('slideSubbagKeuangan');
+    Route::get('/subbag_keuangan/lainnya', [SubbagKeuanganController::class, 'lainnyaIndex'])->name('lainnyaSubbagKeuangan');
+
+    // Dokumentasi
+    Route::get('/subbag_keuangan/dokumentasi', [SubbagKeuanganController::class, 'indexDokumentasi'])->name('dokumentasiSubbagKeuangan');
+    Route::get('/subbag_keuangan/dokumentasi/create', [SubbagKeuanganController::class, 'createDokumentasi'])->name('createDokumentasiSubbagKeuangan');
+    Route::post('/subbag_keuangan/dokumentasi/store', [SubbagKeuanganController::class, 'storeDokumentasi'])->name('storeDokumentasiSubbagKeuangan');
+    Route::get('/subbag_keuangan/dokumentasi/{id}', [SubbagKeuanganController::class, 'showDokumentasi'])->name('showDokumentasiSubbagKeuangan');
+    Route::get('/subbag_keuangan/dokumentasi/{id}/edit', [SubbagKeuanganController::class, 'editDokumentasi'])->name('editDokumentasiSubbagKeuangan');
+    Route::put('/subbag_keuangan/dokumentasi/{id}', [SubbagKeuanganController::class, 'updateDokumentasi'])->name('updateDokumentasiSubbagKeuangan');
+    Route::delete('/subbag_keuangan/dokumentasi/{id}', [SubbagKeuanganController::class, 'destroyDokumentasi'])->name('deleteDokumentasiSubbagKeuangan');
+
+    Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 });
 
 // Hak Akses Subbag Umum dan Kepegawaian
