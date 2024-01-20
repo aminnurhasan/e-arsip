@@ -51,6 +51,22 @@ class LoginController extends Controller
             return redirect('/subbag_keuangan/dashboard');
         }else if($user->role == 10 && $user->status == 1){
             return redirect('/subbag_umum/dashboard');
+        }else if($user->role == 11 && $user->status == 1){
+            return redirect('/subbid_anggaran_pendapatan/dashboard');
+        }else if($user->role == 12 && $user->status == 1){
+            return redirect('/subbid_anggaran_belanja/dashboard');
+        }else if($user->role == 13 && $user->status == 1){
+            return redirect('/subbid_pengelolaan/dashboard');
+        }else if($user->role == 14 && $user->status == 1){
+            return redirect('/subbid_administrasi/dashboard');
+        }else if($user->role == 15 && $user->status == 1){
+            return redirect('/subbid_pembukuan/dashboard');
+        }else if($user->role == 16 && $user->status == 1){
+            return redirect('/subbid_verifikasi/dashboard');
+        }else if($user->role == 17 && $user->status == 1){
+            return redirect('/subbid_perencanaan/dashboard');
+        }else if($user->role == 18 && $user->status == 1){
+            return redirect('/subbid_penggunaan/dashboard');
         }
     }
 

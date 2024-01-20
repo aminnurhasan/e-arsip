@@ -374,41 +374,40 @@ class KepalaBadanController extends Controller
     public function updateDokumentasi(Request $request, $id)
     {
         $dokumentasi = Dokumentasi::findOrFail($id);
-        $validator = Validator::make ( $request->all(), [
+        $request->validate([
             'tanggal_kegiatan' => 'required',
             'nama_kegiatan' => 'required',
-            'file' => 'sometimes|mimes:jpg,jpeg,png',
+            // 'file' => 'sometimes|mimes:jpg,jpeg,png',
         ], [
             'tanggal_kegiatan.required' => 'Tanggal harus diisi!',
             'nama_kegiatan.required' => 'Nama Kegiatan harus diisi!',
-            'file.mimes' => 'File harus berupa jpg, jpeg, atau png!',
+            // 'file.mimes' => 'File harus berupa jpg, jpeg, atau png!',
         ]);
 
-        foreach ($dokumentasi->foto as $foto) {
-            Storage::delete($foto->file);
-            $foto->delete();
-        }
-
-        if ($request->file('file') == '') {
+        if (!$request->hasFile('file')) {
             $dokumentasi->update([
                 'tanggal_kegiatan' => $request->tanggal_kegiatan,
                 'nama_kegiatan' => $request->nama_kegiatan,
             ]);
         } else {
+            foreach ($dokumentasi->foto as $foto) {
+                Storage::delete($foto->file);
+                $foto->delete();
+            }
             $files = $request->file('file');
             foreach($files as $file)
             {
                 $file_path = $file->storeAs('dokumentasi', $file->getClientOriginalName(), 'public');
                 $foto = [
-                    'dokumentasi_id' => $dokumentasi->latest()->first()->id,
+                    'dokumentasi_id' => $dokumentasi->id,
                     'file' => $file_path,
                 ];
                 Foto::create($foto);
             }
-        }
+        };
 
         Alert::success('Berhasil', 'Berhasil Mengubah Data Dokumentasi');
-        return redirect()->route('dokumentasiKepalaBadan');
+        return redirect()->route('dokumentasiSubbidAnggaranPendapatan');
     }
     // Dokumentasi End
 }

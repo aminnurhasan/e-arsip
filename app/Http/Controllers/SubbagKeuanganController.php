@@ -361,19 +361,16 @@ class SubbagKeuanganController extends Controller
             // 'file.mimes' => 'File harus berupa jpg, jpeg, atau png!',
         ]);
 
-        \Log::info('Ekstensi File:', [$request->file('file')->getClientOriginalExtension()]);
-
-        foreach ($dokumentasi->foto as $foto) {
-            Storage::delete($foto->file);
-            $foto->delete();
-        }
-
         if (!$request->hasFile('file')) {
             $dokumentasi->update([
                 'tanggal_kegiatan' => $request->tanggal_kegiatan,
                 'nama_kegiatan' => $request->nama_kegiatan,
             ]);
         } else {
+            foreach ($dokumentasi->foto as $foto) {
+                Storage::delete($foto->file);
+                $foto->delete();
+            }
             $files = $request->file('file');
             foreach($files as $file)
             {
@@ -387,7 +384,7 @@ class SubbagKeuanganController extends Controller
         };
 
         Alert::success('Berhasil', 'Berhasil Mengubah Data Dokumentasi');
-        return redirect()->route('dokumentasiSubbagKeuangan');
+        return redirect()->route('dokumentasiSubbidAnggaranPendapatan');
     }
 
     public function destroyDokumentasi($id)

@@ -76,5 +76,13 @@ class Kernel extends HttpKernel
         'subbagPerencanaan' => \App\Http\Middleware\SubbagPerencanaanMiddleware::class,
         'subbagKeuangan' => \App\Http\Middleware\SubbagKeuanganMiddleware::class,
         'subbagUmum' => \App\Http\Middleware\SubbagUmumMiddleware::class,
+        'subbidAnggaranPendapatan' => \App\Http\Middleware\SubbidAnggaranPendapatanMiddleware::class,
+        'subbidAnggaranBelanja' => \App\Http\Middleware\SubbidAnggaranBelanjaMiddleware::class,
+        'subbidPengelolaan' => \App\Http\Middleware\SubbidPengelolaanMiddleware::class,
+        'subbidAdministrasi' => \App\Http\Middleware\SubbidAdministrasiMiddleware::class,
+        'subbidPembukuan' => \App\Http\Middleware\SubbidPembukuanMiddleware::class,
+        'subbidVerifikasi' => \App\Http\Middleware\SubbidVerifikasiMiddleware::class,
+        'subbidPerencanaan' => \App\Http\Middleware\SubbidPerencanaanMiddleware::class,
+        'subbidPenggunaan' => \App\Http\Middleware\SubbidPenggunaanMiddleware::class,
     ];
 }

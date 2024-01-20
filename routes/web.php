@@ -12,6 +12,15 @@ use App\Http\Controllers\BidangAsetController;
 use App\Http\Controllers\SubbagPerencanaanController;
 use App\Http\Controllers\SubbagKeuanganController;
 use App\Http\Controllers\SubbagUmumController;
+use App\Http\Controllers\SubbidAnggaranPendapatanController;
+use App\Http\Controllers\SubbidAnggaranBelanjaController;
+use App\Http\Controllers\SubbidPengelolaanController;
+use App\Http\Controllers\SubbidAdministrasiController;
+use App\Http\Controllers\SubbidPembukuanController;
+use App\Http\Controllers\SubbidVerifikasiController;
+use App\Http\Controllers\SubbidPerencanaanController;
+use App\Http\Controllers\SubbidPenggunaanController;
+
 
 Route::get('/', function () {
     return view('welcome');
@@ -448,43 +457,339 @@ Route::middleware(['auth', 'subbagUmum'])->group(function () {
 });
 
 // Hak Akses Subbid Anggaran Pendapatan dan Pembiayaan
-Route::middleware(['auth', 'hak_akses:11'])->group(function () {
-    
+Route::middleware(['auth', 'subbidAnggaranPendapatan'])->group(function () {
+    Route::get('/subbid_anggaran_pendapatan/dashboard', [SubbidAnggaranPendapatanController::class, 'dashboard'])->name('dashboardSubbidAnggaranPendapatan');
+
+    // Agenda
+    Route::get('/subbid_anggaran_pendapatan/agenda', [SubbidAnggaranPendapatanController::class, 'indexAgenda'])->name('agendaSubbidAnggaranPendapatan');
+    Route::get('/subbid_anggaran_pendapatan/agenda/{id}/disposisi', [SubbidAnggaranPendapatanController::class, 'disposisiAgenda'])->name('disposisiAgendaSubbidAnggaranPendapatan');
+    Route::put('/subbid_anggaran_pendapatan/agenda/{id}', [SubbidAnggaranPendapatanController::class, 'storeDisposisiAgenda'])->name('updateDisposisiAgendaSubbidAnggaranPendapatan');
+
+    // Laporan
+    Route::get('/subbid_anggaran_pendapatan/laporan/{id}/upload', [SubbidAnggaranPendapatanController::class, 'uploadLaporan'])->name('uploadLaporanSubbidAnggaranPendapatan');
+    Route::put('/subbid_anggaran_pendapatan/laporan/{id}', [SubbidAnggaranPendapatanController::class, 'storeLaporan'])->name('storeLaporanSubbidAnggaranPendapatan');
+
+    // Disposisi
+    Route::get('/subbid_anggaran_pendapatan/disposisi', [SubbidAnggaranPendapatanController::class, 'indexDisposisi'])->name('disposisiSubbidAnggaranPendapatan');
+
+    // Arsip
+    Route::get('/subbid_anggaran_pendapatan/arsip', [SubbidAnggaranPendapatanController::class, 'indexArsip'])->name('arsipSubbidAnggaranPendapatan');
+    Route::get('/subbid_anggaran_pendapatan/arsip/create', [SubbidAnggaranPendapatanController::class, 'createArsip'])->name('createArsipSubbidAnggaranPendapatan');
+    Route::post('/subbid_anggaran_pendapatan/arsip/store', [SubbidAnggaranPendapatanController::class, 'storeArsip'])->name('storeArsipSubbidAnggaranPendapatan');
+    Route::get('/subbid_anggaran_pendapatan/arsip/{id}/edit', [SubbidAnggaranPendapatanController::class, 'editArsip'])->name('editArsipSubbidAnggaranPendapatan');
+    Route::put('/subbid_anggaran_pendapatan/arsip/{id}', [SubbidAnggaranPendapatanController::class, 'updateArsip'])->name('updateArsipSubbidAnggaranPendapatan');
+
+    // Berkas
+    Route::get('/subbid_anggaran_pendapatan/peraturan', [SubbidAnggaranPendapatanController::class, 'peraturanIndex'])->name('peraturanSubbidAnggaranPendapatan');
+    Route::get('/subbid_anggaran_pendapatan/apbd', [SubbidAnggaranPendapatanController::class, 'apbdIndex'])->name('apbdSubbidAnggaranPendapatan');
+    Route::get('/subbid_anggaran_pendapatan/keuangan', [SubbidAnggaranPendapatanController::class, 'keuanganIndex'])->name('keuanganSubbidAnggaranPendapatan');
+    Route::get('/subbid_anggaran_pendapatan/slide', [SubbidAnggaranPendapatanController::class, 'slideIndex'])->name('slideSubbidAnggaranPendapatan');
+    Route::get('/subbid_anggaran_pendapatan/lainnya', [SubbidAnggaranPendapatanController::class, 'lainnyaIndex'])->name('lainnyaSubbidAnggaranPendapatan');
+
+    // Dokumentasi
+    Route::get('/subbid_anggaran_pendapatan/dokumentasi', [SubbidAnggaranPendapatanController::class, 'indexDokumentasi'])->name('dokumentasiSubbidAnggaranPendapatan');
+    Route::get('/subbid_anggaran_pendapatan/dokumentasi/create', [SubbidAnggaranPendapatanController::class, 'createDokumentasi'])->name('createDokumentasiSubbidAnggaranPendapatan');
+    Route::post('/subbid_anggaran_pendapatan/dokumentasi/store', [SubbidAnggaranPendapatanController::class, 'storeDokumentasi'])->name('storeDokumentasiSubbidAnggaranPendapatan');
+    Route::get('/subbid_anggaran_pendapatan/dokumentasi/{id}', [SubbidAnggaranPendapatanController::class, 'showDokumentasi'])->name('showDokumentasiSubbidAnggaranPendapatan');
+    Route::get('/subbid_anggaran_pendapatan/dokumentasi/{id}/edit', [SubbidAnggaranPendapatanController::class, 'editDokumentasi'])->name('editDokumentasiSubbidAnggaranPendapatan');
+    Route::put('/subbid_anggaran_pendapatan/dokumentasi/{id}', [SubbidAnggaranPendapatanController::class, 'updateDokumentasi'])->name('updateDokumentasiSubbidAnggaranPendapatan');
+    Route::delete('/subbid_anggaran_pendapatan/dokumentasi/{id}', [SubbidAnggaranPendapatanController::class, 'destroyDokumentasi'])->name('deleteDokumentasiSubbidAnggaranPendapatan');
+
+    Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 });
 
 // Hak Akses Subbid Anggaran Belanja
-Route::middleware(['auth', 'hak_akses:12'])->group(function () {
-    
+Route::middleware(['auth', 'subbidAnggaranBelanja'])->group(function () {
+    Route::get('/subbid_anggaran_belanja/dashboard', [SubbidAnggaranBelanjaController::class, 'dashboard'])->name('dashboardSubbidAnggaranBelanja');
+
+    // Agenda
+    Route::get('/subbid_anggaran_belanja/agenda', [SubbidAnggaranBelanjaController::class, 'indexAgenda'])->name('agendaSubbidAnggaranBelanja');
+    Route::get('/subbid_anggaran_belanja/agenda/{id}/disposisi', [SubbidAnggaranBelanjaController::class, 'disposisiAgenda'])->name('disposisiAgendaSubbidAnggaranBelanja');
+    Route::put('/subbid_anggaran_belanja/agenda/{id}', [SubbidAnggaranBelanjaController::class, 'storeDisposisiAgenda'])->name('updateDisposisiAgendaSubbidAnggaranBelanja');
+
+    // Laporan
+    Route::get('/subbid_anggaran_belanja/laporan/{id}/upload', [SubbidAnggaranBelanjaController::class, 'uploadLaporan'])->name('uploadLaporanSubbidAnggaranBelanja');
+    Route::put('/subbid_anggaran_belanja/laporan/{id}', [SubbidAnggaranBelanjaController::class, 'storeLaporan'])->name('storeLaporanSubbidAnggaranBelanja');
+
+    // Disposisi
+    Route::get('/subbid_anggaran_belanja/disposisi', [SubbidAnggaranBelanjaController::class, 'indexDisposisi'])->name('disposisiSubbidAnggaranBelanja');
+
+    // Arsip
+    Route::get('/subbid_anggaran_belanja/arsip', [SubbidAnggaranBelanjaController::class, 'indexArsip'])->name('arsipSubbidAnggaranBelanja');
+    Route::get('/subbid_anggaran_belanja/arsip/create', [SubbidAnggaranBelanjaController::class, 'createArsip'])->name('createArsipSubbidAnggaranBelanja');
+    Route::post('/subbid_anggaran_belanja/arsip/store', [SubbidAnggaranBelanjaController::class, 'storeArsip'])->name('storeArsipSubbidAnggaranBelanja');
+    Route::get('/subbid_anggaran_belanja/arsip/{id}/edit', [SubbidAnggaranBelanjaController::class, 'editArsip'])->name('editArsipSubbidAnggaranBelanja');
+    Route::put('/subbid_anggaran_belanja/arsip/{id}', [SubbidAnggaranBelanjaController::class, 'updateArsip'])->name('updateArsipSubbidAnggaranBelanja');
+
+    // Berkas
+    Route::get('/subbid_anggaran_belanja/peraturan', [SubbidAnggaranBelanjaController::class, 'peraturanIndex'])->name('peraturanSubbidAnggaranBelanja');
+    Route::get('/subbid_anggaran_belanja/apbd', [SubbidAnggaranBelanjaController::class, 'apbdIndex'])->name('apbdSubbidAnggaranBelanja');
+    Route::get('/subbid_anggaran_belanja/keuangan', [SubbidAnggaranBelanjaController::class, 'keuanganIndex'])->name('keuanganSubbidAnggaranBelanja');
+    Route::get('/subbid_anggaran_belanja/slide', [SubbidAnggaranBelanjaController::class, 'slideIndex'])->name('slideSubbidAnggaranBelanja');
+    Route::get('/subbid_anggaran_belanja/lainnya', [SubbidAnggaranBelanjaController::class, 'lainnyaIndex'])->name('lainnyaSubbidAnggaranBelanja');
+
+    // Dokumentasi
+    Route::get('/subbid_anggaran_belanja/dokumentasi', [SubbidAnggaranBelanjaController::class, 'indexDokumentasi'])->name('dokumentasiSubbidAnggaranBelanja');
+    Route::get('/subbid_anggaran_belanja/dokumentasi/create', [SubbidAnggaranBelanjaController::class, 'createDokumentasi'])->name('createDokumentasiSubbidAnggaranBelanja');
+    Route::post('/subbid_anggaran_belanja/dokumentasi/store', [SubbidAnggaranBelanjaController::class, 'storeDokumentasi'])->name('storeDokumentasiSubbidAnggaranBelanja');
+    Route::get('/subbid_anggaran_belanja/dokumentasi/{id}', [SubbidAnggaranBelanjaController::class, 'showDokumentasi'])->name('showDokumentasiSubbidAnggaranBelanja');
+    Route::get('/subbid_anggaran_belanja/dokumentasi/{id}/edit', [SubbidAnggaranBelanjaController::class, 'editDokumentasi'])->name('editDokumentasiSubbidAnggaranBelanja');
+    Route::put('/subbid_anggaran_belanja/dokumentasi/{id}', [SubbidAnggaranBelanjaController::class, 'updateDokumentasi'])->name('updateDokumentasiSubbidAnggaranBelanja');
+    Route::delete('/subbid_anggaran_belanja/dokumentasi/{id}', [SubbidAnggaranBelanjaController::class, 'destroyDokumentasi'])->name('deleteDokumentasiSubbidAnggaranBelanja');
+
+    Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 });
 
 // Hak Akses Subbid Pengelolaan Kas
-Route::middleware(['auth', 'hak_akses:13'])->group(function () {
-    
+Route::middleware(['auth', 'subbidPengelolaan'])->group(function () {
+    Route::get('/subbid_pengelolaan/dashboard', [SubbidPengelolaanController::class, 'dashboard'])->name('dashboardSubbidPengelolaan');
+
+    // Agenda
+    Route::get('/subbid_pengelolaan/agenda', [SubbidPengelolaanController::class, 'indexAgenda'])->name('agendaSubbidPengelolaan');
+    Route::get('/subbid_pengelolaan/agenda/{id}/disposisi', [SubbidPengelolaanController::class, 'disposisiAgenda'])->name('disposisiAgendaSubbidPengelolaan');
+    Route::put('/subbid_pengelolaan/agenda/{id}', [SubbidPengelolaanController::class, 'storeDisposisiAgenda'])->name('updateDisposisiAgendaSubbidPengelolaan');
+
+    // Laporan
+    Route::get('/subbid_pengelolaan/laporan/{id}/upload', [SubbidPengelolaanController::class, 'uploadLaporan'])->name('uploadLaporanSubbidPengelolaan');
+    Route::put('/subbid_pengelolaan/laporan/{id}', [SubbidPengelolaanController::class, 'storeLaporan'])->name('storeLaporanSubbidPengelolaan');
+
+    // Disposisi
+    Route::get('/subbid_pengelolaan/disposisi', [SubbidPengelolaanController::class, 'indexDisposisi'])->name('disposisiSubbidPengelolaan');
+
+    // Arsip
+    Route::get('/subbid_pengelolaan/arsip', [SubbidPengelolaanController::class, 'indexArsip'])->name('arsipSubbidPengelolaan');
+    Route::get('/subbid_pengelolaan/arsip/create', [SubbidPengelolaanController::class, 'createArsip'])->name('createArsipSubbidPengelolaan');
+    Route::post('/subbid_pengelolaan/arsip/store', [SubbidPengelolaanController::class, 'storeArsip'])->name('storeArsipSubbidPengelolaan');
+    Route::get('/subbid_pengelolaan/arsip/{id}/edit', [SubbidPengelolaanController::class, 'editArsip'])->name('editArsipSubbidPengelolaan');
+    Route::put('/subbid_pengelolaan/arsip/{id}', [SubbidPengelolaanController::class, 'updateArsip'])->name('updateArsipSubbidPengelolaan');
+
+    // Berkas
+    Route::get('/subbid_pengelolaan/peraturan', [SubbidPengelolaanController::class, 'peraturanIndex'])->name('peraturanSubbidPengelolaan');
+    Route::get('/subbid_pengelolaan/apbd', [SubbidPengelolaanController::class, 'apbdIndex'])->name('apbdSubbidPengelolaan');
+    Route::get('/subbid_pengelolaan/keuangan', [SubbidPengelolaanController::class, 'keuanganIndex'])->name('keuanganSubbidPengelolaan');
+    Route::get('/subbid_pengelolaan/slide', [SubbidPengelolaanController::class, 'slideIndex'])->name('slideSubbidPengelolaan');
+    Route::get('/subbid_pengelolaan/lainnya', [SubbidPengelolaanController::class, 'lainnyaIndex'])->name('lainnyaSubbidPengelolaan');
+
+    // Dokumentasi
+    Route::get('/subbid_pengelolaan/dokumentasi', [SubbidPengelolaanController::class, 'indexDokumentasi'])->name('dokumentasiSubbidPengelolaan');
+    Route::get('/subbid_pengelolaan/dokumentasi/create', [SubbidPengelolaanController::class, 'createDokumentasi'])->name('createDokumentasiSubbidPengelolaan');
+    Route::post('/subbid_pengelolaan/dokumentasi/store', [SubbidPengelolaanController::class, 'storeDokumentasi'])->name('storeDokumentasiSubbidPengelolaan');
+    Route::get('/subbid_pengelolaan/dokumentasi/{id}', [SubbidPengelolaanController::class, 'showDokumentasi'])->name('showDokumentasiSubbidPengelolaan');
+    Route::get('/subbid_pengelolaan/dokumentasi/{id}/edit', [SubbidPengelolaanController::class, 'editDokumentasi'])->name('editDokumentasiSubbidPengelolaan');
+    Route::put('/subbid_pengelolaan/dokumentasi/{id}', [SubbidPengelolaanController::class, 'updateDokumentasi'])->name('updateDokumentasiSubbidPengelolaan');
+    Route::delete('/subbid_pengelolaan/dokumentasi/{id}', [SubbidPengelolaanController::class, 'destroyDokumentasi'])->name('deleteDokumentasiSubbidPengelolaan');
+
+    Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 });
 
 // Hak Akses Subbid Administrasi Perbendaharaan
-Route::middleware(['auth', 'hak_akses:14'])->group(function () {
-    
+Route::middleware(['auth', 'subbidAdministrasi'])->group(function () {
+    Route::get('/subbid_administrasi/dashboard', [SubbidAdministrasiController::class, 'dashboard'])->name('dashboardSubbidAdministrasi');
+
+    // Agenda
+    Route::get('/subbid_administrasi/agenda', [SubbidAdministrasiController::class, 'indexAgenda'])->name('agendaSubbidAdministrasi');
+    Route::get('/subbid_administrasi/agenda/{id}/disposisi', [SubbidAdministrasiController::class, 'disposisiAgenda'])->name('disposisiAgendaSubbidAdministrasi');
+    Route::put('/subbid_administrasi/agenda/{id}', [SubbidAdministrasiController::class, 'storeDisposisiAgenda'])->name('updateDisposisiAgendaSubbidAdministrasi');
+
+    // Laporan
+    Route::get('/subbid_administrasi/laporan/{id}/upload', [SubbidAdministrasiController::class, 'uploadLaporan'])->name('uploadLaporanSubbidAdministrasi');
+    Route::put('/subbid_administrasi/laporan/{id}', [SubbidAdministrasiController::class, 'storeLaporan'])->name('storeLaporanSubbidAdministrasi');
+
+    // Disposisi
+    Route::get('/subbid_administrasi/disposisi', [SubbidAdministrasiController::class, 'indexDisposisi'])->name('disposisiSubbidAdministrasi');
+
+    // Arsip
+    Route::get('/subbid_administrasi/arsip', [SubbidAdministrasiController::class, 'indexArsip'])->name('arsipSubbidAdministrasi');
+    Route::get('/subbid_administrasi/arsip/create', [SubbidAdministrasiController::class, 'createArsip'])->name('createArsipSubbidAdministrasi');
+    Route::post('/subbid_administrasi/arsip/store', [SubbidAdministrasiController::class, 'storeArsip'])->name('storeArsipSubbidAdministrasi');
+    Route::get('/subbid_administrasi/arsip/{id}/edit', [SubbidAdministrasiController::class, 'editArsip'])->name('editArsipSubbidAdministrasi');
+    Route::put('/subbid_administrasi/arsip/{id}', [SubbidAdministrasiController::class, 'updateArsip'])->name('updateArsipSubbidAdministrasi');
+
+    // Berkas
+    Route::get('/subbid_administrasi/peraturan', [SubbidAdministrasiController::class, 'peraturanIndex'])->name('peraturanSubbidAdministrasi');
+    Route::get('/subbid_administrasi/apbd', [SubbidAdministrasiController::class, 'apbdIndex'])->name('apbdSubbidAdministrasi');
+    Route::get('/subbid_administrasi/keuangan', [SubbidAdministrasiController::class, 'keuanganIndex'])->name('keuanganSubbidAdministrasi');
+    Route::get('/subbid_administrasi/slide', [SubbidAdministrasiController::class, 'slideIndex'])->name('slideSubbidAdministrasi');
+    Route::get('/subbid_administrasi/lainnya', [SubbidAdministrasiController::class, 'lainnyaIndex'])->name('lainnyaSubbidAdministrasi');
+
+    // Dokumentasi
+    Route::get('/subbid_administrasi/dokumentasi', [SubbidAdministrasiController::class, 'indexDokumentasi'])->name('dokumentasiSubbidAdministrasi');
+    Route::get('/subbid_administrasi/dokumentasi/create', [SubbidAdministrasiController::class, 'createDokumentasi'])->name('createDokumentasiSubbidAdministrasi');
+    Route::post('/subbid_administrasi/dokumentasi/store', [SubbidAdministrasiController::class, 'storeDokumentasi'])->name('storeDokumentasiSubbidAdministrasi');
+    Route::get('/subbid_administrasi/dokumentasi/{id}', [SubbidAdministrasiController::class, 'showDokumentasi'])->name('showDokumentasiSubbidAdministrasi');
+    Route::get('/subbid_administrasi/dokumentasi/{id}/edit', [SubbidAdministrasiController::class, 'editDokumentasi'])->name('editDokumentasiSubbidAdministrasi');
+    Route::put('/subbid_administrasi/dokumentasi/{id}', [SubbidAdministrasiController::class, 'updateDokumentasi'])->name('updateDokumentasiSubbidAdministrasi');
+    Route::delete('/subbid_administrasi/dokumentasi/{id}', [SubbidAdministrasiController::class, 'destroyDokumentasi'])->name('deleteDokumentasiSubbidAdministrasi');
+
+    Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 });
 
 // Hak Akses Subbid Pembukuan dan Pelaporan
-Route::middleware(['auth', 'hak_akses:15'])->group(function () {
-    
+Route::middleware(['auth', 'subbidPembukuan'])->group(function () {
+    Route::get('/subbid_pembukuan/dashboard', [SubbidPembukuanController::class, 'dashboard'])->name('dashboardSubbidPembukuan');
+
+    // Agenda
+    Route::get('/subbid_pembukuan/agenda', [SubbidPembukuanController::class, 'indexAgenda'])->name('agendaSubbidPembukuan');
+    Route::get('/subbid_pembukuan/agenda/{id}/disposisi', [SubbidPembukuanController::class, 'disposisiAgenda'])->name('disposisiAgendaSubbidPembukuan');
+    Route::put('/subbid_pembukuan/agenda/{id}', [SubbidPembukuanController::class, 'storeDisposisiAgenda'])->name('updateDisposisiAgendaSubbidPembukuan');
+
+    // Laporan
+    Route::get('/subbid_pembukuan/laporan/{id}/upload', [SubbidPembukuanController::class, 'uploadLaporan'])->name('uploadLaporanSubbidPembukuan');
+    Route::put('/subbid_pembukuan/laporan/{id}', [SubbidPembukuanController::class, 'storeLaporan'])->name('storeLaporanSubbidPembukuan');
+
+    // Disposisi
+    Route::get('/subbid_pembukuan/disposisi', [SubbidPembukuanController::class, 'indexDisposisi'])->name('disposisiSubbidPembukuan');
+
+    // Arsip
+    Route::get('/subbid_pembukuan/arsip', [SubbidPembukuanController::class, 'indexArsip'])->name('arsipSubbidPembukuan');
+    Route::get('/subbid_pembukuan/arsip/create', [SubbidPembukuanController::class, 'createArsip'])->name('createArsipSubbidPembukuan');
+    Route::post('/subbid_pembukuan/arsip/store', [SubbidPembukuanController::class, 'storeArsip'])->name('storeArsipSubbidPembukuan');
+    Route::get('/subbid_pembukuan/arsip/{id}/edit', [SubbidPembukuanController::class, 'editArsip'])->name('editArsipSubbidPembukuan');
+    Route::put('/subbid_pembukuan/arsip/{id}', [SubbidPembukuanController::class, 'updateArsip'])->name('updateArsipSubbidPembukuan');
+
+    // Berkas
+    Route::get('/subbid_pembukuan/peraturan', [SubbidPembukuanController::class, 'peraturanIndex'])->name('peraturanSubbidPembukuan');
+    Route::get('/subbid_pembukuan/apbd', [SubbidPembukuanController::class, 'apbdIndex'])->name('apbdSubbidPembukuan');
+    Route::get('/subbid_pembukuan/keuangan', [SubbidPembukuanController::class, 'keuanganIndex'])->name('keuanganSubbidPembukuan');
+    Route::get('/subbid_pembukuan/slide', [SubbidPembukuanController::class, 'slideIndex'])->name('slideSubbidPembukuan');
+    Route::get('/subbid_pembukuan/lainnya', [SubbidPembukuanController::class, 'lainnyaIndex'])->name('lainnyaSubbidPembukuan');
+
+    // Dokumentasi
+    Route::get('/subbid_pembukuan/dokumentasi', [SubbidPembukuanController::class, 'indexDokumentasi'])->name('dokumentasiSubbidPembukuan');
+    Route::get('/subbid_pembukuan/dokumentasi/create', [SubbidPembukuanController::class, 'createDokumentasi'])->name('createDokumentasiSubbidPembukuan');
+    Route::post('/subbid_pembukuan/dokumentasi/store', [SubbidPembukuanController::class, 'storeDokumentasi'])->name('storeDokumentasiSubbidPembukuan');
+    Route::get('/subbid_pembukuan/dokumentasi/{id}', [SubbidPembukuanController::class, 'showDokumentasi'])->name('showDokumentasiSubbidPembukuan');
+    Route::get('/subbid_pembukuan/dokumentasi/{id}/edit', [SubbidPembukuanController::class, 'editDokumentasi'])->name('editDokumentasiSubbidPembukuan');
+    Route::put('/subbid_pembukuan/dokumentasi/{id}', [SubbidPembukuanController::class, 'updateDokumentasi'])->name('updateDokumentasiSubbidPembukuan');
+    Route::delete('/subbid_pembukuan/dokumentasi/{id}', [SubbidPembukuanController::class, 'destroyDokumentasi'])->name('deleteDokumentasiSubbidPembukuan');
+
+    Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 });
 
 // Hak Akses Subbid Verifikasi
-Route::middleware(['auth', 'hak_akses:16'])->group(function () {
-    
+Route::middleware(['auth', 'subbidVerifikasi'])->group(function () {
+    Route::get('/subbid_verifikasi/dashboard', [SubbidVerifikasiController::class, 'dashboard'])->name('dashboardSubbidVerifikasi');
+
+    // Agenda
+    Route::get('/subbid_verifikasi/agenda', [SubbidVerifikasiController::class, 'indexAgenda'])->name('agendaSubbidVerifikasi');
+    Route::get('/subbid_verifikasi/agenda/{id}/disposisi', [SubbidVerifikasiController::class, 'disposisiAgenda'])->name('disposisiAgendaSubbidVerifikasi');
+    Route::put('/subbid_verifikasi/agenda/{id}', [SubbidVerifikasiController::class, 'storeDisposisiAgenda'])->name('updateDisposisiAgendaSubbidVerifikasi');
+
+    // Laporan
+    Route::get('/subbid_verifikasi/laporan/{id}/upload', [SubbidVerifikasiController::class, 'uploadLaporan'])->name('uploadLaporanSubbidVerifikasi');
+    Route::put('/subbid_verifikasi/laporan/{id}', [SubbidVerifikasiController::class, 'storeLaporan'])->name('storeLaporanSubbidVerifikasi');
+
+    // Disposisi
+    Route::get('/subbid_verifikasi/disposisi', [SubbidVerifikasiController::class, 'indexDisposisi'])->name('disposisiSubbidVerifikasi');
+
+    // Arsip
+    Route::get('/subbid_verifikasi/arsip', [SubbidVerifikasiController::class, 'indexArsip'])->name('arsipSubbidVerifikasi');
+    Route::get('/subbid_verifikasi/arsip/create', [SubbidVerifikasiController::class, 'createArsip'])->name('createArsipSubbidVerifikasi');
+    Route::post('/subbid_verifikasi/arsip/store', [SubbidVerifikasiController::class, 'storeArsip'])->name('storeArsipSubbidVerifikasi');
+    Route::get('/subbid_verifikasi/arsip/{id}/edit', [SubbidVerifikasiController::class, 'editArsip'])->name('editArsipSubbidVerifikasi');
+    Route::put('/subbid_verifikasi/arsip/{id}', [SubbidVerifikasiController::class, 'updateArsip'])->name('updateArsipSubbidVerifikasi');
+
+    // Berkas
+    Route::get('/subbid_verifikasi/peraturan', [SubbidVerifikasiController::class, 'peraturanIndex'])->name('peraturanSubbidVerifikasi');
+    Route::get('/subbid_verifikasi/apbd', [SubbidVerifikasiController::class, 'apbdIndex'])->name('apbdSubbidVerifikasi');
+    Route::get('/subbid_verifikasi/keuangan', [SubbidVerifikasiController::class, 'keuanganIndex'])->name('keuanganSubbidVerifikasi');
+    Route::get('/subbid_verifikasi/slide', [SubbidVerifikasiController::class, 'slideIndex'])->name('slideSubbidVerifikasi');
+    Route::get('/subbid_verifikasi/lainnya', [SubbidVerifikasiController::class, 'lainnyaIndex'])->name('lainnyaSubbidVerifikasi');
+
+    // Dokumentasi
+    Route::get('/subbid_verifikasi/dokumentasi', [SubbidVerifikasiController::class, 'indexDokumentasi'])->name('dokumentasiSubbidVerifikasi');
+    Route::get('/subbid_verifikasi/dokumentasi/create', [SubbidVerifikasiController::class, 'createDokumentasi'])->name('createDokumentasiSubbidVerifikasi');
+    Route::post('/subbid_verifikasi/dokumentasi/store', [SubbidVerifikasiController::class, 'storeDokumentasi'])->name('storeDokumentasiSubbidVerifikasi');
+    Route::get('/subbid_verifikasi/dokumentasi/{id}', [SubbidVerifikasiController::class, 'showDokumentasi'])->name('showDokumentasiSubbidVerifikasi');
+    Route::get('/subbid_verifikasi/dokumentasi/{id}/edit', [SubbidVerifikasiController::class, 'editDokumentasi'])->name('editDokumentasiSubbidVerifikasi');
+    Route::put('/subbid_verifikasi/dokumentasi/{id}', [SubbidVerifikasiController::class, 'updateDokumentasi'])->name('updateDokumentasiSubbidVerifikasi');
+    Route::delete('/subbid_verifikasi/dokumentasi/{id}', [SubbidVerifikasiController::class, 'destroyDokumentasi'])->name('deleteDokumentasiSubbidVerifikasi');
+
+    Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 });
 
 // Hak Akses Subbid Perencanaan dan Penatausahaan
-Route::middleware(['auth', 'hak_akses:17'])->group(function () {
-    
+Route::middleware(['auth', 'subbidPerencanaan'])->group(function () {
+    Route::get('/subbid_perencanaan/dashboard', [SubbidPerencanaanController::class, 'dashboard'])->name('dashboardSubbidPerencanaan');
+
+    // Agenda
+    Route::get('/subbid_perencanaan/agenda', [SubbidPerencanaanController::class, 'indexAgenda'])->name('agendaSubbidPerencanaan');
+    Route::get('/subbid_perencanaan/agenda/{id}/disposisi', [SubbidPerencanaanController::class, 'disposisiAgenda'])->name('disposisiAgendaSubbidPerencanaan');
+    Route::put('/subbid_perencanaan/agenda/{id}', [SubbidPerencanaanController::class, 'storeDisposisiAgenda'])->name('updateDisposisiAgendaSubbidPerencanaan');
+
+    // Laporan
+    Route::get('/subbid_perencanaan/laporan/{id}/upload', [SubbidPerencanaanController::class, 'uploadLaporan'])->name('uploadLaporanSubbidPerencanaan');
+    Route::put('/subbid_perencanaan/laporan/{id}', [SubbidPerencanaanController::class, 'storeLaporan'])->name('storeLaporanSubbidPerencanaan');
+
+    // Disposisi
+    Route::get('/subbid_perencanaan/disposisi', [SubbidPerencanaanController::class, 'indexDisposisi'])->name('disposisiSubbidPerencanaan');
+
+    // Arsip
+    Route::get('/subbid_perencanaan/arsip', [SubbidPerencanaanController::class, 'indexArsip'])->name('arsipSubbidPerencanaan');
+    Route::get('/subbid_perencanaan/arsip/create', [SubbidPerencanaanController::class, 'createArsip'])->name('createArsipSubbidPerencanaan');
+    Route::post('/subbid_perencanaan/arsip/store', [SubbidPerencanaanController::class, 'storeArsip'])->name('storeArsipSubbidPerencanaan');
+    Route::get('/subbid_perencanaan/arsip/{id}/edit', [SubbidPerencanaanController::class, 'editArsip'])->name('editArsipSubbidPerencanaan');
+    Route::put('/subbid_perencanaan/arsip/{id}', [SubbidPerencanaanController::class, 'updateArsip'])->name('updateArsipSubbidPerencanaan');
+
+    // Berkas
+    Route::get('/subbid_perencanaan/peraturan', [SubbidPerencanaanController::class, 'peraturanIndex'])->name('peraturanSubbidPerencanaan');
+    Route::get('/subbid_perencanaan/apbd', [SubbidPerencanaanController::class, 'apbdIndex'])->name('apbdSubbidPerencanaan');
+    Route::get('/subbid_perencanaan/keuangan', [SubbidPerencanaanController::class, 'keuanganIndex'])->name('keuanganSubbidPerencanaan');
+    Route::get('/subbid_perencanaan/slide', [SubbidPerencanaanController::class, 'slideIndex'])->name('slideSubbidPerencanaan');
+    Route::get('/subbid_perencanaan/lainnya', [SubbidPerencanaanController::class, 'lainnyaIndex'])->name('lainnyaSubbidPerencanaan');
+
+    // Dokumentasi
+    Route::get('/subbid_perencanaan/dokumentasi', [SubbidPerencanaanController::class, 'indexDokumentasi'])->name('dokumentasiSubbidPerencanaan');
+    Route::get('/subbid_perencanaan/dokumentasi/create', [SubbidPerencanaanController::class, 'createDokumentasi'])->name('createDokumentasiSubbidPerencanaan');
+    Route::post('/subbid_perencanaan/dokumentasi/store', [SubbidPerencanaanController::class, 'storeDokumentasi'])->name('storeDokumentasiSubbidPerencanaan');
+    Route::get('/subbid_perencanaan/dokumentasi/{id}', [SubbidPerencanaanController::class, 'showDokumentasi'])->name('showDokumentasiSubbidPerencanaan');
+    Route::get('/subbid_perencanaan/dokumentasi/{id}/edit', [SubbidPerencanaanController::class, 'editDokumentasi'])->name('editDokumentasiSubbidPerencanaan');
+    Route::put('/subbid_perencanaan/dokumentasi/{id}', [SubbidPerencanaanController::class, 'updateDokumentasi'])->name('updateDokumentasiSubbidPerencanaan');
+    Route::delete('/subbid_perencanaan/dokumentasi/{id}', [SubbidPerencanaanController::class, 'destroyDokumentasi'])->name('deleteDokumentasiSubbidPerencanaan');
+
+    Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 });
 
 // Hak Akses Subbid Penggunaan dan Pemanfaatan
-Route::middleware(['auth', 'hak_akses:18'])->group(function () {
-    
+Route::middleware(['auth', 'subbidPenggunaan'])->group(function () {
+    Route::get('/subbid_penggunaan/dashboard', [SubbidPenggunaanController::class, 'dashboard'])->name('dashboardSubbidPenggunaan');
+
+    // Agenda
+    Route::get('/subbid_penggunaan/agenda', [SubbidPenggunaanController::class, 'indexAgenda'])->name('agendaSubbidPenggunaan');
+    Route::get('/subbid_penggunaan/agenda/{id}/disposisi', [SubbidPenggunaanController::class, 'disposisiAgenda'])->name('disposisiAgendaSubbidPenggunaan');
+    Route::put('/subbid_penggunaan/agenda/{id}', [SubbidPenggunaanController::class, 'storeDisposisiAgenda'])->name('updateDisposisiAgendaSubbidPenggunaan');
+
+    // Laporan
+    Route::get('/subbid_penggunaan/laporan/{id}/upload', [SubbidPenggunaanController::class, 'uploadLaporan'])->name('uploadLaporanSubbidPenggunaan');
+    Route::put('/subbid_penggunaan/laporan/{id}', [SubbidPenggunaanController::class, 'storeLaporan'])->name('storeLaporanSubbidPenggunaan');
+
+    // Disposisi
+    Route::get('/subbid_penggunaan/disposisi', [SubbidPenggunaanController::class, 'indexDisposisi'])->name('disposisiSubbidPenggunaan');
+
+    // Arsip
+    Route::get('/subbid_penggunaan/arsip', [SubbidPenggunaanController::class, 'indexArsip'])->name('arsipSubbidPenggunaan');
+    Route::get('/subbid_penggunaan/arsip/create', [SubbidPenggunaanController::class, 'createArsip'])->name('createArsipSubbidPenggunaan');
+    Route::post('/subbid_penggunaan/arsip/store', [SubbidPenggunaanController::class, 'storeArsip'])->name('storeArsipSubbidPenggunaan');
+    Route::get('/subbid_penggunaan/arsip/{id}/edit', [SubbidPenggunaanController::class, 'editArsip'])->name('editArsipSubbidPenggunaan');
+    Route::put('/subbid_penggunaan/arsip/{id}', [SubbidPenggunaanController::class, 'updateArsip'])->name('updateArsipSubbidPenggunaan');
+
+    // Berkas
+    Route::get('/subbid_penggunaan/peraturan', [SubbidPenggunaanController::class, 'peraturanIndex'])->name('peraturanSubbidPenggunaan');
+    Route::get('/subbid_penggunaan/apbd', [SubbidPenggunaanController::class, 'apbdIndex'])->name('apbdSubbidPenggunaan');
+    Route::get('/subbid_penggunaan/keuangan', [SubbidPenggunaanController::class, 'keuanganIndex'])->name('keuanganSubbidPenggunaan');
+    Route::get('/subbid_penggunaan/slide', [SubbidPenggunaanController::class, 'slideIndex'])->name('slideSubbidPenggunaan');
+    Route::get('/subbid_penggunaan/lainnya', [SubbidPenggunaanController::class, 'lainnyaIndex'])->name('lainnyaSubbidPenggunaan');
+
+    // Dokumentasi
+    Route::get('/subbid_penggunaan/dokumentasi', [SubbidPenggunaanController::class, 'indexDokumentasi'])->name('dokumentasiSubbidPenggunaan');
+    Route::get('/subbid_penggunaan/dokumentasi/create', [SubbidPenggunaanController::class, 'createDokumentasi'])->name('createDokumentasiSubbidPenggunaan');
+    Route::post('/subbid_penggunaan/dokumentasi/store', [SubbidPenggunaanController::class, 'storeDokumentasi'])->name('storeDokumentasiSubbidPenggunaan');
+    Route::get('/subbid_penggunaan/dokumentasi/{id}', [SubbidPenggunaanController::class, 'showDokumentasi'])->name('showDokumentasiSubbidPenggunaan');
+    Route::get('/subbid_penggunaan/dokumentasi/{id}/edit', [SubbidPenggunaanController::class, 'editDokumentasi'])->name('editDokumentasiSubbidPenggunaan');
+    Route::put('/subbid_penggunaan/dokumentasi/{id}', [SubbidPenggunaanController::class, 'updateDokumentasi'])->name('updateDokumentasiSubbidPenggunaan');
+    Route::delete('/subbid_penggunaan/dokumentasi/{id}', [SubbidPenggunaanController::class, 'destroyDokumentasi'])->name('deleteDokumentasiSubbidPenggunaan');
+
+    Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 });
 
 // Hak Akses Admin Sekretaris
