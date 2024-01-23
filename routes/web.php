@@ -20,6 +20,11 @@ use App\Http\Controllers\SubbidPembukuanController;
 use App\Http\Controllers\SubbidVerifikasiController;
 use App\Http\Controllers\SubbidPerencanaanController;
 use App\Http\Controllers\SubbidPenggunaanController;
+use App\Http\Controllers\AdminSekretarisController;
+use App\Http\Controllers\AdminAnggaranController;
+use App\Http\Controllers\AdminPerbendaharaanController;
+use App\Http\Controllers\AdminAkuntansiController;
+use App\Http\Controllers\AdminAsetController;
 
 
 Route::get('/', function () {
@@ -793,28 +798,233 @@ Route::middleware(['auth', 'subbidPenggunaan'])->group(function () {
 });
 
 // Hak Akses Admin Sekretaris
-Route::middleware(['auth', 'hak_akses:19'])->group(function () {
+Route::middleware(['auth', 'adminSekretaris'])->group(function () {
+    Route::get('/admin_sekretaris/dashboard', [AdminSekretarisController::class, 'dashboard'])->name('dashboardAdminSekretaris');
+
+    // User
+    Route::get('/admin_sekretaris/staff', [AdminSekretarisController::class, 'indexStaff'])->name('staffAdminSekretaris');
+    Route::get('/admin_sekretaris/staff/status/{id}', [AdminSekretarisController::class, 'status'])->name('statusStaff');
+    Route::get('/admin_sekretaris/staff/create', [AdminSekretarisController::class, 'createStaff'])->name('createStaffAdminSekretaris');
+    Route::post('/admin_sekretaris/staff/store', [AdminSekretarisController::class, 'storeStaff'])->name('storeStaffAdminSekretaris');
+    Route::get('/admin_sekretaris/staff/{id}/edit', [AdminSekretarisController::class, 'editStaff'])->name('editStaffAdminSekretaris');
+    Route::put('/admin_sekretaris/staff/{id}', [AdminSekretarisController::class, 'updateStaff'])->name('updateStaffAdminSekretaris');
+
+    // Agenda
+    Route::get('/admin_sekretaris/agenda', [AdminSekretarisController::class, 'indexAgenda'])->name('agendaAdminSekretaris');
+    Route::get('/admin_sekretaris/agenda/create', [AdminSekretarisController::class, 'createAgenda'])->name('createAgendaAdminSekretaris');
+    Route::post('/admin_sekretaris/agenda/store', [AdminSekretarisController::class, 'storeAgenda'])->name('storeAgendaAdminSekretaris');
+    Route::get('/admin_sekretaris/agenda/{id}/edit', [AdminSekretarisController::class, 'editAgenda'])->name('editAgendaAdminSekretaris');
+    Route::put('/admin_sekretaris/agenda/{id}', [AdminSekretarisController::class, 'updateAgenda'])->name('updateAgendaAdminSekretaris');
+    Route::delete('/admin_sekretaris/agenda/{id}', [AdminSekretarisController::class, 'destroyAgenda'])->name('deleteAgendaAdminSekretaris');
+
+    // Arsip
+    Route::get('/admin_sekretaris/arsip', [AdminSekretarisController::class, 'indexArsip'])->name('arsipAdminSekretaris');
+    Route::get('/admin_sekretaris/arsip/create', [AdminSekretarisController::class, 'createArsip'])->name('createArsipAdminSekretaris');
+    Route::post('/admin_sekretaris/arsip/store', [AdminSekretarisController::class, 'storeArsip'])->name('storeArsipAdminSekretaris');
+    Route::get('/admin_sekretaris/arsip/{id}/edit', [AdminSekretarisController::class, 'editArsip'])->name('editArsipAdminSekretaris');
+    Route::put('/admin_sekretaris/arsip/{id}', [AdminSekretarisController::class, 'updateArsip'])->name('updateArsipAdminSekretaris');
     
+    // Dokumentasi
+    Route::get('/admin_sekretaris/dokumentasi', [AdminSekretarisController::class, 'indexDokumentasi'])->name('dokumentasiAdminSekretaris');
+    Route::get('/admin_sekretaris/dokumentasi/create', [AdminSekretarisController::class, 'createDokumentasi'])->name('createDokumentasiAdminSekretaris');
+    Route::post('/admin_sekretaris/dokumentasi/store', [AdminSekretarisController::class, 'storeDokumentasi'])->name('storeDokumentasiAdminSekretaris');
+    Route::get('admin_sekretaris/dokumentasi/{id}', [AdminSekretarisController::class, 'showDokumentasi'])->name('showDokumentasiAdminSekretaris');
+    Route::get('/admin_sekretaris/dokumentasi/{id}/edit', [AdminSekretarisController::class, 'editDokumentasi'])->name('editDokumentasiAdminSekretaris');
+    Route::put('/admin_sekretaris/dokumentasi/{id}', [AdminSekretarisController::class, 'updateDokumentasi'])->name('updateDokumentasiAdminSekretaris');
+    Route::delete('/admin_sekretaris/dokumentasi/{id}', [AdminSekretarisController::class, 'destroyDokumentasi'])->name('deleteDokumentasiAdminSekretaris');
+
+    // Berkas
+    Route::get('/admin_sekretaris/peraturan', [AdminSekretarisController::class, 'peraturanIndex'])->name('peraturanAdminSekretaris');
+    Route::get('/admin_sekretaris/apbd', [AdminSekretarisController::class, 'apbdIndex'])->name('apbdAdminSekretaris');
+    Route::get('/admin_sekretaris/keuangan', [AdminSekretarisController::class, 'keuanganIndex'])->name('keuanganAdminSekretaris');
+    Route::get('/admin_sekretaris/slide', [AdminSekretarisController::class, 'slideIndex'])->name('slideAdminSekretaris');
+    Route::get('/admin_sekretaris/lainnya', [AdminSekretarisController::class, 'lainnyaIndex'])->name('lainnyaAdminSekretaris');
+
+    Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 });
 
 // Hak Akses Admin Bidang Anggaran
-Route::middleware(['auth', 'hak_akses:20'])->group(function () {
+Route::middleware(['auth', 'adminAnggaran'])->group(function () {
+    Route::get('/admin_anggaran/dashboard', [AdminAnggaranController::class, 'dashboard'])->name('dashboardAdminAnggaran');
+
+    // User
+    Route::get('/admin_anggaran/staff', [AdminAnggaranController::class, 'indexStaff'])->name('staffAdminAnggaran');
+    Route::get('/admin_anggaran/staff/status/{id}', [AdminAnggaranController::class, 'status'])->name('statusStaff');
+    Route::get('/admin_anggaran/staff/create', [AdminAnggaranController::class, 'createStaff'])->name('createStaffAdminAnggaran');
+    Route::post('/admin_anggaran/staff/store', [AdminAnggaranController::class, 'storeStaff'])->name('storeStaffAdminAnggaran');
+    Route::get('/admin_anggaran/staff/{id}/edit', [AdminAnggaranController::class, 'editStaff'])->name('editStaffAdminAnggaran');
+    Route::put('/admin_anggaran/staff/{id}', [AdminAnggaranController::class, 'updateStaff'])->name('updateStaffAdminAnggaran');
+
+    // Agenda
+    Route::get('/admin_anggaran/agenda', [AdminAnggaranController::class, 'indexAgenda'])->name('agendaAdminAnggaran');
+    Route::get('/admin_anggaran/agenda/create', [AdminAnggaranController::class, 'createAgenda'])->name('createAgendaAdminAnggaran');
+    Route::post('/admin_anggaran/agenda/store', [AdminAnggaranController::class, 'storeAgenda'])->name('storeAgendaAdminAnggaran');
+    Route::get('/admin_anggaran/agenda/{id}/edit', [AdminAnggaranController::class, 'editAgenda'])->name('editAgendaAdminAnggaran');
+    Route::put('/admin_anggaran/agenda/{id}', [AdminAnggaranController::class, 'updateAgenda'])->name('updateAgendaAdminAnggaran');
+    Route::delete('/admin_anggaran/agenda/{id}', [AdminAnggaranController::class, 'destroyAgenda'])->name('deleteAgendaAdminAnggaran');
+
+    // Arsip
+    Route::get('/admin_anggaran/arsip', [AdminAnggaranController::class, 'indexArsip'])->name('arsipAdminAnggaran');
+    Route::get('/admin_anggaran/arsip/create', [AdminAnggaranController::class, 'createArsip'])->name('createArsipAdminAnggaran');
+    Route::post('/admin_anggaran/arsip/store', [AdminAnggaranController::class, 'storeArsip'])->name('storeArsipAdminAnggaran');
+    Route::get('/admin_anggaran/arsip/{id}/edit', [AdminAnggaranController::class, 'editArsip'])->name('editArsipAdminAnggaran');
+    Route::put('/admin_anggaran/arsip/{id}', [AdminAnggaranController::class, 'updateArsip'])->name('updateArsipAdminAnggaran');
     
+    // Dokumentasi
+    Route::get('/admin_anggaran/dokumentasi', [AdminAnggaranController::class, 'indexDokumentasi'])->name('dokumentasiAdminAnggaran');
+    Route::get('/admin_anggaran/dokumentasi/create', [AdminAnggaranController::class, 'createDokumentasi'])->name('createDokumentasiAdminAnggaran');
+    Route::post('/admin_anggaran/dokumentasi/store', [AdminAnggaranController::class, 'storeDokumentasi'])->name('storeDokumentasiAdminAnggaran');
+    Route::get('admin_anggaran/dokumentasi/{id}', [AdminAnggaranController::class, 'showDokumentasi'])->name('showDokumentasiAdminAnggaran');
+    Route::get('/admin_anggaran/dokumentasi/{id}/edit', [AdminAnggaranController::class, 'editDokumentasi'])->name('editDokumentasiAdminAnggaran');
+    Route::put('/admin_anggaran/dokumentasi/{id}', [AdminAnggaranController::class, 'updateDokumentasi'])->name('updateDokumentasiAdminAnggaran');
+    Route::delete('/admin_anggaran/dokumentasi/{id}', [AdminAnggaranController::class, 'destroyDokumentasi'])->name('deleteDokumentasiAdminAnggaran');
+
+    // Berkas
+    Route::get('/admin_anggaran/peraturan', [AdminAnggaranController::class, 'peraturanIndex'])->name('peraturanAdminAnggaran');
+    Route::get('/admin_anggaran/apbd', [AdminAnggaranController::class, 'apbdIndex'])->name('apbdAdminAnggaran');
+    Route::get('/admin_anggaran/keuangan', [AdminAnggaranController::class, 'keuanganIndex'])->name('keuanganAdminAnggaran');
+    Route::get('/admin_anggaran/slide', [AdminAnggaranController::class, 'slideIndex'])->name('slideAdminAnggaran');
+    Route::get('/admin_anggaran/lainnya', [AdminAnggaranController::class, 'lainnyaIndex'])->name('lainnyaAdminAnggaran');
+
+    Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 });
 
 // Hak Akses Admin Bidang Perbendaharaan
-Route::middleware(['auth', 'hak_akses:21'])->group(function () {
+Route::middleware(['auth', 'adminPerbendaharaan'])->group(function () {
+    Route::get('/admin_perbendaharaan/dashboard', [AdminPerbendaharaanController::class, 'dashboard'])->name('dashboardAdminPerbendaharaan');
+
+    // User
+    Route::get('/admin_perbendaharaan/staff', [AdminPerbendaharaanController::class, 'indexStaff'])->name('staffAdminPerbendaharaan');
+    Route::get('/admin_perbendaharaan/staff/status/{id}', [AdminPerbendaharaanController::class, 'status'])->name('statusStaff');
+    Route::get('/admin_perbendaharaan/staff/create', [AdminPerbendaharaanController::class, 'createStaff'])->name('createStaffAdminPerbendaharaan');
+    Route::post('/admin_perbendaharaan/staff/store', [AdminPerbendaharaanController::class, 'storeStaff'])->name('storeStaffAdminPerbendaharaan');
+    Route::get('/admin_perbendaharaan/staff/{id}/edit', [AdminPerbendaharaanController::class, 'editStaff'])->name('editStaffAdminPerbendaharaan');
+    Route::put('/admin_perbendaharaan/staff/{id}', [AdminPerbendaharaanController::class, 'updateStaff'])->name('updateStaffAdminPerbendaharaan');
+
+    // Agenda
+    Route::get('/admin_perbendaharaan/agenda', [AdminPerbendaharaanController::class, 'indexAgenda'])->name('agendaAdminPerbendaharaan');
+    Route::get('/admin_perbendaharaan/agenda/create', [AdminPerbendaharaanController::class, 'createAgenda'])->name('createAgendaAdminPerbendaharaan');
+    Route::post('/admin_perbendaharaan/agenda/store', [AdminPerbendaharaanController::class, 'storeAgenda'])->name('storeAgendaAdminPerbendaharaan');
+    Route::get('/admin_perbendaharaan/agenda/{id}/edit', [AdminPerbendaharaanController::class, 'editAgenda'])->name('editAgendaAdminPerbendaharaan');
+    Route::put('/admin_perbendaharaan/agenda/{id}', [AdminPerbendaharaanController::class, 'updateAgenda'])->name('updateAgendaAdminPerbendaharaan');
+    Route::delete('/admin_perbendaharaan/agenda/{id}', [AdminPerbendaharaanController::class, 'destroyAgenda'])->name('deleteAgendaAdminPerbendaharaan');
+
+    // Arsip
+    Route::get('/admin_perbendaharaan/arsip', [AdminPerbendaharaanController::class, 'indexArsip'])->name('arsipAdminPerbendaharaan');
+    Route::get('/admin_perbendaharaan/arsip/create', [AdminPerbendaharaanController::class, 'createArsip'])->name('createArsipAdminPerbendaharaan');
+    Route::post('/admin_perbendaharaan/arsip/store', [AdminPerbendaharaanController::class, 'storeArsip'])->name('storeArsipAdminPerbendaharaan');
+    Route::get('/admin_perbendaharaan/arsip/{id}/edit', [AdminPerbendaharaanController::class, 'editArsip'])->name('editArsipAdminPerbendaharaan');
+    Route::put('/admin_perbendaharaan/arsip/{id}', [AdminPerbendaharaanController::class, 'updateArsip'])->name('updateArsipAdminPerbendaharaan');
     
+    // Dokumentasi
+    Route::get('/admin_perbendaharaan/dokumentasi', [AdminPerbendaharaanController::class, 'indexDokumentasi'])->name('dokumentasiAdminPerbendaharaan');
+    Route::get('/admin_perbendaharaan/dokumentasi/create', [AdminPerbendaharaanController::class, 'createDokumentasi'])->name('createDokumentasiAdminPerbendaharaan');
+    Route::post('/admin_perbendaharaan/dokumentasi/store', [AdminPerbendaharaanController::class, 'storeDokumentasi'])->name('storeDokumentasiAdminPerbendaharaan');
+    Route::get('admin_perbendaharaan/dokumentasi/{id}', [AdminPerbendaharaanController::class, 'showDokumentasi'])->name('showDokumentasiAdminPerbendaharaan');
+    Route::get('/admin_perbendaharaan/dokumentasi/{id}/edit', [AdminPerbendaharaanController::class, 'editDokumentasi'])->name('editDokumentasiAdminPerbendaharaan');
+    Route::put('/admin_perbendaharaan/dokumentasi/{id}', [AdminPerbendaharaanController::class, 'updateDokumentasi'])->name('updateDokumentasiAdminPerbendaharaan');
+    Route::delete('/admin_perbendaharaan/dokumentasi/{id}', [AdminPerbendaharaanController::class, 'destroyDokumentasi'])->name('deleteDokumentasiAdminPerbendaharaan');
+
+    // Berkas
+    Route::get('/admin_perbendaharaan/peraturan', [AdminPerbendaharaanController::class, 'peraturanIndex'])->name('peraturanAdminPerbendaharaan');
+    Route::get('/admin_perbendaharaan/apbd', [AdminPerbendaharaanController::class, 'apbdIndex'])->name('apbdAdminPerbendaharaan');
+    Route::get('/admin_perbendaharaan/keuangan', [AdminPerbendaharaanController::class, 'keuanganIndex'])->name('keuanganAdminPerbendaharaan');
+    Route::get('/admin_perbendaharaan/slide', [AdminPerbendaharaanController::class, 'slideIndex'])->name('slideAdminPerbendaharaan');
+    Route::get('/admin_perbendaharaan/lainnya', [AdminPerbendaharaanController::class, 'lainnyaIndex'])->name('lainnyaAdminPerbendaharaan');
+
+    Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 });
 
 // Hak Akses Admin Bidang Akuntansi
-Route::middleware(['auth', 'hak_akses:22'])->group(function () {
+Route::middleware(['auth', 'adminAkuntansi'])->group(function () {
+    Route::get('/admin_akuntansi/dashboard', [AdminAkuntansiController::class, 'dashboard'])->name('dashboardAdminAkuntansi');
+
+    // User
+    Route::get('/admin_akuntansi/staff', [AdminAkuntansiController::class, 'indexStaff'])->name('staffAdminAkuntansi');
+    Route::get('/admin_akuntansi/staff/status/{id}', [AdminAkuntansiController::class, 'status'])->name('statusStaff');
+    Route::get('/admin_akuntansi/staff/create', [AdminAkuntansiController::class, 'createStaff'])->name('createStaffAdminAkuntansi');
+    Route::post('/admin_akuntansi/staff/store', [AdminAkuntansiController::class, 'storeStaff'])->name('storeStaffAdminAkuntansi');
+    Route::get('/admin_akuntansi/staff/{id}/edit', [AdminAkuntansiController::class, 'editStaff'])->name('editStaffAdminAkuntansi');
+    Route::put('/admin_akuntansi/staff/{id}', [AdminAkuntansiController::class, 'updateStaff'])->name('updateStaffAdminAkuntansi');
+
+    // Agenda
+    Route::get('/admin_akuntansi/agenda', [AdminAkuntansiController::class, 'indexAgenda'])->name('agendaAdminAkuntansi');
+    Route::get('/admin_akuntansi/agenda/create', [AdminAkuntansiController::class, 'createAgenda'])->name('createAgendaAdminAkuntansi');
+    Route::post('/admin_akuntansi/agenda/store', [AdminAkuntansiController::class, 'storeAgenda'])->name('storeAgendaAdminAkuntansi');
+    Route::get('/admin_akuntansi/agenda/{id}/edit', [AdminAkuntansiController::class, 'editAgenda'])->name('editAgendaAdminAkuntansi');
+    Route::put('/admin_akuntansi/agenda/{id}', [AdminAkuntansiController::class, 'updateAgenda'])->name('updateAgendaAdminAkuntansi');
+    Route::delete('/admin_akuntansi/agenda/{id}', [AdminAkuntansiController::class, 'destroyAgenda'])->name('deleteAgendaAdminAkuntansi');
+
+    // Arsip
+    Route::get('/admin_akuntansi/arsip', [AdminAkuntansiController::class, 'indexArsip'])->name('arsipAdminAkuntansi');
+    Route::get('/admin_akuntansi/arsip/create', [AdminAkuntansiController::class, 'createArsip'])->name('createArsipAdminAkuntansi');
+    Route::post('/admin_akuntansi/arsip/store', [AdminAkuntansiController::class, 'storeArsip'])->name('storeArsipAdminAkuntansi');
+    Route::get('/admin_akuntansi/arsip/{id}/edit', [AdminAkuntansiController::class, 'editArsip'])->name('editArsipAdminAkuntansi');
+    Route::put('/admin_akuntansi/arsip/{id}', [AdminAkuntansiController::class, 'updateArsip'])->name('updateArsipAdminAkuntansi');
     
+    // Dokumentasi
+    Route::get('/admin_akuntansi/dokumentasi', [AdminAkuntansiController::class, 'indexDokumentasi'])->name('dokumentasiAdminAkuntansi');
+    Route::get('/admin_akuntansi/dokumentasi/create', [AdminAkuntansiController::class, 'createDokumentasi'])->name('createDokumentasiAdminAkuntansi');
+    Route::post('/admin_akuntansi/dokumentasi/store', [AdminAkuntansiController::class, 'storeDokumentasi'])->name('storeDokumentasiAdminAkuntansi');
+    Route::get('admin_akuntansi/dokumentasi/{id}', [AdminAkuntansiController::class, 'showDokumentasi'])->name('showDokumentasiAdminAkuntansi');
+    Route::get('/admin_akuntansi/dokumentasi/{id}/edit', [AdminAkuntansiController::class, 'editDokumentasi'])->name('editDokumentasiAdminAkuntansi');
+    Route::put('/admin_akuntansi/dokumentasi/{id}', [AdminAkuntansiController::class, 'updateDokumentasi'])->name('updateDokumentasiAdminAkuntansi');
+    Route::delete('/admin_akuntansi/dokumentasi/{id}', [AdminAkuntansiController::class, 'destroyDokumentasi'])->name('deleteDokumentasiAdminAkuntansi');
+
+    // Berkas
+    Route::get('/admin_akuntansi/peraturan', [AdminAkuntansiController::class, 'peraturanIndex'])->name('peraturanAdminAkuntansi');
+    Route::get('/admin_akuntansi/apbd', [AdminAkuntansiController::class, 'apbdIndex'])->name('apbdAdminAkuntansi');
+    Route::get('/admin_akuntansi/keuangan', [AdminAkuntansiController::class, 'keuanganIndex'])->name('keuanganAdminAkuntansi');
+    Route::get('/admin_akuntansi/slide', [AdminAkuntansiController::class, 'slideIndex'])->name('slideAdminAkuntansi');
+    Route::get('/admin_akuntansi/lainnya', [AdminAkuntansiController::class, 'lainnyaIndex'])->name('lainnyaAdminAkuntansi');
+
+    Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 });
 
 // Hak Akses Admin Bidang Aset
-Route::middleware(['auth', 'hak_akses:23'])->group(function () {
+Route::middleware(['auth', 'adminAset'])->group(function () {
+    Route::get('/admin_aset/dashboard', [AdminAsetController::class, 'dashboard'])->name('dashboardAdminAset');
+
+    // User
+    Route::get('/admin_aset/staff', [AdminAsetController::class, 'indexStaff'])->name('staffAdminAset');
+    Route::get('/admin_aset/staff/status/{id}', [AdminAsetController::class, 'status'])->name('statusStaff');
+    Route::get('/admin_aset/staff/create', [AdminAsetController::class, 'createStaff'])->name('createStaffAdminAset');
+    Route::post('/admin_aset/staff/store', [AdminAsetController::class, 'storeStaff'])->name('storeStaffAdminAset');
+    Route::get('/admin_aset/staff/{id}/edit', [AdminAsetController::class, 'editStaff'])->name('editStaffAdminAset');
+    Route::put('/admin_aset/staff/{id}', [AdminAsetController::class, 'updateStaff'])->name('updateStaffAdminAset');
+
+    // Agenda
+    Route::get('/admin_aset/agenda', [AdminAsetController::class, 'indexAgenda'])->name('agendaAdminAset');
+    Route::get('/admin_aset/agenda/create', [AdminAsetController::class, 'createAgenda'])->name('createAgendaAdminAset');
+    Route::post('/admin_aset/agenda/store', [AdminAsetController::class, 'storeAgenda'])->name('storeAgendaAdminAset');
+    Route::get('/admin_aset/agenda/{id}/edit', [AdminAsetController::class, 'editAgenda'])->name('editAgendaAdminAset');
+    Route::put('/admin_aset/agenda/{id}', [AdminAsetController::class, 'updateAgenda'])->name('updateAgendaAdminAset');
+    Route::delete('/admin_aset/agenda/{id}', [AdminAsetController::class, 'destroyAgenda'])->name('deleteAgendaAdminAset');
+
+    // Arsip
+    Route::get('/admin_aset/arsip', [AdminAsetController::class, 'indexArsip'])->name('arsipAdminAset');
+    Route::get('/admin_aset/arsip/create', [AdminAsetController::class, 'createArsip'])->name('createArsipAdminAset');
+    Route::post('/admin_aset/arsip/store', [AdminAsetController::class, 'storeArsip'])->name('storeArsipAdminAset');
+    Route::get('/admin_aset/arsip/{id}/edit', [AdminAsetController::class, 'editArsip'])->name('editArsipAdminAset');
+    Route::put('/admin_aset/arsip/{id}', [AdminAsetController::class, 'updateArsip'])->name('updateArsipAdminAset');
     
+    // Dokumentasi
+    Route::get('/admin_aset/dokumentasi', [AdminAsetController::class, 'indexDokumentasi'])->name('dokumentasiAdminAset');
+    Route::get('/admin_aset/dokumentasi/create', [AdminAsetController::class, 'createDokumentasi'])->name('createDokumentasiAdminAset');
+    Route::post('/admin_aset/dokumentasi/store', [AdminAsetController::class, 'storeDokumentasi'])->name('storeDokumentasiAdminAset');
+    Route::get('admin_aset/dokumentasi/{id}', [AdminAsetController::class, 'showDokumentasi'])->name('showDokumentasiAdminAset');
+    Route::get('/admin_aset/dokumentasi/{id}/edit', [AdminAsetController::class, 'editDokumentasi'])->name('editDokumentasiAdminAset');
+    Route::put('/admin_aset/dokumentasi/{id}', [AdminAsetController::class, 'updateDokumentasi'])->name('updateDokumentasiAdminAset');
+    Route::delete('/admin_aset/dokumentasi/{id}', [AdminAsetController::class, 'destroyDokumentasi'])->name('deleteDokumentasiAdminAset');
+
+    // Berkas
+    Route::get('/admin_aset/peraturan', [AdminAsetController::class, 'peraturanIndex'])->name('peraturanAdminAset');
+    Route::get('/admin_aset/apbd', [AdminAsetController::class, 'apbdIndex'])->name('apbdAdminAset');
+    Route::get('/admin_aset/keuangan', [AdminAsetController::class, 'keuanganIndex'])->name('keuanganAdminAset');
+    Route::get('/admin_aset/slide', [AdminAsetController::class, 'slideIndex'])->name('slideAdminAset');
+    Route::get('/admin_aset/lainnya', [AdminAsetController::class, 'lainnyaIndex'])->name('lainnyaAdminAset');
+
+    Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 });
 
 

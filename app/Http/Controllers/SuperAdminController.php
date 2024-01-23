@@ -14,6 +14,9 @@ use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\DB;
+use App\Notifications\AgendaAddNotification;
+use App\Mail\agendaMail;
+use Illuminate\Support\Facades\Mail;
 
 class SuperAdminController extends Controller
 {
@@ -64,16 +67,22 @@ class SuperAdminController extends Controller
         $file = $request->file('file');
         $file_path = $file->storeAs('agenda', $file->getClientOriginalName(), 'public');
 
-        $agenda = [
-            'jenis_dokumen' => $request->jenis_dokumen,
-            'tanggal_dokumen' => $request->tanggal_dokumen,
-            'nomor_dokumen' => $request->nomor_dokumen,
-            'asal_dokumen' => $request->asal_dokumen,
-            'perihal' => $request->perihal,
-            'file_path' => $file_path,
-            'status' => 0
-        ];
-        Agenda::create($agenda);
+        $agenda = new Agenda;
+        $agenda->jenis_dokumen = $request->jenis_dokumen;
+        $agenda->tanggal_dokumen = $request->tanggal_dokumen;
+        $agenda->nomor_dokumen = $request->nomor_dokumen;
+        $agenda->asal_dokumen = $request->asal_dokumen;
+        $agenda->perihal = $request->perihal;
+        $agenda->file_path = $file_path;
+        $agenda->status = 0;
+        $agenda->save();
+
+        $kepalaBadan = User::where('role', 2)->first();
+        $kepalaBadan->notify(new AgendaAddNotification($agenda));
+
+        // Mail::to($kepalaBadan->email)->send(new NotifikasiAgenda($agenda));
+        // Mail::to('aminnur1552@gmail.com')->send(new agendaMail($agenda));
+
         Alert::success('Berhasil', 'Berhasil Menambahkan Data Agenda');
         return redirect()->route('agendaSuperAdmin');
     }
