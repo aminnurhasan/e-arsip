@@ -20,6 +20,7 @@ return new class extends Migration
             $table->string('nomor_dokumen');
             $table->string('asal_dokumen');
             $table->string('perihal');
+            $table->date('tanggal_kegiatan')->nullable();
             $table->string('file_path');
             $table->integer('status')->default(0);
         });

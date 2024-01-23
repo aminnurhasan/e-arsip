@@ -9,17 +9,6 @@ use Illuminate\Http\Request;
 
 class LoginController extends Controller
 {
-    /*
-    |--------------------------------------------------------------------------
-    | Login Controller
-    |--------------------------------------------------------------------------
-    |
-    | This controller handles authenticating users for the application and
-    | redirecting them to your home screen. The controller uses a trait
-    | to conveniently provide its functionality to your applications.
-    |
-    */
-
     use AuthenticatesUsers;
 
     protected $redirectTo = '/home';
@@ -31,6 +20,8 @@ class LoginController extends Controller
 
     protected function authenticated(Request $request, $user)
     {
+        $staff = [24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34];
+
         if($user->role == 1 && $user->status == 1){
             return redirect('/superadmin/dashboard');
         }else if($user->role == 2 && $user->status == 1){
@@ -77,6 +68,8 @@ class LoginController extends Controller
             return redirect('/admin_akuntansi/dashboard');
         }else if($user->role == 23 && $user->status == 1){
             return redirect('/admin_aset/dashboard');
+        }else if(in_array($user->role, $staff) && $user->status == 1){
+            return redirect('/staff/dashboard');
         }
     }
 

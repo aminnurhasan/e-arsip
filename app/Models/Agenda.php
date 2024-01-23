@@ -18,6 +18,7 @@ class Agenda extends Model
         'nomor_dokumen',
         'asal_dokumen',
         'perihal',
+        'tanggal_kegiatan',
         'file_path',
         'status'
     ];

@@ -73,6 +73,7 @@ class SuperAdminController extends Controller
         $agenda->nomor_dokumen = $request->nomor_dokumen;
         $agenda->asal_dokumen = $request->asal_dokumen;
         $agenda->perihal = $request->perihal;
+        $agenda->tanggal_kegiatan = $request->tanggal_kegiatan;
         $agenda->file_path = $file_path;
         $agenda->status = 0;
         $agenda->save();
@@ -149,6 +150,7 @@ class SuperAdminController extends Controller
             'nomor_dokumen' => $request->nomor_dokumen,
             'asal_dokumen' => $request->asal_dokumen,
             'perihal' => $request->perihal,
+            'tanggal_kegiatan' => $request->tanggal_kegiatan,
             'file_path' => $file_path,
         ];
 

@@ -25,7 +25,7 @@ use App\Http\Controllers\AdminAnggaranController;
 use App\Http\Controllers\AdminPerbendaharaanController;
 use App\Http\Controllers\AdminAkuntansiController;
 use App\Http\Controllers\AdminAsetController;
-
+use App\Http\Controllers\StaffController;
 
 Route::get('/', function () {
     return view('welcome');
@@ -1027,9 +1027,39 @@ Route::middleware(['auth', 'adminAset'])->group(function () {
     Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 });
 
+Route::middleware(['auth', 'staff'])->group(function () {
+    Route::get('/staff/dashboard', [StaffController::class, 'dashboard'])->name('dashboardStaff');
 
+    // Agenda
+    Route::get('/staff/agenda', [StaffController::class, 'indexAgenda'])->name('agendaStaff');
+    Route::put('/staff/agenda/{id}', [StaffController::class, 'storeDisposisiAgenda'])->name('updateDisposisiAgendaStaff');
 
+    // Laporan
+    Route::get('/staff/laporan/{id}/upload', [StaffController::class, 'uploadLaporan'])->name('uploadLaporanStaff');
+    Route::put('/staff/laporan/{id}', [StaffController::class, 'storeLaporan'])->name('storeLaporanStaff');
 
+    // Arsip
+    Route::get('/staff/arsip', [StaffController::class, 'indexArsip'])->name('arsipStaff');
+    Route::get('/staff/arsip/create', [StaffController::class, 'createArsip'])->name('createArsipStaff');
+    Route::post('/staff/arsip/store', [StaffController::class, 'storeArsip'])->name('storeArsipStaff');
+    Route::get('/staff/arsip/{id}/edit', [StaffController::class, 'editArsip'])->name('editArsipStaff');
+    Route::put('/staff/arsip/{id}', [StaffController::class, 'updateArsip'])->name('updateArsipStaff');
 
+    // Berkas
+    Route::get('/staff/peraturan', [StaffController::class, 'peraturanIndex'])->name('peraturanStaff');
+    Route::get('/staff/apbd', [StaffController::class, 'apbdIndex'])->name('apbdStaff');
+    Route::get('/staff/keuangan', [StaffController::class, 'keuanganIndex'])->name('keuanganStaff');
+    Route::get('/staff/slide', [StaffController::class, 'slideIndex'])->name('slideStaff');
+    Route::get('/staff/lainnya', [StaffController::class, 'lainnyaIndex'])->name('lainnyaStaff');
 
+    // Dokumentasi
+    Route::get('/staff/dokumentasi', [StaffController::class, 'indexDokumentasi'])->name('dokumentasiStaff');
+    Route::get('/staff/dokumentasi/create', [StaffController::class, 'createDokumentasi'])->name('createDokumentasiStaff');
+    Route::post('/staff/dokumentasi/store', [StaffController::class, 'storeDokumentasi'])->name('storeDokumentasiStaff');
+    Route::get('/staff/dokumentasi/{id}', [StaffController::class, 'showDokumentasi'])->name('showDokumentasiStaff');
+    Route::get('/staff/dokumentasi/{id}/edit', [StaffController::class, 'editDokumentasi'])->name('editDokumentasiStaff');
+    Route::put('/staff/dokumentasi/{id}', [StaffController::class, 'updateDokumentasi'])->name('updateDokumentasiStaff');
+    Route::delete('/staff/dokumentasi/{id}', [StaffController::class, 'destroyDokumentasi'])->name('deleteDokumentasiStaff');
 
+    Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+});
