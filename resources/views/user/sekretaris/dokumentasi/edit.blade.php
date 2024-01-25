@@ -15,18 +15,9 @@
     <div class="container-fluid">
         <div class="row">
             <section class="col-lg-12">
-
-                @if (session('status'))
-                <div class="alert alert-success" role="alert">
-                    {{ session('status') }}
-                </div>
-                @endif
-
-                <a href="{{ url()->previous() }}" class="btn btn-md btn-info mb-2">Kembali</a>
-
+                <a href="{{ route('dokumentasiSekretaris') }}" class="btn btn-md btn-info mb-2">Kembali</a>
                 <div class="card">
                     <div class="card-body">
-
                         <form action="{{route('updateDokumentasiSekretaris', $dokumentasi->id)}}" method="post" enctype="multipart/form-data">
                             @csrf @method('PUT')
                             <div class="form-group row">
@@ -53,7 +44,7 @@
                             </div>
                             <div class="form-group">
                                 <label for="">
-                                    Upload Dokumentasi Baru
+                                    Upload Dokumentasi Baru (png, jpg, jpeg)
                                 </label>
                                 <input type="file" name="file[]" class="form-control h-100" multiple>
                                 @error('file')

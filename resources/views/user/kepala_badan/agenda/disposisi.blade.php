@@ -15,15 +15,7 @@
     <div class="container-fluid">
         <div class="row">
             <section class="col-lg-12">
-
-                @if (session('status'))
-                <div class="alert alert-success" role="alert">
-                    {{ session('status') }}
-                </div>
-                @endif
-
-                <a href="{{ url()->previous() }}" class="btn btn-md btn-info mb-2">Kembali</a>
-
+                <a href="{{ route('agendaKepalaBadan') }}" class="btn btn-md btn-info mb-2">Kembali</a>
                 <div class="card">  
                     <div class="card-body">
 
@@ -41,7 +33,6 @@
                                     </label>
                                     <select name="disposisi" id="" class="form-control">
                                         <option value="">-- PILIH JABATAN --</option>
-                                        <option value="2">Kepala Badan</option>
                                         <option value="3">Sekretaris</option>
                                         <option value="4">Bidang Anggaran</option>
                                         <option value="5">Bidang Perbendaharaan</option>

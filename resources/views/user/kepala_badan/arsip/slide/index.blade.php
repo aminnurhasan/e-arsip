@@ -14,19 +14,8 @@
 <section class="content">
     <div class="container-fluid">
         <div class="row">
-            {{-- <x-notify::notify/> --}}
             <section class="col-lg-12">
-                @if (session('success'))
-                <script>
-                    Swal.fire({
-                        icon: 'success',
-                        title: 'Berhasil',
-                        text: '{{ session('success') }}',
-                    });
-                </script>
-                @endif
-
-                <a href="{{ url()->previous() }}" class="btn btn-md btn-info mb-2">Kembali</a>
+                <a href="{{ route('arsipKepalaBadan') }}" class="btn btn-md btn-info mb-2">Kembali</a>
                 
                 <div class="card">
                     <div class="card-header">
@@ -35,7 +24,6 @@
                             List Data Slide / PowerPoint
                         </h3>
                     </div>
-
                     <div class="card-body">
                         <table id="datatable" class="table table-bordered table-striped">
                             <thead>

@@ -27,17 +27,22 @@ class SuperAdminController extends Controller
 
     public function dashboard()
     {
-        return view ('user.super_admin.dashboard');
+        $user = User::where('role', '!=', 1)->count();
+        $agenda = Agenda::all()->count();
+        $peraturan = Arsip::where('jenis_dokumen', 1)->count();
+        $apbd = Arsip::where('jenis_dokumen', 2)->count();
+        $keuangan = Arsip::where('jenis_dokumen', 3)->count();
+        $slide = Arsip::where('jenis_dokumen', 4)->count();
+        $lainnya = Arsip::where('jenis_dokumen', 5)->count();
+        $dokumentasi = Dokumentasi::all()->count();
+
+        return view ('user.super_admin.dashboard', compact('user', 'agenda', 'peraturan', 'apbd', 'keuangan', 'slide', 'dokumentasi', 'lainnya'));
     }
 
     // Agenda Start
     public function indexAgenda()
     {
         $agenda = Agenda::all();
-        $title = 'Delete Data!';
-        $text = "Are you sure you want to delete?";
-        confirmDelete($title, $text);
-
         return view ('user.super_admin.agenda.index', compact('agenda'));
     }
 
@@ -78,11 +83,13 @@ class SuperAdminController extends Controller
         $agenda->status = 0;
         $agenda->save();
 
+        $disposisi = new Disposisi;
+        $disposisi->agenda_id = $agenda->id;
+        $disposisi->disposisi = 2;
+        $disposisi->save();
+
         $kepalaBadan = User::where('role', 2)->first();
         $kepalaBadan->notify(new AgendaAddNotification($agenda));
-
-        // Mail::to($kepalaBadan->email)->send(new NotifikasiAgenda($agenda));
-        // Mail::to('aminnur1552@gmail.com')->send(new agendaMail($agenda));
 
         Alert::success('Berhasil', 'Berhasil Menambahkan Data Agenda');
         return redirect()->route('agendaSuperAdmin');
@@ -123,7 +130,7 @@ class SuperAdminController extends Controller
 
     public function storeArsip(Request $request)
     {
-        $validator = Validator::make ( $request->all(), [
+        $request->validate([
             'pengelola' => 'required',
             'jenis_dokumen' => 'required',
             'tanggal_dokumen' => 'required',
@@ -155,7 +162,7 @@ class SuperAdminController extends Controller
         ];
 
         Arsip::create($arsip);
-        Alert::success('Berhasil', 'Berhasil Menambahkan Data Dokumen');
+        Alert::success('Berhasil', 'Berhasil Menambahkan Data Arsip');
         return redirect()->route('arsipSuperAdmin');
     }
 
@@ -208,7 +215,7 @@ class SuperAdminController extends Controller
             ]);
         }
 
-        Alert::success('Berhasil', 'Berhasil Mengubah Data Dokumen');
+        Alert::success('Berhasil', 'Berhasil Mengubah Data Arsip');
         return redirect()->route('arsipSuperAdmin');
     }
 
@@ -258,15 +265,15 @@ class SuperAdminController extends Controller
 
     public function storeDokumentasi(Request $request)
     {
-        $validator = Validator::make ( $request->all(), [
+        $request->validate([
             'tanggal_kegiatan' => 'required',
             'nama_kegiatan' => 'required',
-            'file' => 'required|mimes:jpg,jpeg,png',
+            'file' => 'required',
         ], [
             'tanggal_kegiatan.required' => 'Tanggal harus diisi!',
             'nama_kegiatan.required' => 'Nama Kegiatan harus diisi!',
             'file.required' => 'File harus diisi!',
-            'file.mimes' => 'File harus berupa jpg, jpeg, atau png!',
+            // 'file.mimes' => 'File harus berupa jpg, jpeg, atau png!',
         ]);
 
         $dokumentasi = Dokumentasi::create([
@@ -342,7 +349,7 @@ class SuperAdminController extends Controller
         };
 
         Alert::success('Berhasil', 'Berhasil Mengubah Data Dokumentasi');
-        return redirect()->route('dokumentasiSubbidAnggaranPendapatan');
+        return redirect()->route('dokumentasiSuperAdmin');
     }
 
     public function destroyDokumentasi($id)

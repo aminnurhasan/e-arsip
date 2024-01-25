@@ -15,14 +15,6 @@
     <div class="container-fluid">
         <div class="row">
             <section class="col-lg-12">
-
-                @if (session('status'))
-                <div class="alert alert-success" role="alert">
-                    {{ session('status') }}
-                </div>
-                @endif
-
-                {{-- List Data Agenda --}}
                 <div class="card">
                     <div class="card-header">
                         <h3 class="card-title">
@@ -30,7 +22,6 @@
                             List Data Disposisi
                         </h3>
                     </div>
-
                     <div class="card-body">
                         <table id="datatable" class="table table-bordered table-striped">
                             <thead>
@@ -79,40 +70,4 @@
         </div>
     </div>
 </section>
-{{-- <script>
-    $(document).ready(function () {
-        $('.disposisi').click(function () {
-            var idAgenda = $(this).data('id');
-            console.log('ID Agenda yang Dipilih:', idAgenda);
-            $('#agenda').val(idAgenda);
-            $('#myModal').modal('show');
-        });
-    });
-</script> --}}
-{{-- <script>
-    $(document).ready(function () {
-        $('.disposisi').click(function () {
-            var idDokumen = $(this).data('id');
-            $('#id').val(idDokumen);
-
-            // Mengambil opsi disposisi dari server menggunakan AJAX
-            $.ajax({
-                url: '/kepalabadan/agenda/disposisi/option',
-                type: 'GET',
-                success: function (data) {
-                    var options = '<option value="">Pilih Disposisi</option>';
-                    $.each(data, function (key, value) {
-                        options += '<option value="' + value.id + '">' + value.jabatan + '</option>';
-                    });
-                    $('#disposisi').html(options);
-                },
-                error: function (error) {
-                    console.error('Error fetching disposisi options:', error);
-                }
-            });
-
-            $('#myModal').modal('show');
-        });
-    });
-</script> --}}
 @endsection

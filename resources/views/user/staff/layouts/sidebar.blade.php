@@ -49,13 +49,13 @@
           <div class="user-panel mt-1 pb-2 mb-3 d-flex"></div>
 
           <li class="nav-item">
-              <form action="{{ route('logout') }}" method="POST">
-                  @csrf
-                  <button type="submit" class="nav-link d-block btn btn-block">
-                      <i class="nav-icon fas fa-sign-out-alt"></i>
-                      <p>Logout</p>
-                  </button>
-              </form>
+            <form id="logout-form" action="{{ url('/logout') }}" method="POST" style="display: none;">
+              @csrf
+            </form>
+            <a href="{{route("logout")}}" class="nav-link d-block" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
+              <i class="nav-icon fas fa-sign-out-alt"></i>
+              <p>Logout</p>
+            </a>
           </li>
         </ul>
       </nav>

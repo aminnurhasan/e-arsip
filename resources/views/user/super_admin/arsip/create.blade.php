@@ -5,13 +5,7 @@
     <div class="container-fluid">
         <div class="row mb-2">
             <div class="col-sm-6">
-                <h1 class="m-0 text-dark">Tambah Data Dokumen</h1>
-            </div>
-            <div class="col-sm-6">
-                <ol class="breadcrumb float-sm-right">
-                    <li class="breadcrumb-item"><a href="">Dokumen</a></li>
-                    <li class="breadcrumb-item active">Tambah</li>
-                </ol>
+                <h1 class="m-0 text-dark">Tambah Data Arsip</h1>
             </div>
         </div>
     </div>
@@ -21,15 +15,7 @@
     <div class="container-fluid">
         <div class="row">
             <section class="col-lg-12">
-
-                @if (session('status'))
-                <div class="alert alert-success" role="alert">
-                    {{ session('status') }}
-                </div>
-                @endif
-
-                <a href="{{ url()->previous() }}" class="btn btn-md btn-info mb-2">Kembali</a>
-
+                <a href="{{ route('arsipSuperAdmin') }}" class="btn btn-md btn-info mb-2">Kembali</a>
                 <div class="card">
                     <div class="card-body">
 
@@ -119,7 +105,7 @@
                                     <span style="color:red">*</span>
                                 </label>
                                 <input type="file" name="file" class="form-control h-100">
-                                @error('file_path')
+                                @error('file')
                                     <span style="font-size: 12px; color:red" class="error-message">{{ $message }}</span>
                                 @enderror
                             </div>

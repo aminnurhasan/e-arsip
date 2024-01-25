@@ -37,10 +37,11 @@ class AgendaAddNotification extends Notification
     public function toMail($notifiable)
     {
         return (new MailMessage)
-                    ->line('Agenda Baru Telah Ditambahkan')
-                    ->line('Asal    : ' . $this->agenda->asal_dokumen)
-                    ->line('Perihal : ' . $this->agenda->perihal)
-                    ->line('Silahkan Masuk ke Website Untuk Melihatnya');
+            ->view('mail.tambahAgenda');
+                    // ->line('Agenda Baru Telah Ditambahkan')
+                    // ->line('Asal    : ' . $this->agenda->asal_dokumen)
+                    // ->line('Perihal : ' . $this->agenda->perihal)
+                    // ->line('Silahkan Masuk ke Website Untuk Melihatnya');
                     // ->line('Thank you for using our application!');
     }
 

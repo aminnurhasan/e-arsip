@@ -15,15 +15,7 @@
     <div class="container-fluid">
         <div class="row">
             <section class="col-lg-12">
-
-                @if (session('status'))
-                <div class="alert alert-success" role="alert">
-                    {{ session('status') }}
-                </div>
-                @endif
-
                 <a href="{{ route('laporanKepalaBadan') }}" class="btn btn-md btn-info mb-2">Kembali</a>
-
                 <div class="card">
                     <div class="card-body">
                         <div class="form-group row">

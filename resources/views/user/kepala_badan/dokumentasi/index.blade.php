@@ -14,20 +14,8 @@
 <section class="content">
     <div class="container-fluid">
         <div class="row">
-            {{-- <x-notify::notify/> --}}
             <section class="col-lg-12">
-                @if (session('success'))
-                <script>
-                    Swal.fire({
-                        icon: 'success',
-                        title: 'Berhasil',
-                        text: '{{ session('success') }}',
-                    });
-                </script>
-                @endif
-
                 <a href="{{route('createDokumentasiKepalaBadan')}}" class="btn btn-md btn-info mb-2">Tambah Dokumentasi</a>
-
                 <div class="card">
                     <div class="card-header">
                         <h3 class="card-title">

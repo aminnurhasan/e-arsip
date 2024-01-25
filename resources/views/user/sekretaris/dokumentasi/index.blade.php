@@ -7,12 +7,6 @@
             <div class="col-sm-6">
                 <h1 class="m-0 text-dark">Data Dokumentasi</h1>
             </div>
-            <div class="col-sm-6">
-                <ol class="breadcrumb float-sm-right">
-                    <li class="breadcrumb-item"><a href="">Dokumentasi</a></li>
-                    <li class="breadcrumb-item"></li>
-                </ol>
-            </div>
         </div>
     </div>
 </div>
@@ -20,20 +14,8 @@
 <section class="content">
     <div class="container-fluid">
         <div class="row">
-            {{-- <x-notify::notify/> --}}
             <section class="col-lg-12">
-                @if (session('success'))
-                <script>
-                    Swal.fire({
-                        icon: 'success',
-                        title: 'Berhasil',
-                        text: '{{ session('success') }}',
-                    });
-                </script>
-                @endif
-
                 <a href="{{route('createDokumentasiSekretaris')}}" class="btn btn-md btn-info mb-2">Tambah Dokumentasi</a>
-
                 <div class="card">
                     <div class="card-header">
                         <h3 class="card-title">

@@ -14,18 +14,7 @@
 <section class="content">
     <div class="container-fluid">
         <div class="row">
-            {{-- <x-notify::notify/> --}}
-            <section class="col-lg-12">
-                @if (session('success'))
-                <script>
-                    Swal.fire({
-                        icon: 'success',
-                        title: 'Berhasil',
-                        text: '{{ session('success') }}',
-                    });
-                </script>
-                @endif
-                
+            <section class="col-lg-12">                
                 <div class="card">
                     <div class="card-header">
                         <h3 class="card-title">
@@ -33,7 +22,6 @@
                             List Data User
                         </h3>
                     </div>
-
                     <div class="card-body">
                         <table id="datatable" class="table table-bordered table-striped">
                             <thead>

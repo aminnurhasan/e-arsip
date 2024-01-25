@@ -15,14 +15,7 @@
     <div class="container-fluid">
         <div class="row">
             <section class="col-lg-12">
-
-                @if (session('status'))
-                <div class="alert alert-success" role="alert">
-                    {{ session('status') }}
-                </div>
-                @endif
-
-                <a href="{{ url()->previous() }}" class="btn btn-md btn-primary mb-2">Kembali</a>
+                <a href="{{ route('userSuperAdmin') }}" class="btn btn-md btn-info mb-2">Kembali</a>
 
                 <div class="card">
                     <div class="card-body">
@@ -31,14 +24,20 @@
                             @csrf
                             <div class="form-group row">
                                 <div class="col-6">
-                                    <label for="">NIP</label>
+                                    <label for="">
+                                        NIP
+                                        <span style="color:red">*</span>
+                                    </label>
                                     <input type="text" name="nip" class="form-control" value="{{ old('nip') }}">
                                     @error('nip')
                                         <span style="font-size: 12px; color:red" class="error-message">{{ $message }}</span>
                                     @enderror
                                 </div>
                                 <div class="col-6">
-                                    <label for="">Nama</label>
+                                    <label for="">
+                                        Nama
+                                        <span style="color:red">*</span>
+                                    </label>
                                     <input type="text" name="name" class="form-control" value="{{ old('name') }}">
                                     @error('name')
                                         <span style="font-size: 12px; color:red" class="error-message">{{ $message }}</span>
@@ -47,14 +46,20 @@
                             </div>
                             <div class="form-group row">
                                 <div class="col-6">
-                                    <label for="">Email</label>
+                                    <label for="">
+                                        Email
+                                        <span style="color:red">*</span>
+                                    </label>
                                     <input type="email" name="email" cols="3" class="form-control"  value="{{ old('email') }}"></input>
                                     @error('email')
                                         <span style="font-size: 12px; color:red" class="error-message">{{ $message }}</span>
                                     @enderror
                                 </div>
                                 <div class="col-6">
-                                    <label for="">Jabatan</label>
+                                    <label for="">
+                                        Jabatan
+                                        <span style="color:red">*</span>
+                                    </label>
                                     <select name="role" id="role" class="form-control">
                                         <option value="">-- Pilih Jabatan --</option>
                                         <option value="1">Super Admin</option>
@@ -86,7 +91,7 @@
                                     @enderror
                                 </div>
                             </div>
-                            <button type="submit" class="btn btn-primary">Simpan</button>
+                            <button type="submit" class="btn btn-info">Simpan</button>
                         </form>
                     </div>
                 </div>

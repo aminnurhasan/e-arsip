@@ -15,14 +15,6 @@
     <div class="container-fluid">
         <div class="row">
             <section class="col-lg-12">
-
-                @if (session('status'))
-                <div class="alert alert-success" role="alert">
-                    {{ session('status') }}
-                </div>
-                @endif
-
-                {{-- List Data Agenda --}}
                 <div class="card">
                     <div class="card-header">
                         <h3 class="card-title">
@@ -39,6 +31,7 @@
                                     <th class="col-2">Nomor</th>
                                     <th class="col-3">Perihal</th>
                                     <th class="col-2">Asal Dokumen</th>
+                                    <th class="col-1">Upload</th>
                                     <th class="col-1">Disposisi</th>
                                     <th class="col-1">Unduh</th>
                                 </tr>
@@ -51,7 +44,49 @@
                                         <td>{{ $item->perihal }}</td>
                                         <td>{{ $item->asal_dokumen }}</td>
                                         <td style="text-align: center">
+                                            <a href="{{url('/kepalabadan/laporan/' . $item->id . '/upload')}}" class="btn btn-primary btn-sm ">Upload</a>
+                                        </td>
+                                        <td style="text-align: center">
                                             <a href="{{url('/kepalabadan/agenda/' . $item->id . '/disposisi')}}" class="btn btn-success btn-sm">Disposisikan</a>
+                                        </td>
+                                        <td style="text-align: center">
+                                            <a href="{{asset('storage/' .$item->file_path)}}" download class="btn btn-primary btn-sm ">Unduh</a>
+                                        </td>
+                                    </tr>
+                                @endforeach
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <div class="card-header">
+                        <h3 class="card-title">
+                            <i class="ion ion-clipboard mr-1"></i>
+                            List Data Agenda Selesai
+                        </h3>
+                    </div>
+                    <div class="card-body">
+                        <table id="datatable2" class="table table-bordered table-striped">
+                            <thead>
+                                <tr>
+                                    <th class="col-1">Tanggal</th>
+                                    <th class="col-2">Nomor</th>
+                                    <th class="col-2">Perihal</th>
+                                    <th class="col-2">Asal Dokumen</th>
+                                    <th class="col-1">Laporan</th>
+                                    <th class="col-1">Dokumen</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach ($agendaSelesai as $item)
+                                    <tr>
+                                        <td>{{ \Carbon\Carbon::parse($item->tanggal_dokumen)->format('d M Y') }}</td>
+                                        <td>{{ $item->nomor_dokumen }}</td>
+                                        <td>{{ $item->perihal }}</td>
+                                        <td>{{ $item->asal_dokumen }}</td>
+                                        <td style="text-align: center">
+                                            <a href="{{asset('storage/' .$item->laporan)}}" download class="btn btn-primary btn-sm ">Unduh</a>
                                         </td>
                                         <td style="text-align: center">
                                             <a href="{{asset('storage/' .$item->file_path)}}" download class="btn btn-primary btn-sm ">Unduh</a>
@@ -66,40 +101,4 @@
         </div>
     </div>
 </section>
-{{-- <script>
-    $(document).ready(function () {
-        $('.disposisi').click(function () {
-            var idAgenda = $(this).data('id');
-            console.log('ID Agenda yang Dipilih:', idAgenda);
-            $('#agenda').val(idAgenda);
-            $('#myModal').modal('show');
-        });
-    });
-</script> --}}
-{{-- <script>
-    $(document).ready(function () {
-        $('.disposisi').click(function () {
-            var idDokumen = $(this).data('id');
-            $('#id').val(idDokumen);
-
-            // Mengambil opsi disposisi dari server menggunakan AJAX
-            $.ajax({
-                url: '/kepalabadan/agenda/disposisi/option',
-                type: 'GET',
-                success: function (data) {
-                    var options = '<option value="">Pilih Disposisi</option>';
-                    $.each(data, function (key, value) {
-                        options += '<option value="' + value.id + '">' + value.jabatan + '</option>';
-                    });
-                    $('#disposisi').html(options);
-                },
-                error: function (error) {
-                    console.error('Error fetching disposisi options:', error);
-                }
-            });
-
-            $('#myModal').modal('show');
-        });
-    });
-</script> --}}
 @endsection

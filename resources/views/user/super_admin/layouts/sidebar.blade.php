@@ -3,10 +3,7 @@
       <img src="{{asset('adminlte/dist/img/e.png')}}" alt="E Logo" class="brand-image img-circle elevation-3" style="opacity: .8">
       <span class="brand-text font-weight-light">- Arsip Kab. Lamongan</span>
     </a>
-
     <div class="sidebar">
-
-      <!-- Sidebar Menu -->
       <nav class="mt-2">
         <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
           <div class="user-panel mt-1 pb-3 mb-3 d-flex">
@@ -19,7 +16,7 @@
           </div>
 
           <li class="nav-item">
-            <a href="#" class="nav-link">
+            <a href="{{url('/superadmin/dashboard')}}" class="nav-link">
               <i class="nav-icon fa-solid fa-gauge"></i>
               <p>Dashboard</p>
             </a>
@@ -56,18 +53,16 @@
           <div class="user-panel mt-1 pb-2 mb-3 d-flex"></div>
 
           <li class="nav-item">
-              <form action="{{ route('logout') }}" method="POST">
-                  @csrf
-                  <button type="submit" class="nav-link d-block btn btn-block">
-                      <i class="nav-icon fas fa-sign-out-alt"></i>
-                      <p>Logout</p>
-                  </button>
-              </form>
+            <form id="logout-form" action="{{ url('/logout') }}" method="POST" style="display: none;">
+              @csrf
+            </form>
+            <a href="{{route("logout")}}" class="nav-link d-block" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
+              <i class="nav-icon fas fa-sign-out-alt"></i>
+              <p>Logout</p>
+            </a>
           </li>
         </ul>
       </nav>
-      <!-- /.sidebar-menu -->
     </div>
     <div class="flex-grow-1"></div>
-    <!-- /.sidebar -->
 </aside>

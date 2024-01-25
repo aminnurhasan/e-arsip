@@ -20,6 +20,10 @@ class LoginController extends Controller
 
     protected function authenticated(Request $request, $user)
     {
+        $kabid = [4, 5, 6, 7];
+        $subbag = [8, 9, 10];
+        $subbid = [11, 12, 13, 14, 15, 16, 17, 18];
+        $admin = [19, 20, 21, 22, 23];
         $staff = [24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34];
 
         if($user->role == 1 && $user->status == 1){
@@ -28,46 +32,14 @@ class LoginController extends Controller
             return redirect('/kepalabadan/dashboard');
         }else if($user->role == 3 && $user->status == 1){
             return redirect('/sekretaris/dashboard');
-        }else if($user->role == 4 && $user->status == 1){
-            return redirect('/b_anggaran/dashboard');
-        }else if($user->role == 5 && $user->status == 1){
-            return redirect('/b_perbendaharaan/dashboard');
-        }else if($user->role == 6 && $user->status == 1){
-            return redirect('/b_akuntansi/dashboard');
-        }else if($user->role == 7 && $user->status == 1){
-            return redirect('/b_aset/dashboard');
-        }else if($user->role == 8 && $user->status == 1){
-            return redirect('/subbag_perencanaan/dashboard');
-        }else if($user->role == 9 && $user->status == 1){
-            return redirect('/subbag_keuangan/dashboard');
-        }else if($user->role == 10 && $user->status == 1){
-            return redirect('/subbag_umum/dashboard');
-        }else if($user->role == 11 && $user->status == 1){
-            return redirect('/subbid_anggaran_pendapatan/dashboard');
-        }else if($user->role == 12 && $user->status == 1){
-            return redirect('/subbid_anggaran_belanja/dashboard');
-        }else if($user->role == 13 && $user->status == 1){
-            return redirect('/subbid_pengelolaan/dashboard');
-        }else if($user->role == 14 && $user->status == 1){
-            return redirect('/subbid_administrasi/dashboard');
-        }else if($user->role == 15 && $user->status == 1){
-            return redirect('/subbid_pembukuan/dashboard');
-        }else if($user->role == 16 && $user->status == 1){
-            return redirect('/subbid_verifikasi/dashboard');
-        }else if($user->role == 17 && $user->status == 1){
-            return redirect('/subbid_perencanaan/dashboard');
-        }else if($user->role == 18 && $user->status == 1){
-            return redirect('/subbid_penggunaan/dashboard');
-        }else if($user->role == 19 && $user->status == 1){
-            return redirect('/admin_sekretaris/dashboard');
-        }else if($user->role == 20 && $user->status == 1){
-            return redirect('/admin_perbendaharaan/dashboard');
-        }else if($user->role == 21 && $user->status == 1){
-            return redirect('/admin_anggaran/dashboard');
-        }else if($user->role == 22 && $user->status == 1){
-            return redirect('/admin_akuntansi/dashboard');
-        }else if($user->role == 23 && $user->status == 1){
-            return redirect('/admin_aset/dashboard');
+        }else if(in_array($user->role, $kabid) && $user->status == 1){
+            return redirect('/kabid/dashboard');
+        }else if(in_array($user->role, $subbag) && $user->status == 1){
+            return redirect('/subbag/dashboard');
+        }else if(in_array($user->role, $subbid) && $user->status == 1){
+            return redirect('/subbid/dashboard');
+        }else if(in_array($user->role, $admin) && $user->status == 1){
+            return redirect('/admin/dashboard');
         }else if(in_array($user->role, $staff) && $user->status == 1){
             return redirect('/staff/dashboard');
         }

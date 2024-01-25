@@ -14,19 +14,8 @@
 <section class="content">
     <div class="container-fluid">
         <div class="row">
-            {{-- <x-notify::notify/> --}}
             <section class="col-lg-12">
-                @if (session('success'))
-                <script>
-                    Swal.fire({
-                        icon: 'success',
-                        title: 'Berhasil',
-                        text: '{{ session('success') }}',
-                    });
-                </script>
-                @endif
-
-                <a href="{{ url()->previous() }}" class="btn btn-md btn-info mb-2">Kembali</a>
+                <a href="{{ route('arsipSuperAdmin') }}" class="btn btn-md btn-info mb-2">Kembali</a>
                 
                 <div class="card">
                     <div class="card-header">
@@ -83,24 +72,4 @@
         </div>
     </div>
 </section>
-<script>
-    function redirectPeraturan() {
-        window.location.href = "{{route('peraturanSuperAdmin')}}";
-    }
-    function redirectAPBD() {
-        window.location.href = "{{route('apbdSuperAdmin')}}";
-    }
-    function redirectKeuangan() {
-        window.location.href = "{{route('keuanganSuperAdmin')}}";
-    }
-    function redirectSlide() {
-        window.location.href = "{{route('slideSuperAdmin')}}";
-    }
-    function redirectDokumentasi() {
-        window.location.href = "{{route('dokumentasiSuperAdmin')}}";
-    }
-    function redirectLainnya() {
-        window.location.href = "{{route('lainnyaSuperAdmin')}}";
-    }
-</script>
 @endsection

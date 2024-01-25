@@ -23,14 +23,43 @@ class KepalaBadanController extends Controller
 
     public function dashboard()
     {
-        return view ('user.kepala_badan.dashboard');
+        $role = Auth()->user()->role;
+
+        $user = User::where('role', '!=', 1)->count();
+        $agendaMasuk = Disposisi::where('disposisi', '=', $role)
+            ->where('laporan', '=', null)
+            ->count();
+        $agendaSelesai = Disposisi::where('disposisi', '=', $role)
+            ->where('laporan', '!=', null)
+            ->count();
+        $laporan = Disposisi::where('laporan', '!=', null)->count();
+        $peraturan = Arsip::where('jenis_dokumen', 1)->count();
+        $apbd = Arsip::where('jenis_dokumen', 2)->count();
+        $keuangan = Arsip::where('jenis_dokumen', 3)->count();
+        $slide = Arsip::where('jenis_dokumen', 4)->count();
+        $lainnya = Arsip::where('jenis_dokumen', 5)->count();
+        $dokumentasi = Dokumentasi::all()->count();
+
+        return view ('user.kepala_badan.dashboard', compact('user', 'agendaMasuk', 'agendaSelesai', 'laporan', 'peraturan', 'apbd', 'keuangan', 'slide', 'dokumentasi', 'lainnya'));
     }
 
     // Agenda Start
     public function indexAgenda()
     {
-        $agenda = Agenda::where('status', 0)->get();
-        return view('user.kepala_badan.agenda.index', compact('agenda'));
+        $agenda = DB::select(DB::raw('
+            SELECT disposisi.id AS id, agenda.tanggal_dokumen AS tanggal_dokumen, agenda.nomor_dokumen AS nomor_dokumen, agenda.asal_dokumen AS asal_dokumen, agenda.perihal AS perihal, agenda.file_path AS file_path, disposisi.disposisi AS disposisi, disposisi.catatan AS catatan, disposisi.laporan AS laporan
+            FROM disposisi
+            JOIN agenda ON disposisi.agenda_id = agenda.id
+            WHERE disposisi.disposisi = 2 AND disposisi.laporan IS NULL
+        '));
+
+        $agendaSelesai = DB::select(DB::raw('
+            SELECT disposisi.id AS id, agenda.tanggal_dokumen AS tanggal_dokumen, agenda.nomor_dokumen AS nomor_dokumen, agenda.asal_dokumen AS asal_dokumen, agenda.perihal AS perihal, agenda.file_path AS file_path, disposisi.disposisi AS disposisi, disposisi.catatan AS catatan, disposisi.laporan AS laporan
+            FROM disposisi
+            JOIN agenda ON disposisi.agenda_id = agenda.id
+            WHERE disposisi.disposisi = 2 AND disposisi.laporan IS NOT NULL
+        '));
+        return view('user.kepala_badan.agenda.index', compact('agenda', 'agendaSelesai'));
     }
 
     public function disposisiAgenda(Request $request , $id)
@@ -63,9 +92,38 @@ class KepalaBadanController extends Controller
             'status' => 1,
         ]);
 
-        Disposisi::create($disposisi);
+        Disposisi::where('agenda_id', $agenda->id)->update($disposisi);
         
         Alert::success('Berhasil', 'Berhasil Menambahkan Data Disposisi');
+        return redirect()->route('agendaKepalaBadan');
+    }
+
+    public function uploadLaporan($id)
+    {
+        $disposisi = Disposisi::findOrFail($id);
+        $agenda = Agenda::findOrFail($disposisi->agenda_id);
+
+        return view('user.kepala_badan.agenda.uploadLaporan', compact('agenda', 'disposisi'));
+    }
+
+    public function storeLaporan(Request $request, $id)
+    {
+        $request->validate([
+            'laporan' => 'sometimes|mimes:pdf,doc,docx',
+        ], [
+            'laporan.mimes' => 'File harus berupa pdf, doc, atau docx',
+        ]);
+
+        $disposisi = Disposisi::findOrFail($id);
+        
+        $file = $request->file('laporan');
+        $laporan = $file->storeAs('laporan', $file->getClientOriginalName(), 'public');
+
+        $disposisi->update([
+            'laporan' => $laporan,
+        ]);
+
+        Alert::success('Berhasil', 'Laporan Berhasil Diupload');
         return redirect()->route('agendaKepalaBadan');
     }
     // Agenda End
@@ -220,7 +278,7 @@ class KepalaBadanController extends Controller
         ];
 
         Arsip::create($arsip);
-        Alert::success('Berhasil', 'Berhasil Menambahkan Data Dokumen');
+        Alert::success('Berhasil', 'Berhasil Menambahkan Data Arsip');
         return redirect()->route('arsipKepalaBadan');
     }
 
@@ -273,7 +331,7 @@ class KepalaBadanController extends Controller
             ]);
         }
 
-        Alert::success('Berhasil', 'Berhasil Mengubah Data Dokumen');
+        Alert::success('Berhasil', 'Berhasil Mengubah Data Arsip');
         return redirect()->route('arsipKepalaBadan');
     }
 

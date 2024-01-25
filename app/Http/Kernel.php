@@ -90,5 +90,9 @@ class Kernel extends HttpKernel
         'adminAkuntansi' => \App\Http\Middleware\AdminAkuntansiMiddleware::class,
         'adminAset' => \App\Http\Middleware\AdminAsetMiddleware::class,
         'staff' => \App\Http\Middleware\StaffMiddleware::class,
+        'subbag' => \App\Http\Middleware\SubbagMiddleware::class,
+        'kabid' => \App\Http\Middleware\KabidMiddleware::class,
+        'subbid' => \App\Http\Middleware\SubbidMiddleware::class,
+        'admin' => \App\Http\Middleware\AdminMiddleware::class,
     ];
 }
