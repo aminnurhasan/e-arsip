@@ -84,7 +84,7 @@
                                         <span style="color:red">*</span>
                                     </label>
                                     <input type="file" name="file" class="form-control p-1">
-                                    @error('file_path')
+                                    @error('file')
                                         <span style="font-size: 12px; color:red" class="error-message">{{ $message }}</span>
                                     @enderror
                                 </div>

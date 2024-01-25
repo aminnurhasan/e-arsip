@@ -39,8 +39,22 @@
                                     <tr>
                                         <td>{{ \Carbon\Carbon::parse($item->tanggal_dokumen)->format('d M Y') }}</td>
 
-                                        @if ($item->disposisi == 24)
-                                            <td>Staff</td>
+                                        @if ($item->disposisi == 27)
+                                            <td>Staff Bidang Anggaran Pendapatan & Pembiayaan</td>
+                                        @elseif ($item->disposisi == 28)
+                                            <td>Staff Bidang Anggaran Belanja</td>
+                                        @elseif ($item->disposisi == 29)
+                                            <td>Staff Bidang Pengelolaan Kas</td>
+                                        @elseif ($item->disposisi == 30)
+                                            <td>Staff Bidang Administrasi Perbendaharaan</td>
+                                        @elseif ($item->disposisi == 31)
+                                            <td>Staff Bidang Pembukuan & Pelaporan</td>
+                                        @elseif ($item->disposisi == 32)
+                                            <td>Staff Bidang Verifikasi</td>
+                                        @elseif ($item->disposisi == 33)
+                                            <td>Staff Bidang Perencanaan & Penatausahaan</td>
+                                        @elseif ($item->disposisi == 34)
+                                            <td>Staff Bidang Penggunaan & Pemanfaatan</td>
                                         @endif
 
                                         <td>{{ $item->nomor_dokumen }}</td>

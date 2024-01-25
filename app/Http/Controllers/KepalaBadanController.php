@@ -117,7 +117,11 @@ class KepalaBadanController extends Controller
         $disposisi = Disposisi::findOrFail($id);
         
         $file = $request->file('laporan');
-        $laporan = $file->storeAs('laporan', $file->getClientOriginalName(), 'public');
+        if($file == null){
+            $laporan = null;
+        }else{
+            $laporan = $file->storeAs('laporan', $file->getClientOriginalName(), 'public');
+        }
 
         $disposisi->update([
             'laporan' => $laporan,
@@ -247,7 +251,7 @@ class KepalaBadanController extends Controller
 
     public function storeArsip(Request $request)
     {
-        $validator = Validator::make ( $request->all(), [
+        $request->validate([
             'pengelola' => 'required',
             'jenis_dokumen' => 'required',
             'tanggal_dokumen' => 'required',
@@ -381,15 +385,14 @@ class KepalaBadanController extends Controller
 
     public function storeDokumentasi(Request $request)
     {
-        $validator = Validator::make ( $request->all(), [
+        $request->validate([
             'tanggal_kegiatan' => 'required',
             'nama_kegiatan' => 'required',
-            'file' => 'required|mimes:jpg,jpeg,png',
+            'file' => 'required',
         ], [
             'tanggal_kegiatan.required' => 'Tanggal harus diisi!',
             'nama_kegiatan.required' => 'Nama Kegiatan harus diisi!',
             'file.required' => 'File harus diisi!',
-            'file.mimes' => 'File harus berupa jpg, jpeg, atau png!',
         ]);
 
         $dokumentasi = Dokumentasi::create([
@@ -465,7 +468,7 @@ class KepalaBadanController extends Controller
         };
 
         Alert::success('Berhasil', 'Berhasil Mengubah Data Dokumentasi');
-        return redirect()->route('dokumentasiSubbidAnggaranPendapatan');
+        return redirect()->route('dokumentasiKepalaBadan');
     }
     // Dokumentasi End
 }

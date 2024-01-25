@@ -46,7 +46,7 @@
                             </div>
                             <div class="form-group">
                                 <label for="">
-                                    Upload Dokumen
+                                    Upload Dokumen (jpg, jpeg, png)
                                     <span style="color:red">*</span>
                                 </label>
                                 <input type="file" name="file[]" class="form-control h-100" multiple>

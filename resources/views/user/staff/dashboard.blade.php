@@ -1,7 +1,7 @@
 @extends('user.staff.layouts.app')
 
 @section('content')
-    <div class="content-header">
+<div class="content-header">
     <div class="container-fluid">
         <div class="row mb-2">
             <div class="col-sm-6">
@@ -25,13 +25,13 @@
                             <div class="col-lg-3 col-6">
                                 <div class="small-box bg-info">
                                 <div class="inner">
-                                    <h3>{{$user}}</h3>
-                                    <p>User</p>
+                                    <h3>{{$agendaMasuk}}</h3>
+                                    <p>Agenda Masuk</p>
                                 </div>
                                 <div class="icon">
-                                    <i class="fas fa-user"></i>
+                                    <i class="fa-solid fa-calendar-days"></i>
                                 </div>
-                                <a href="{{route('userSuperAdmin')}}" class="small-box-footer">
+                                <a href="{{route('agendaStaff')}}" class="small-box-footer">
                                     Selengkapnya <i class="fas fa-arrow-circle-right"></i>
                                 </a>
                                 </div>
@@ -39,13 +39,13 @@
                             <div class="col-lg-3 col-6">
                                 <div class="small-box bg-info">
                                 <div class="inner">
-                                    <h3>{{$agenda}}</h3>
-                                    <p>Agenda</p>
+                                    <h3>{{$agendaSelesai}}</h3>
+                                    <p>Agenda Selesai</p>
                                 </div>
                                 <div class="icon">
-                                    <i class="fa-solid fa-calendar-days"></i>
+                                    <i class="fa-solid fa-check-to-slot"></i>
                                 </div>
-                                <a href="{{route('agendaSuperAdmin')}}" class="small-box-footer">
+                                <a href="{{route('agendaStaff')}}" class="small-box-footer">
                                     Selengkapnya <i class="fas fa-arrow-circle-right"></i>
                                 </a>
                                 </div>
@@ -59,7 +59,7 @@
                                 <div class="icon">
                                     <i class="fas fa-gavel"></i>
                                 </div>
-                                <a href="{{route('peraturanSuperAdmin')}}" class="small-box-footer">
+                                <a href="{{route('peraturanStaff')}}" class="small-box-footer">
                                     Selengkapnya <i class="fas fa-arrow-circle-right"></i>
                                 </a>
                                 </div>
@@ -73,7 +73,7 @@
                                 <div class="icon">
                                     <i class="fas fa-chart-column"></i>
                                 </div>
-                                <a href="{{route('apbdSuperAdmin')}}" class="small-box-footer">
+                                <a href="{{route('apbdStaff')}}" class="small-box-footer">
                                     Selengkapnya <i class="fas fa-arrow-circle-right"></i>
                                 </a>
                                 </div>
@@ -87,7 +87,7 @@
                                 <div class="icon">
                                     <i class="fas fa-coins"></i>
                                 </div>
-                                <a href="{{route('keuanganSuperAdmin')}}" class="small-box-footer">
+                                <a href="{{route('keuanganStaff')}}" class="small-box-footer">
                                     Selengkapnya <i class="fas fa-arrow-circle-right"></i>
                                 </a>
                                 </div>
@@ -101,7 +101,7 @@
                                 <div class="icon">
                                     <i class="fas fa-file-powerpoint"></i>
                                 </div>
-                                <a href="{{route('slideSuperAdmin')}}" class="small-box-footer">
+                                <a href="{{route('slideStaff')}}" class="small-box-footer">
                                     Selengkapnya <i class="fas fa-arrow-circle-right"></i>
                                 </a>
                                 </div>
@@ -115,7 +115,7 @@
                                 <div class="icon">
                                     <i class="fas fa-book"></i>
                                 </div>
-                                <a href="{{route('lainnyaSuperAdmin')}}" class="small-box-footer">
+                                <a href="{{route('lainnyaStaff')}}" class="small-box-footer">
                                     Selengkapnya <i class="fas fa-arrow-circle-right"></i>
                                 </a>
                                 </div>
@@ -129,7 +129,7 @@
                                 <div class="icon">
                                     <i class="fa-solid fa-image"></i>
                                 </div>
-                                <a href="{{route('dokumentasiSuperAdmin')}}" class="small-box-footer">
+                                <a href="{{route('dokumentasiStaff')}}" class="small-box-footer">
                                     Selengkapnya <i class="fas fa-arrow-circle-right"></i>
                                 </a>
                                 </div>

@@ -31,7 +31,7 @@
                                 <div class="icon">
                                     <i class="fa-solid fa-calendar-days"></i>
                                 </div>
-                                <a href="{{route('agendaKepalaBadan')}}" class="small-box-footer">
+                                <a href="{{route('agendaSekretaris')}}" class="small-box-footer">
                                     Selengkapnya <i class="fas fa-arrow-circle-right"></i>
                                 </a>
                                 </div>
@@ -45,7 +45,7 @@
                                 <div class="icon">
                                     <i class="fa-solid fa-check-to-slot"></i>
                                 </div>
-                                <a href="{{route('agendaKepalaBadan')}}" class="small-box-footer">
+                                <a href="{{route('agendaSekretaris')}}" class="small-box-footer">
                                     Selengkapnya <i class="fas fa-arrow-circle-right"></i>
                                 </a>
                                 </div>
@@ -59,7 +59,7 @@
                                 <div class="icon">
                                     <i class="fas fa-gavel"></i>
                                 </div>
-                                <a href="{{route('peraturanKepalaBadan')}}" class="small-box-footer">
+                                <a href="{{route('peraturanSekretaris')}}" class="small-box-footer">
                                     Selengkapnya <i class="fas fa-arrow-circle-right"></i>
                                 </a>
                                 </div>
@@ -73,7 +73,7 @@
                                 <div class="icon">
                                     <i class="fas fa-chart-column"></i>
                                 </div>
-                                <a href="{{route('apbdKepalaBadan')}}" class="small-box-footer">
+                                <a href="{{route('apbdSekretaris')}}" class="small-box-footer">
                                     Selengkapnya <i class="fas fa-arrow-circle-right"></i>
                                 </a>
                                 </div>
@@ -87,7 +87,7 @@
                                 <div class="icon">
                                     <i class="fas fa-coins"></i>
                                 </div>
-                                <a href="{{route('keuanganKepalaBadan')}}" class="small-box-footer">
+                                <a href="{{route('keuanganSekretaris')}}" class="small-box-footer">
                                     Selengkapnya <i class="fas fa-arrow-circle-right"></i>
                                 </a>
                                 </div>
@@ -101,7 +101,7 @@
                                 <div class="icon">
                                     <i class="fas fa-file-powerpoint"></i>
                                 </div>
-                                <a href="{{route('slideKepalaBadan')}}" class="small-box-footer">
+                                <a href="{{route('slideSekretaris')}}" class="small-box-footer">
                                     Selengkapnya <i class="fas fa-arrow-circle-right"></i>
                                 </a>
                                 </div>
@@ -115,7 +115,7 @@
                                 <div class="icon">
                                     <i class="fas fa-book"></i>
                                 </div>
-                                <a href="{{route('lainnyaKepalaBadan')}}" class="small-box-footer">
+                                <a href="{{route('lainnyaSekretaris')}}" class="small-box-footer">
                                     Selengkapnya <i class="fas fa-arrow-circle-right"></i>
                                 </a>
                                 </div>
@@ -129,7 +129,7 @@
                                 <div class="icon">
                                     <i class="fa-solid fa-image"></i>
                                 </div>
-                                <a href="{{route('dokumentasiKepalaBadan')}}" class="small-box-footer">
+                                <a href="{{route('dokumentasiSekretaris')}}" class="small-box-footer">
                                     Selengkapnya <i class="fas fa-arrow-circle-right"></i>
                                 </a>
                                 </div>

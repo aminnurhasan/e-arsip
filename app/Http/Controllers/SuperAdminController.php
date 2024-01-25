@@ -42,8 +42,13 @@ class SuperAdminController extends Controller
     // Agenda Start
     public function indexAgenda()
     {
-        $agenda = Agenda::all();
+        $agenda = Agenda::where('status', 0)->get();
         return view ('user.super_admin.agenda.index', compact('agenda'));
+    }
+
+    public function disposisiAgenda(){
+        $agenda = Agenda::where('status', 1)->get();
+        return view ('user.super_admin.agenda.disposisi', compact('agenda'));
     }
 
     public function createAgenda()
@@ -60,6 +65,7 @@ class SuperAdminController extends Controller
             'asal_dokumen' => 'required',
             'perihal' => 'required',
             'file' => 'required|mimes:pdf,doc,docx',
+            'tanggal_kegiatan' => 'required'
         ], [
             'jenis_dokumen.required' => 'Jenis Dokumen tidak boleh kosong',
             'tanggal_dokumen.required' => 'Tanggal Dokumen tidak boleh kosong',
@@ -67,6 +73,7 @@ class SuperAdminController extends Controller
             'perihal.required' => 'Perihal tidak boleh kosong',
             'file.required' => 'File tidak boleh kosong',
             'file.mimes' => 'File harus berupa pdf, doc, docx',
+            'tanggal_kegiatan.required' => 'Tanggal Kegiatan tidak boleh kosong'
         ]);
 
         $file = $request->file('file');
@@ -384,10 +391,10 @@ class SuperAdminController extends Controller
         // dd($user);
         if($statusGet == 0) {
             $user->update(['status' => 1]);
-            return redirect()->route('userSuperAdmin');
+            return redirect()->route('statusUserSuperAdmin');
         }else{
             $user->update(['status' => 0]);
-            return redirect()->route('userSuperAdmin');
+            return redirect()->route('statusUserSuperAdmin');
         }
     }
 

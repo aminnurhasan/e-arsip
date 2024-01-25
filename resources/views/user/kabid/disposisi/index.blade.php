@@ -39,18 +39,28 @@
                                     <tr>
                                         <td>{{ \Carbon\Carbon::parse($item->tanggal_dokumen)->format('d M Y') }}</td>
 
-                                        @if ($item->disposisi == 2)
-                                            <td>Kepala Badan</td>
-                                        @elseif ($item->disposisi == 3)
-                                            <td>Sekretaris</td>
-                                        @elseif ($item->disposisi == 4)
-                                            <td>Bidang Anggaran</td>
-                                        @elseif ($item->disposisi == 5)
-                                            <td>Bidang Perbendaharaan</td>
-                                        @elseif ($item->disposisi == 6)
-                                            <td>Bidang Akuntansi</td>
-                                        @else ()
-                                            <td>Bidang Aset</td>
+                                        @if ($item->disposisi == 8)
+                                            <td>SubBag Perencanaan & Evaluasi</td>
+                                        @elseif ($item->disposisi == 9)
+                                            <td>SubBag Keuangan</td>
+                                        @elseif ($item->disposisi == 10)
+                                            <td>SubBag Umum & Kepegawaian</td>
+                                        @elseif ($item->disposisi == 11)
+                                            <td>SubBid Anggaran Pendapatan & Pembiayaan</td>
+                                        @elseif ($item->disposisi == 12)
+                                            <td>SubBid Anggaran Belanja</td>
+                                        @elseif ($item->disposisi == 13)
+                                            <td>SubBid Pengelolaan Kas</td>
+                                        @elseif ($item->disposisi == 14)
+                                            <td>SubBid Administrasi Perbendaharaan</td>
+                                        @elseif ($item->disposisi == 15)
+                                            <td>SubBid Pembukuan & Pelaporan</td>
+                                        @elseif ($item->disposisi == 16)
+                                            <td>SubBid Verifikasi</td>
+                                        @elseif ($item->disposisi == 17)
+                                            <td>SubBid Perencanaan & Penatausahaan</td>
+                                        @elseif ($item->disposisi == 18)
+                                            <td>SubBid Penggunaan & Pemanfaatan</td>
                                         @endif
 
                                         <td>{{ $item->nomor_dokumen }}</td>

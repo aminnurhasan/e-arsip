@@ -44,9 +44,9 @@
                                         <td>{{ $item->jabatan }}</td>
                                         <td class="text-center">
                                             @if ($item->status == 0)
-                                                <a href="{{ route('statusUser', $item->id) }}" type="button" class="btn btn-danger">Non-aktif</a>
+                                                <a href="{{ route('statusUserKepalaBadan', $item->id) }}" type="button" class="btn btn-danger">Non-aktif</a>
                                             @else
-                                                <a href="{{ route('statusUser', $item->id) }}" type="button" class="btn btn-success">Aktif</a>
+                                                <a href="{{ route('statusUserKepalaBadan', $item->id) }}" type="button" class="btn btn-success">Aktif</a>
                                             @endif
                                         </td>
                                     </tr>

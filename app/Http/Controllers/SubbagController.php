@@ -147,13 +147,21 @@ class SubbagController extends Controller
     public function indexDisposisi()
     {
         $role = Auth()->user()->role;
-        $disposisi = DB::select(DB::raw('
-            SELECT agenda.tanggal_dokumen AS tanggal_dokumen, agenda.nomor_dokumen AS nomor_dokumen, agenda.asal_dokumen AS asal_dokumen, agenda.perihal AS perihal, agenda.file_path AS file_path, disposisi.disposisi AS disposisi, disposisi.catatan AS catatan, disposisi.laporan AS laporan
-            FROM disposisi
-            JOIN agenda ON disposisi.agenda_id = agenda.id
-            WHERE disposisi.dp2 = :role
-            OR disposisi.dp3 = :role
-        '), ['role' => $role,]);
+        $disposisi = DB::table('disposisi')
+            ->join('agenda', 'disposisi.agenda_id', '=', 'agenda.id')
+            ->select(
+                'agenda.tanggal_dokumen',
+                'agenda.nomor_dokumen',
+                'agenda.asal_dokumen',
+                'agenda.perihal',
+                'agenda.file_path',
+                'disposisi.disposisi',
+                'disposisi.catatan',
+                'disposisi.laporan'
+            )
+            ->where('disposisi.dp2', '=', $role)
+            ->orWhere('disposisi.dp3', '=', $role)
+            ->get();
 
         return view('user.subbag.disposisi.index', compact('disposisi'));
     }
@@ -318,7 +326,7 @@ class SubbagController extends Controller
 
     public function storeDokumentasi(Request $request)
     {
-        $validator = Validator::make ( $request->all(), [
+        $request->validate([
             'tanggal_kegiatan' => 'required',
             'nama_kegiatan' => 'required',
             'file' => 'required|mimes:jpg,jpeg,png',
@@ -402,7 +410,7 @@ class SubbagController extends Controller
         };
 
         Alert::success('Berhasil', 'Berhasil Mengubah Data Dokumentasi');
-        return redirect()->route('dokumentasiSubbidAnggaranPendapatan');
+        return redirect()->route('dokumentasiSubbag');
     }
 
     public function destroyDokumentasi($id)

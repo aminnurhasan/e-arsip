@@ -138,13 +138,21 @@ class KabidController extends Controller
     public function indexDisposisi()
     {
         $role = Auth()->user()->role;
-        $disposisi = DB::select(DB::raw('
-            SELECT agenda.tanggal_dokumen AS tanggal_dokumen, agenda.nomor_dokumen AS nomor_dokumen, agenda.asal_dokumen AS asal_dokumen, agenda.perihal AS perihal, agenda.file_path AS file_path, disposisi.disposisi AS disposisi, disposisi.catatan AS catatan, disposisi.laporan AS laporan
-            FROM disposisi
-            JOIN agenda ON disposisi.agenda_id = agenda.id
-            WHERE disposisi.dp2 = :role
-            OR disposisi.dp3 = :role
-        '), ['role' => $role]);
+        $disposisi = DB::table('disposisi')
+            ->join('agenda', 'disposisi.agenda_id', '=', 'agenda.id')
+            ->select(
+                'agenda.tanggal_dokumen',
+                'agenda.nomor_dokumen',
+                'agenda.asal_dokumen',
+                'agenda.perihal',
+                'agenda.file_path',
+                'disposisi.disposisi',
+                'disposisi.catatan',
+                'disposisi.laporan'
+            )
+            ->where('disposisi.dp2', '=', $role)
+            ->orWhere('disposisi.dp3', '=', $role)
+            ->get();
 
         return view('user.kabid.disposisi.index', compact('disposisi'));
     }
@@ -288,7 +296,7 @@ class KabidController extends Controller
 
     public function lainnyaIndex()
     {
-        $lainnya = Arsip::where('jenis_dokumen', 6)->get();
+        $lainnya = Arsip::where('jenis_dokumen', 5)->get();
         return view ('user.kabid.arsip.lainnya.index', compact('lainnya'));
     }
     // Arsip End

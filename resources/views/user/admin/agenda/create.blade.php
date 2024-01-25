@@ -77,15 +77,26 @@
                                     <span style="font-size: 12px; color:red" class="error-message">{{ $message }}</span>
                                 @enderror
                             </div>
-                            <div class="form-group">
-                                <label for="">
-                                    Upload Dokumen
-                                    <span style="color:red">*</span>
-                                </label>
-                                <input type="file" name="file" class="form-control h-100">
-                                @error('file_path')
-                                    <span style="font-size: 12px; color:red" class="error-message">{{ $message }}</span>
-                                @enderror
+                            <div class="form-group row">
+                                <div class="col-6">
+                                    <label for="">
+                                        Upload Dokumen
+                                        <span style="color:red">*</span>
+                                    </label>
+                                    <input type="file" name="file" class="form-control p-1">
+                                    @error('file')
+                                        <span style="font-size: 12px; color:red" class="error-message">{{ $message }}</span>
+                                    @enderror
+                                </div>
+                                <div class="col-6">
+                                    <label for="">
+                                        Tanggal Kegiatan
+                                    </label>
+                                    <input type="date" name="tanggal_kegiatan" class="form-control">
+                                    @error('tanggal_kegiatan')
+                                        <span style="font-size: 12px; color:red" class="error-message">{{ $message }}</span>
+                                    @enderror
+                                </div>
                             </div>
                             <button type="submit" class="btn btn-info">Simpan</button>
                         </form>

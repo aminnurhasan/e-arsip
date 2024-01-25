@@ -16,11 +16,12 @@
         <div class="row">
             <section class="col-lg-12">
                 <a href="{{route('createAgendaSuperAdmin')}}" class="btn btn-md btn-info mb-2">Tambah Data Agenda</a>
+                <a href="{{route('disposisiAgendaSuperAdmin')}}" class="btn btn-md btn-info mb-2">Agenda Didisposisikan</a>
                 <div class="card">
                     <div class="card-header">
                         <h3 class="card-title">
                             <i class="ion ion-clipboard mr-1"></i>
-                            List Data Agenda
+                            List Data Agenda Yang Belum Di Disposisiskan
                         </h3>
                     </div>
 

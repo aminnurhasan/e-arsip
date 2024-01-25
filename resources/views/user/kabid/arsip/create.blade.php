@@ -5,7 +5,7 @@
     <div class="container-fluid">
         <div class="row mb-2">
             <div class="col-sm-6">
-                <h1 class="m-0 text-dark">Tambah Data Dokumen</h1>
+                <h1 class="m-0 text-dark">Tambah Data Arsip</h1>
             </div>
         </div>
     </div>
@@ -104,7 +104,7 @@
                                     <span style="color:red">*</span>
                                 </label>
                                 <input type="file" name="file" class="form-control h-100">
-                                @error('file_path')
+                                @error('file')
                                     <span style="font-size: 12px; color:red" class="error-message">{{ $message }}</span>
                                 @enderror
                             </div>

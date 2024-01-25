@@ -1,4 +1,4 @@
-@extends('user.staff.layouts.app')
+@extends('user.admin.layouts.app')
 
 @section('content')
 <div class="content-header">

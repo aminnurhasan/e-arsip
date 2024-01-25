@@ -40,7 +40,11 @@
                                         <td>{{ \Carbon\Carbon::parse($item->tanggal_dokumen)->format('d M Y') }}</td>
 
                                         @if ($item->disposisi == 24)
-                                            <td>Staff</td>
+                                            <td>Staff Badan Perencanaan & Evaluasi</td>
+                                        @elseif ($item->disposisi == 25)
+                                            <td>Staff Badan Keuangan</td>
+                                        @elseif ($item->disposisi == 26)
+                                            <td>Staff Badan Umum & Kepegawaian</td>
                                         @endif
 
                                         <td>{{ $item->nomor_dokumen }}</td>

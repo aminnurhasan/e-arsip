@@ -16,6 +16,7 @@
         <div class="row">
             <section class="col-lg-12">
                 <a href="{{route('createAgendaAdmin')}}" class="btn btn-md btn-info mb-2">Tambah Data Agenda</a>
+                <a href="{{route('disposisiAgendaAdmin')}}" class="btn btn-md btn-info mb-2">Agenda Didisposisikan</a>
                 <div class="card">
                     <div class="card-header">
                         <h3 class="card-title">

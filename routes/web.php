@@ -23,7 +23,7 @@ Route::middleware(['auth', 'superAdmin'])->group(function () {
 
     // User
     Route::get('/superadmin/user', [SuperAdminController::class, 'indexUser'])->name('userSuperAdmin');
-    Route::get('/superadmin/user/status/{id}', [SuperAdminController::class, 'status'])->name('statusUser');
+    Route::get('/superadmin/user/status/{id}', [SuperAdminController::class, 'status'])->name('statusUserSuperAdmin');
     Route::get('/superadmin/user/create', [SuperAdminController::class, 'createUser'])->name('createUserSuperAdmin');
     Route::post('/superadmin/user/store', [SuperAdminController::class, 'storeUser'])->name('storeUserSuperAdmin');
     Route::get('/superadmin/user/{id}/edit', [SuperAdminController::class, 'editUser'])->name('editUserSuperAdmin');
@@ -31,6 +31,7 @@ Route::middleware(['auth', 'superAdmin'])->group(function () {
 
     // Agenda
     Route::get('/superadmin/agenda', [SuperAdminController::class, 'indexAgenda'])->name('agendaSuperAdmin');
+    Route::get('/superadmin/agenda/disposisi', [SuperAdminController::class, 'disposisiAgenda'])->name('disposisiAgendaSuperAdmin');
     Route::get('/superadmin/agenda/create', [SuperAdminController::class, 'createAgenda'])->name('createAgendaSuperAdmin');
     Route::post('/superadmin/agenda/store', [SuperAdminController::class, 'storeAgenda'])->name('storeAgendaSuperAdmin');
     Route::get('/superadmin/agenda/{id}/edit', [SuperAdminController::class, 'editAgenda'])->name('editAgendaSuperAdmin');
@@ -295,6 +296,7 @@ Route::middleware(['auth', 'admin'])->group(function () {
 
     // Agenda
     Route::get('/admin/agenda', [AdminController::class, 'indexAgenda'])->name('agendaAdmin');
+    Route::get('/admin/agenda/disposisi', [AdminController::class, 'disposisiAgenda'])->name('disposisiAgendaAdmin');
     Route::get('/admin/agenda/create', [AdminController::class, 'createAgenda'])->name('createAgendaAdmin');
     Route::post('/admin/agenda/store', [AdminController::class, 'storeAgenda'])->name('storeAgendaAdmin');
     Route::get('/admin/agenda/{id}/edit', [AdminController::class, 'editAgenda'])->name('editAgendaAdmin');

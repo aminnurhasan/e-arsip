@@ -392,7 +392,7 @@ class SekretarisController extends Controller
         };
 
         Alert::success('Berhasil', 'Berhasil Mengubah Data Dokumentasi');
-        return redirect()->route('dokumentasiSubbidAnggaranPendapatan');
+        return redirect()->route('dokumentasiSekretaris');
     }
 
     public function destroyDokumentasi($id)

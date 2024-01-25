@@ -15,7 +15,7 @@
     <div class="container-fluid">
         <div class="row">
             <section class="col-lg-12">
-                <a href="{{route('createDokumentasi')}}" class="btn btn-md btn-info mb-2">Tambah Dokumentasi</a>
+                <a href="{{route('createDokumentasiAdmin')}}" class="btn btn-md btn-info mb-2">Tambah Dokumentasi</a>
 
                 <div class="card">
                     <div class="card-header">

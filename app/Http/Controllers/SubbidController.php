@@ -24,7 +24,23 @@ class SubbidController extends Controller
 
     public function dashboard()
     {
-        return view ('user.subbag.dashboard');
+        $role = Auth()->user()->role;
+
+        $agendaMasuk = Disposisi::where('disposisi', '=', $role)
+            ->where('laporan', '=', null)
+            ->count();
+        $agendaSelesai = Disposisi::where('disposisi', '=', $role)
+            ->where('laporan', '!=', null)
+            ->count();
+        $laporan = Disposisi::where('laporan', '!=', null)->count();
+        $peraturan = Arsip::where('jenis_dokumen', 1)->count();
+        $apbd = Arsip::where('jenis_dokumen', 2)->count();
+        $keuangan = Arsip::where('jenis_dokumen', 3)->count();
+        $slide = Arsip::where('jenis_dokumen', 4)->count();
+        $lainnya = Arsip::where('jenis_dokumen', 5)->count();
+        $dokumentasi = Dokumentasi::all()->count();
+
+        return view ('user.subbid.dashboard', compact('agendaMasuk', 'agendaSelesai', 'laporan', 'peraturan', 'apbd', 'keuangan', 'slide', 'dokumentasi', 'lainnya'));
     }
 
     // Agenda Start
@@ -45,7 +61,7 @@ class SubbidController extends Controller
             WHERE disposisi.disposisi = :role AND disposisi.laporan IS NOT NULL
         '), ['role' => $role,]);
 
-        return view('user.subbag.agenda.index', compact('agenda', 'agendaSelesai'));
+        return view('user.subbid.agenda.index', compact('agenda', 'agendaSelesai'));
     }
 
     public function uploadLaporan($id)
@@ -53,7 +69,7 @@ class SubbidController extends Controller
         $disposisi = Disposisi::findOrFail($id);
         $agenda = Agenda::findOrFail($disposisi->agenda_id);
 
-        return view('user.subbag.agenda.uploadLaporan', compact('agenda', 'disposisi'));
+        return view('user.subbid.agenda.uploadLaporan', compact('agenda', 'disposisi'));
     }
 
     public function storeLaporan(Request $request, $id)
@@ -74,7 +90,7 @@ class SubbidController extends Controller
         ]);
 
         Alert::success('Berhasil', 'Laporan Berhasil Diupload');
-        return redirect()->route('agendaSubbag');
+        return redirect()->route('agendaSubbid');
     }
 
     public function disposisiAgenda($id)
@@ -82,7 +98,7 @@ class SubbidController extends Controller
         $disposisi = Disposisi::findOrFail($id);
         $agenda = Agenda::findOrFail($disposisi->agenda_id);
 
-        return view('user.subbag.agenda.disposisi', compact('agenda', 'disposisi'));
+        return view('user.subbid.agenda.disposisi', compact('agenda', 'disposisi'));
     }
 
     public function storeDisposisiAgenda(Request $request, $id)
@@ -102,7 +118,7 @@ class SubbidController extends Controller
              Disposisi::where('agenda_id', $agenda->id)->update($disposisi);
         
             Alert::success('Berhasil', 'Disposisi Berhasil Dikirim');
-            return redirect()->route('agendaSubbag');
+            return redirect()->route('agendaSubbid');
         }else if($disposisi->dp3 == null){
             $disposisi = [
                 'disposisi' => $ke,
@@ -112,7 +128,7 @@ class SubbidController extends Controller
             Disposisi::where('agenda_id', $agenda->id)->update($disposisi);
         
             Alert::success('Berhasil', 'Disposisi Berhasil Dikirim');
-            return redirect()->route('agendaSubbag');
+            return redirect()->route('agendaSubbid');
         }else{
             $disposisi = [
                 'disposisi' => $ke,
@@ -122,7 +138,7 @@ class SubbidController extends Controller
              Disposisi::where('agenda_id', $agenda->id)->update($disposisi);
         
             Alert::success('Berhasil', 'Disposisi Berhasil Dikirim');
-            return redirect()->route('agendaSubbag');
+            return redirect()->route('agendaSubbid');
         }
     }
     // Agenda End
@@ -131,15 +147,23 @@ class SubbidController extends Controller
     public function indexDisposisi()
     {
         $role = Auth()->user()->role;
-        $disposisi = DB::select(DB::raw('
-            SELECT agenda.tanggal_dokumen AS tanggal_dokumen, agenda.nomor_dokumen AS nomor_dokumen, agenda.asal_dokumen AS asal_dokumen, agenda.perihal AS perihal, agenda.file_path AS file_path, disposisi.disposisi AS disposisi, disposisi.catatan AS catatan, disposisi.laporan AS laporan
-            FROM disposisi
-            JOIN agenda ON disposisi.agenda_id = agenda.id
-            WHERE disposisi.dp2 = :role
-            OR disposisi.dp3 = :role
-        '), ['role' => $role,]);
+        $disposisi = DB::table('disposisi')
+            ->join('agenda', 'disposisi.agenda_id', '=', 'agenda.id')
+            ->select(
+                'agenda.tanggal_dokumen',
+                'agenda.nomor_dokumen',
+                'agenda.asal_dokumen',
+                'agenda.perihal',
+                'agenda.file_path',
+                'disposisi.disposisi',
+                'disposisi.catatan',
+                'disposisi.laporan'
+            )
+            ->where('disposisi.dp2', '=', $role)
+            ->orWhere('disposisi.dp3', '=', $role)
+            ->get();
 
-        return view('user.subbag.disposisi.index', compact('disposisi'));
+        return view('user.subbid.disposisi.index', compact('disposisi'));
     }
     // Disposisi End
 
@@ -156,13 +180,13 @@ class SubbidController extends Controller
         
         $dokumentasi = Dokumentasi::all()->count();
 
-        return view ('user.subbag.arsip.index', compact('arsip', 'peraturan', 'apbd', 'keuangan', 'slide', 'dokumentasi', 'lainnya'));
+        return view ('user.subbid.arsip.index', compact('arsip', 'peraturan', 'apbd', 'keuangan', 'slide', 'dokumentasi', 'lainnya'));
     }
 
     public function createArsip()
     {
         $arsip = Arsip::all();
-        return view ('user.subbag.arsip.create', compact('arsip'));
+        return view ('user.subbid.arsip.create', compact('arsip'));
     }
 
     public function storeArsip(Request $request)
@@ -199,13 +223,13 @@ class SubbidController extends Controller
 
         Arsip::create($arsip);
         Alert::success('Berhasil', 'Berhasil Menambahkan Data Dokumen');
-        return redirect()->route('arsipSubbag');
+        return redirect()->route('arsipSubbid');
     }
 
     public function editArsip($id)
     {
         $arsip = Arsip::findOrFail($id);
-        return view ('user.subbag.arsip.edit', compact('arsip'));
+        return view ('user.subbid.arsip.edit', compact('arsip'));
     }
 
     public function updateArsip(Request $request, $id)
@@ -252,37 +276,37 @@ class SubbidController extends Controller
         }
 
         Alert::success('Berhasil', 'Berhasil Mengubah Data Dokumen');
-        return redirect()->route('arsipSubbag');
+        return redirect()->route('arsipSubbid');
     }
 
     public function peraturanIndex()
     {
         $peraturan = Arsip::where('jenis_dokumen', 1)->get();
-        return view ('user.subbag.arsip.peraturan.index', compact('peraturan'));
+        return view ('user.subbid.arsip.peraturan.index', compact('peraturan'));
     }
 
     public function apbdIndex()
     {
         $apbd = Arsip::where('jenis_dokumen', 2)->get();
-        return view ('user.subbag.arsip.apbd.index', compact('apbd'));
+        return view ('user.subbid.arsip.apbd.index', compact('apbd'));
     }
 
     public function keuanganIndex()
     {
         $keuangan = Arsip::where('jenis_dokumen', 3)->get();
-        return view ('user.subbag.arsip.keuangan.index', compact('keuangan'));
+        return view ('user.subbid.arsip.keuangan.index', compact('keuangan'));
     }
 
     public function slideIndex()
     {
         $slide = Arsip::where('jenis_dokumen', 4)->get();
-        return view ('user.subbag.arsip.slide.index', compact('slide'));
+        return view ('user.subbid.arsip.slide.index', compact('slide'));
     }
 
     public function lainnyaIndex()
     {
         $lainnya = Arsip::where('jenis_dokumen', 5)->get();
-        return view ('user.subbag.arsip.lainnya.index', compact('lainnya'));
+        return view ('user.subbid.arsip.lainnya.index', compact('lainnya'));
     }
     // Arsip End
 
@@ -291,18 +315,18 @@ class SubbidController extends Controller
     {
         $dokumentasi = Dokumentasi::all();
         $foto = Foto::all();
-        return view ('user.subbag.dokumentasi.index', compact('dokumentasi', 'foto'));
+        return view ('user.subbid.dokumentasi.index', compact('dokumentasi', 'foto'));
     }
 
     public function createDokumentasi()
     {
         $dokumentasi = Dokumentasi::all();
-        return view ('user.subbag.dokumentasi.create', compact('dokumentasi'));
+        return view ('user.subbid.dokumentasi.create', compact('dokumentasi'));
     }
 
     public function storeDokumentasi(Request $request)
     {
-        $validator = Validator::make ( $request->all(), [
+        $request->validate([
             'tanggal_kegiatan' => 'required',
             'nama_kegiatan' => 'required',
             'file' => 'required|mimes:jpg,jpeg,png',
@@ -333,7 +357,7 @@ class SubbidController extends Controller
         }
     
         Alert::success('Berhasil', 'Berhasil Menambahkan Data Dokumentasi');
-        return redirect()->route('dokumentasiSubbag');
+        return redirect()->route('dokumentasiSubbid');
     }
 
     public function showDokumentasi($id)
@@ -341,13 +365,13 @@ class SubbidController extends Controller
         $dokumentasi = Dokumentasi::find($id);
         $foto = Foto::where('dokumentasi_id', $id)->get();
 
-        return view ('user.subbag.dokumentasi.show', compact('dokumentasi', 'foto'));
+        return view ('user.subbid.dokumentasi.show', compact('dokumentasi', 'foto'));
     }
 
     public function editDokumentasi($id)
     {
         $dokumentasi = Dokumentasi::with('foto')->findOrFail($id);
-        return view ('user.subbag.dokumentasi.edit', ['dokumentasi' => $dokumentasi]);
+        return view ('user.subbid.dokumentasi.edit', ['dokumentasi' => $dokumentasi]);
     }
 
     public function updateDokumentasi(Request $request, $id)
@@ -386,7 +410,7 @@ class SubbidController extends Controller
         };
 
         Alert::success('Berhasil', 'Berhasil Mengubah Data Dokumentasi');
-        return redirect()->route('dokumentasiSubbidAnggaranPendapatan');
+        return redirect()->route('dokumentasiSubbid');
     }
 
     public function destroyDokumentasi($id)
@@ -402,7 +426,7 @@ class SubbidController extends Controller
         $dokumentasi->delete();
 
         Alert::success('Berhasil', 'Berhasil Menghapus Data Dokumentasi');
-        return redirect()->route('dokumentasiSubbag');
+        return redirect()->route('dokumentasiSubbid');
     }
     // Dokumentasi End
 }

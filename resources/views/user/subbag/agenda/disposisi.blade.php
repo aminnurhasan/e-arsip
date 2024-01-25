@@ -34,7 +34,13 @@
                                     </label>
                                     <select name="disposisi" id="" class="form-control">
                                         <option value="">-- PILIH JABATAN --</option>
-                                        <option value="24">Staff</option>
+                                        @if (auth()->user()->role == 8)
+                                            <option value="24">Staff Badan Perencanaan & Evaluasi</option>
+                                        @elseif (auth()->user()->role == 9)
+                                            <option value="25">Staff Badan Keuangan</option>
+                                        @elseif (auth()->user()->role == 10)
+                                            <option value="26">Staff Badan Umum & Kepegawaian</option>
+                                        @endif
                                     </select>
                                 </div>
                             </div>

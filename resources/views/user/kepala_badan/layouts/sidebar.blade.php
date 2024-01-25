@@ -13,7 +13,7 @@
                 <img src="{{ asset('adminlte/dist/img/user.svg') }}" class="img-circle elevation-2" alt="User Image">
             </div>
             <div class="info">
-                <span class="d-block">{{ Auth::user()->name }}</span>
+                <span class="d-block">{{ substr(Auth::user()->name, 0, 20) }}</span>
             </div>
           </div>
 

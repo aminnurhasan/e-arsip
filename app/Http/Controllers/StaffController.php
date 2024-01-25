@@ -24,7 +24,23 @@ class StaffController extends Controller
 
     public function dashboard()
     {
-        return view ('user.staff.dashboard');
+        $role = Auth()->user()->role;
+
+        $agendaMasuk = Disposisi::where('disposisi', '=', $role)
+            ->where('laporan', '=', null)
+            ->count();
+        $agendaSelesai = Disposisi::where('disposisi', '=', $role)
+            ->where('laporan', '!=', null)
+            ->count();
+        $laporan = Disposisi::where('laporan', '!=', null)->count();
+        $peraturan = Arsip::where('jenis_dokumen', 1)->count();
+        $apbd = Arsip::where('jenis_dokumen', 2)->count();
+        $keuangan = Arsip::where('jenis_dokumen', 3)->count();
+        $slide = Arsip::where('jenis_dokumen', 4)->count();
+        $lainnya = Arsip::where('jenis_dokumen', 5)->count();
+        $dokumentasi = Dokumentasi::all()->count();
+
+        return view ('user.staff.dashboard', compact('agendaMasuk', 'agendaSelesai', 'laporan', 'peraturan', 'apbd', 'keuangan', 'slide', 'dokumentasi', 'lainnya'));
     }
 
     // Agenda Start
@@ -67,7 +83,11 @@ class StaffController extends Controller
         $disposisi = Disposisi::findOrFail($id);
         
         $file = $request->file('laporan');
-        $laporan = $file->storeAs('laporan', $file->getClientOriginalName(), 'public');
+        if ($file == '') {
+            $laporan = null;
+        } else {
+            $laporan = $file->storeAs('laporan', $file->getClientOriginalName(), 'public');
+        }
 
         $disposisi->update([
             'laporan' => $laporan,
@@ -253,15 +273,14 @@ class StaffController extends Controller
 
     public function storeDokumentasi(Request $request)
     {
-        $validator = Validator::make ( $request->all(), [
+        $request->validate([
             'tanggal_kegiatan' => 'required',
             'nama_kegiatan' => 'required',
-            'file' => 'required|mimes:jpg,jpeg,png',
+            'file' => 'required',
         ], [
             'tanggal_kegiatan.required' => 'Tanggal harus diisi!',
             'nama_kegiatan.required' => 'Nama Kegiatan harus diisi!',
             'file.required' => 'File harus diisi!',
-            'file.mimes' => 'File harus berupa jpg, jpeg, atau png!',
         ]);
 
         $dokumentasi = Dokumentasi::create([
@@ -337,7 +356,7 @@ class StaffController extends Controller
         };
 
         Alert::success('Berhasil', 'Berhasil Mengubah Data Dokumentasi');
-        return redirect()->route('dokumentasiSubbidAnggaranPendapatan');
+        return redirect()->route('dokumentasiStaff');
     }
 
     public function destroyDokumentasi($id)

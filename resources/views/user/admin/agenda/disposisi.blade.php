@@ -1,11 +1,11 @@
-@extends('user.sekretaris.subbag_perencanaan.layouts.app')
+@extends('user.admin.layouts.app')
 
 @section('content')
 <div class="content-header">
     <div class="container-fluid">
         <div class="row mb-2">
             <div class="col-sm-6">
-                <h1 class="m-0 text-dark">Data Disposisi</h1>
+                <h1 class="m-0 text-dark">Data Agenda</h1>
             </div>
         </div>
     </div>
@@ -15,11 +15,12 @@
     <div class="container-fluid">
         <div class="row">
             <section class="col-lg-12">
+                <a href="{{route('agendaAdmin')}}" class="btn btn-md btn-info mb-2">Kembali</a>
                 <div class="card">
                     <div class="card-header">
                         <h3 class="card-title">
                             <i class="ion ion-clipboard mr-1"></i>
-                            List Data Disposisi
+                            List Data Agenda Yang Sudah Di Disposisikan
                         </h3>
                     </div>
 
@@ -28,28 +29,26 @@
                             <thead>
                                 <tr>
                                     <th class="col-1">Tanggal</th>
-                                    <th class="col-2">Kepada</th>
                                     <th class="col-2">Nomor</th>
-                                    <th class="col-2">Perihal</th>
+                                    <th class="col-3">Perihal</th>
                                     <th class="col-2">Asal Dokumen</th>
-                                    <th class="col-1">Unduh</th>
+                                    <th class="col-1">Aksi</th>
                                 </tr>
                             </thead>
-                            <tbody>
-                                @foreach ($disposisi as $item)
+                                @foreach ($agenda as $item)
                                     <tr>
                                         <td>{{ \Carbon\Carbon::parse($item->tanggal_dokumen)->format('d M Y') }}</td>
-
-                                        @if ($item->disposisi == 24)
-                                            <td>Staff</td>
-                                        @endif
-
                                         <td>{{ $item->nomor_dokumen }}</td>
                                         <td>{{ $item->perihal }}</td>
                                         <td>{{ $item->asal_dokumen }}</td>
-
                                         <td style="text-align: center">
-                                            <a href="{{asset('storage/' .$item->file_path)}}" download class="btn btn-primary btn-sm ">Unduh</a>
+                                            <a href="{{asset('storage/' .$item->file_path)}}" download class="btn btn-primary btn-sm "><ion-icon name="cloud-download-outline"></ion-icon></a>
+                                            <form onsubmit="return confirm('Apakah Anda Ingin Menghapus Data ?')" data-confirm-delete="true" class="d-inline" 
+                                            action="{{ url('/admin/agenda/' . $item->id) }}" method="post">
+                                                @csrf
+                                                @method('DELETE')
+                                                <button type="submit" name='submit' class="btn btn-danger btn-sm fas fa-trash-can"></button>
+                                            </form>
                                         </td>
                                     </tr>
                                 @endforeach

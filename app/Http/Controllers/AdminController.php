@@ -13,6 +13,7 @@ use RealRashid\SweetAlert\Facades\Alert;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\DB;
 
 class AdminController extends Controller
@@ -57,6 +58,11 @@ class AdminController extends Controller
         return view ('user.admin.agenda.index', compact('agenda'));
     }
 
+    public function disposisiAgenda(){
+        $agenda = Agenda::where('status', 1)->get();
+        return view ('user.admin.agenda.disposisi', compact('agenda'));
+    }
+
     public function createAgenda()
     {
         $agenda = Agenda::where('status', 1)->get();
@@ -83,16 +89,25 @@ class AdminController extends Controller
         $file = $request->file('file');
         $file_path = $file->storeAs('agenda', $file->getClientOriginalName(), 'public');
 
-        $agenda = [
-            'jenis_dokumen' => $request->jenis_dokumen,
-            'tanggal_dokumen' => $request->tanggal_dokumen,
-            'nomor_dokumen' => $request->nomor_dokumen,
-            'asal_dokumen' => $request->asal_dokumen,
-            'perihal' => $request->perihal,
-            'file_path' => $file_path,
-            'status' => 0
-        ];
-        Agenda::create($agenda);
+        $agenda = new Agenda;
+        $agenda->jenis_dokumen = $request->jenis_dokumen;
+        $agenda->tanggal_dokumen = $request->tanggal_dokumen;
+        $agenda->nomor_dokumen = $request->nomor_dokumen;
+        $agenda->asal_dokumen = $request->asal_dokumen;
+        $agenda->perihal = $request->perihal;
+        $agenda->tanggal_kegiatan = $request->tanggal_kegiatan;
+        $agenda->file_path = $file_path;
+        $agenda->status = 0;
+        $agenda->save();
+
+        $disposisi = new Disposisi;
+        $disposisi->agenda_id = $agenda->id;
+        $disposisi->disposisi = 2;
+        $disposisi->save();
+
+        $kepalaBadan = User::where('role', 2)->first();
+        $kepalaBadan->notify(new AgendaAddNotification($agenda));
+
         Alert::success('Berhasil', 'Berhasil Menambahkan Data Agenda');
         return redirect()->route('agendaAdmin');
     }
@@ -132,7 +147,7 @@ class AdminController extends Controller
 
     public function storeArsip(Request $request)
     {
-        $validator = Validator::make ( $request->all(), [
+        $request->validate([
             'pengelola' => 'required',
             'jenis_dokumen' => 'required',
             'tanggal_dokumen' => 'required',
@@ -266,15 +281,14 @@ class AdminController extends Controller
 
     public function storeDokumentasi(Request $request)
     {
-        $validator = Validator::make ( $request->all(), [
+        $request->validate([
             'tanggal_kegiatan' => 'required',
             'nama_kegiatan' => 'required',
-            'file' => 'required|mimes:jpg,jpeg,png',
+            'file' => 'required',
         ], [
             'tanggal_kegiatan.required' => 'Tanggal harus diisi!',
             'nama_kegiatan.required' => 'Nama Kegiatan harus diisi!',
             'file.required' => 'File harus diisi!',
-            'file.mimes' => 'File harus berupa jpg, jpeg, atau png!',
         ]);
 
         $dokumentasi = Dokumentasi::create([
@@ -350,7 +364,7 @@ class AdminController extends Controller
         };
 
         Alert::success('Berhasil', 'Berhasil Mengubah Data Dokumentasi');
-        return redirect()->route('dokumentasiSubbidAnggaranPendapatan');
+        return redirect()->route('dokumentasiAdmin');
     }
 
     public function destroyDokumentasi($id)
@@ -373,7 +387,17 @@ class AdminController extends Controller
     // Staff Start
     public function indexStaff()
     {
-        $staff = User::whereIn('role', [31, 32])->get();
+        if(Auth::user()->role == 19){
+            $staff = User::whereIn('role', [24, 25, 26])->get();
+        }elseif(Auth::user()->role == 20){
+            $staff = User::whereIn('role', [27, 28])->get();
+        }elseif(Auth::user()->role == 21){
+            $staff = User::whereIn('role', [29, 30])->get();
+        }elseif(Auth::user()->role == 22){
+            $staff = User::whereIn('role', [31, 32])->get();
+        }else{
+            $staff = User::whereIn('role', [33, 34])->get();
+        }
         return view ('user.admin.staff.index', compact('staff'));
     }
 
@@ -400,11 +424,30 @@ class AdminController extends Controller
     {
         $jabatan = "";
         $role = $request->input('role');
-        if ($role == 33){
+        if ($role == 24){
+            $jabatan = "Staff SubBag Perencanaan dan Evaluasi";
+        }elseif ($role == 25){
+            $jabatan = "Staff SubBag Keuangan";
+        }elseif ($role == 26){
+            $jabatan = "Staff SubBag Umum dan Kepegawaian";
+        }elseif ($role == 27){
+            $jabatan = "Staff SubBid Anggaran dan Pendapatan";
+        }elseif ($role == 28){
+            $jabatan = "Staff SubBid Anggaran Belanja";
+        }elseif ($role == 29){
+            $jabatan = "Staff SubBid Pengelolaan Kas";
+        }elseif ($role == 30){
+            $jabatan = "Staff SubBid Administrasi Perbendaharaan";
+        }elseif ($role == 31){
+            $jabatan = "Staff SubBid Pembukuan dan Pelaporan";
+        }elseif ($role == 32){
+            $jabatan = "Staff SubBid Verifikasi";
+        }elseif ($role == 33){
             $jabatan = "Staff SubBid Perencanaan dan Penatausahaan";
         }elseif ($role == 34){
             $jabatan = "Staff SubBid Penggunaan dan Pemanfaatan";
         }
+
         $request -> validate ([
             'nip' => 'required| unique:user',
             'name' => 'required',
@@ -431,7 +474,7 @@ class AdminController extends Controller
         ];
         User::create($staff);
         Alert::success('Berhasil', 'Berhasil Menambahkan Data Staff');
-        return redirect ('/admin_sekretaris/staff');
+        return redirect ('/admin/staff');
     }
 
     public function editStaff($id)
@@ -464,7 +507,7 @@ class AdminController extends Controller
         ];
         $staff -> update($update);
         Alert::success('Berhasil', 'Berhasil Merubah Data Staff');
-        return redirect ('/admin_sekretaris/staff');
+        return redirect ('/admin/staff');
     }
     // Staff End
 }

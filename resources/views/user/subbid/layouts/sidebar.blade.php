@@ -5,16 +5,15 @@
     </a>
 
     <div class="sidebar">
-
       <!-- Sidebar Menu -->
       <nav class="mt-2">
-        <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
+        <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false" style="overflow-x: hidden">
           <div class="user-panel mt-1 pb-3 mb-3 d-flex">
             <div class="image">
                 <img src="{{ asset('adminlte/dist/img/user.svg') }}" class="img-circle elevation-2" alt="User Image">
             </div>
             <div class="info">
-                <span class="d-block">{{ Auth::user()->name }}</span>
+                <span class="d-block">{{ substr(Auth::user()->name, 0, 20) }}</span>
             </div>
           </div>
 
