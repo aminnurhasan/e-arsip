@@ -17,6 +17,7 @@ use Illuminate\Support\Facades\DB;
 use App\Notifications\AgendaAddNotification;
 use App\Mail\agendaMail;
 use Illuminate\Support\Facades\Mail;
+use Illuminate\Support\Facades\Auth;
 
 class SuperAdminController extends Controller
 {
@@ -65,7 +66,6 @@ class SuperAdminController extends Controller
             'asal_dokumen' => 'required',
             'perihal' => 'required',
             'file' => 'required|mimes:pdf,doc,docx',
-            'tanggal_kegiatan' => 'required'
         ], [
             'jenis_dokumen.required' => 'Jenis Dokumen tidak boleh kosong',
             'tanggal_dokumen.required' => 'Tanggal Dokumen tidak boleh kosong',
@@ -73,7 +73,6 @@ class SuperAdminController extends Controller
             'perihal.required' => 'Perihal tidak boleh kosong',
             'file.required' => 'File tidak boleh kosong',
             'file.mimes' => 'File harus berupa pdf, doc, docx',
-            'tanggal_kegiatan.required' => 'Tanggal Kegiatan tidak boleh kosong'
         ]);
 
         $file = $request->file('file');
@@ -85,7 +84,6 @@ class SuperAdminController extends Controller
         $agenda->nomor_dokumen = $request->nomor_dokumen;
         $agenda->asal_dokumen = $request->asal_dokumen;
         $agenda->perihal = $request->perihal;
-        $agenda->tanggal_kegiatan = $request->tanggal_kegiatan;
         $agenda->file_path = $file_path;
         $agenda->status = 0;
         $agenda->save();
@@ -582,4 +580,37 @@ class SuperAdminController extends Controller
         return redirect ('/superadmin/user');
     }
     // User End
+
+    // Ganti Password Start
+    public function gantiPassword()
+    {
+        $user = User::findOrFail(Auth::user()->id);
+        return view ('user.super_admin.password.index', compact('user'));
+    }
+
+    public function updatePassword(Request $request, $id)
+    {
+        $user = User::findOrFail($id);
+        $request->validate([
+            'password_lama' => 'required',
+            'password' => 'required|confirmed',
+        ], [
+            'password_lama.required' => 'Masukkan password lama Anda.',
+            'password.required' => 'Masukkan password baru.',
+            'password.confirmed' => 'Konfirmasi password baru tidak cocok.',
+        ]);
+
+        $user = Auth::user();
+
+        if (!Hash::check($request->password_lama, $user->password)) {
+            return back()->withErrors(['password_lama' => 'Password lama salah'])->withInput();
+        }
+
+        $user->password = Hash::make($request->password);
+        $user->save();
+
+        Alert::success('Berhasil', 'Berhasil Mengubah Password');
+        return redirect()->route('dashboardSuperAdmin');
+    }
+    // Ganti Password End
 }

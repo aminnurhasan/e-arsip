@@ -1,7 +1,7 @@
 <aside class="main-sidebar sidebar-light-secondary elevation-4" style="background-color: lightgray; position: fixed">
     <a href="{{route('dashboardSuperAdmin')}}" class="brand-link">
-      <img src="{{asset('adminlte/dist/img/e.png')}}" alt="E Logo" class="brand-image img-circle elevation-3" style="opacity: .8">
-      <span class="brand-text font-weight-light">- Arsip Kab. Lamongan</span>
+      <img src="{{asset('image/SIKAP Hitam.png')}}" alt="E Logo" class="brand-image img-circle elevation-3" style="opacity: .8">
+      <span class="brand-text font-weight-light">SIKAP Kab. Lamongan</span>
     </a>
     <div class="sidebar">
       <nav class="mt-2">
@@ -51,6 +51,13 @@
           </li>
 
           <div class="user-panel mt-1 pb-2 mb-3 d-flex"></div>
+
+          <li class="nav-item">
+            <a href="{{url('/superadmin/gantipassword')}}" class="nav-link">
+              <i class="nav-icon fa-solid fa-key"></i>
+              <p>Ganti Password</p>
+            </a>
+          </li>
 
           <li class="nav-item">
             <form id="logout-form" action="{{ url('/logout') }}" method="POST" style="display: none;">

@@ -7,11 +7,27 @@
     <!-- CSRF Token -->
     <meta name="csrf-token" content="{{ csrf_token() }}">
 
+    <link rel="icon" type="image/png" href="{{asset('image/SIKAP Hitam.png')}}">
+
     <title>SIKAP (Sistem Informasi dan Komunikasi Administrasi Perkantoran)</title>
 
     <!-- Fonts -->
     <link rel="dns-prefetch" href="//fonts.bunny.net">
     <link href="https://fonts.bunny.net/css?family=Nunito" rel="stylesheet">
+
+    <style>
+        @media only screen and (min-width: 769px) {
+            .logo {
+                max-width: 40%;
+            }
+        }
+
+        @media only screen and (max-width: 768px) {
+            .logo {
+                max-width: 80%;
+            }
+        }
+    </style>
 
     <!-- Scripts -->
     @vite(['resources/sass/app.scss', 'resources/js/app.js'])
@@ -19,13 +35,10 @@
 <body>
     <div id="app">
         <div class="container pt-4" style="text-align: center">
-            <h1 class="text-dark"><strong>SIKAP</strong></h1>
-            <h5>Sistem Informasi dan Komunikasi</h5>
-            <h5>Administrasi Perkantoran</h4>
-            <h5><strong>Kabupaten Lamongan</strong></h5>
+            <img class="logo" src="{{asset('image/Logo SIKAP.png')}}" alt="">
         </div>
 
-        <main class="py-4">
+        <main class="py-4 mt-2">
             @yield('content')
         </main>
     </div>

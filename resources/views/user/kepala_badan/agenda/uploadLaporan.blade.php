@@ -15,7 +15,7 @@
     <div class="container-fluid">
         <div class="row">
             <section class="col-lg-12">
-                <a href="{{ route('agendaKepalaBadan') }}" class="btn btn-md btn-info mb-2">Kembali</a>
+                <a href="{{ route('agendaSayaKepalaBadan') }}" class="btn btn-md btn-info mb-2">Kembali</a>
                 <div class="card">  
                     <div class="card-body">
                         <form action="{{ route('storeLaporanKepalaBadan', $disposisi->id) }}" method="post" enctype="multipart/form-data">

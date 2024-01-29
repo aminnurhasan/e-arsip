@@ -14,6 +14,7 @@ use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Hash;
 
 class SubbagController extends Controller
 {
@@ -27,10 +28,18 @@ class SubbagController extends Controller
         $role = Auth()->user()->role;
 
         $agendaMasuk = Disposisi::where('disposisi', '=', $role)
-            ->where('laporan', '=', null)
+            ->where('selesaikan', '=', 0)
             ->count();
-        $agendaSelesai = Disposisi::where('disposisi', '=', $role)
-            ->where('laporan', '!=', null)
+        $agendaSelesai = Disposisi::join('agenda', 'disposisi.agenda_id', '=', 'agenda.id')
+            ->where('disposisi.disposisi', $role)
+            ->where('disposisi.selesaikan', 1)
+            ->where(function ($query) {
+                $query->where('agenda.tindak_lanjut', '<>', 4)
+                    ->orWhere(function ($subquery) {
+                        $subquery->where('agenda.tindak_lanjut', 4)
+                            ->whereNotNull('disposisi.laporan');
+                    });
+            })
             ->count();
         $laporan = Disposisi::where('laporan', '!=', null)->count();
         $peraturan = Arsip::where('jenis_dokumen', 1)->count();
@@ -48,20 +57,66 @@ class SubbagController extends Controller
     {
         $role = Auth()->user()->role;
         $agenda = DB::select(DB::raw('
-            SELECT disposisi.id AS id, agenda.tanggal_dokumen AS tanggal_dokumen, agenda.nomor_dokumen AS nomor_dokumen, agenda.asal_dokumen AS asal_dokumen, agenda.perihal AS perihal, agenda.file_path AS file_path, disposisi.disposisi AS disposisi, disposisi.catatan AS catatan, disposisi.laporan AS laporan
+            SELECT agenda.id AS id, agenda.tanggal_dokumen AS tanggal_dokumen, agenda.nomor_dokumen AS nomor_dokumen, agenda.asal_dokumen AS asal_dokumen, agenda.perihal AS perihal, agenda.file_path AS file_path, disposisi.disposisi AS disposisi, disposisi.catatan AS catatan, disposisi.laporan AS laporan
             FROM disposisi
             JOIN agenda ON disposisi.agenda_id = agenda.id
-            WHERE disposisi.disposisi = :role AND disposisi.laporan IS NULL
-        '), ['role' => $role,]);
+            WHERE disposisi.disposisi = :role AND disposisi.laporan IS NULL AND disposisi.selesaikan = 0
+        '), ['role' => $role]);
 
-        $agendaSelesai = DB::select(DB::raw('
-            SELECT disposisi.id AS id, agenda.tanggal_dokumen AS tanggal_dokumen, agenda.nomor_dokumen AS nomor_dokumen, agenda.asal_dokumen AS asal_dokumen, agenda.perihal AS perihal, agenda.file_path AS file_path, disposisi.disposisi AS disposisi, disposisi.catatan AS catatan, disposisi.laporan AS laporan
-            FROM disposisi
-            JOIN agenda ON disposisi.agenda_id = agenda.id
-            WHERE disposisi.disposisi = :role AND disposisi.laporan IS NOT NULL
-        '), ['role' => $role,]);
+        return view('user.subbag.agenda.index', compact('agenda'));
+    }
 
-        return view('user.subbag.agenda.index', compact('agenda', 'agendaSelesai'));
+    public function tindakLanjut($id){
+        $agenda = Agenda::findOrFail($id);
+        $disposisi = Disposisi::where('agenda_id', $id)->first();
+        $tindakan = $agenda->tindak_lanjut;
+        return view('user.subbag.agenda.tindakan', compact('agenda', 'disposisi', 'tindakan'));
+    }
+
+    public function storeTindakLanjut(Request $request, $id)
+    {
+        $agenda = Agenda::findOrFail($id);
+        $dp = Disposisi::where('agenda_id', $id)->first();
+        $disposisi = $request->disposisi;
+        $tindak_lanjut = $request->tindak_lanjut;
+        $catatan = $request->catatan;
+        $role = Auth()->user()->role;
+
+        $request->validate([
+            'disposisi' => 'required',
+        ], [
+            'disposisi.required' => 'Disposisi harus diisi!',
+        ]);
+
+        if ($tindak_lanjut == 4){
+            $agenda->update([
+                'tanggal_kegiatan' => $request->tanggal_kegiatan,
+                'tindak_lanjut' => $tindak_lanjut,
+            ]);
+        }else{
+            $agenda->update([
+                'tindak_lanjut' => $request->tindak_lanjut,
+            ]);
+        }
+
+        if($dp->dp3 == null){
+            $dp = [
+                'disposisi' => $disposisi,
+                'catatan' => $catatan,
+                'dp3' => $role,
+            ];
+        }else if($dp->dp4 == null){
+            $dp = [
+                'disposisi' => $disposisi,
+                'catatan' => $catatan,
+                'dp4' => $role,
+            ];
+        }
+        // dd($dp);
+        Disposisi::where('agenda_id', $id)->update($dp);
+
+        Alert::success('Berhasil', 'Berhasil Menambahkan Data Tindak Lanjut');
+        return redirect()->route('agendaSubbag');
     }
 
     public function uploadLaporan($id)
@@ -83,63 +138,49 @@ class SubbagController extends Controller
         $disposisi = Disposisi::findOrFail($id);
         
         $file = $request->file('laporan');
-        $laporan = $file->storeAs('laporan', $file->getClientOriginalName(), 'public');
+        if($file == null){
+            $laporan = null;
+        }else{
+            $laporan = $file->storeAs('laporan', $file->getClientOriginalName(), 'public');
+        }
 
         $disposisi->update([
             'laporan' => $laporan,
         ]);
 
         Alert::success('Berhasil', 'Laporan Berhasil Diupload');
-        return redirect()->route('agendaSubbag');
+        return redirect()->route('agendaSayaSubbag');
     }
 
-    public function disposisiAgenda($id)
+    public function indexAgendaSaya()
+    {
+        $role = Auth()->user()->role;
+        $agenda = DB::select(DB::raw('
+            SELECT disposisi.id AS id, agenda.tanggal_dokumen AS tanggal_dokumen, agenda.nomor_dokumen AS nomor_dokumen, agenda.asal_dokumen AS asal_dokumen, agenda.perihal AS perihal, agenda.file_path AS file_path, disposisi.disposisi AS disposisi, disposisi.catatan AS catatan, disposisi.laporan AS laporan, agenda.tindak_lanjut AS tindak_lanjut
+            FROM disposisi
+            JOIN agenda ON disposisi.agenda_id = agenda.id
+            WHERE disposisi.disposisi = :role AND agenda.status = 1 AND disposisi.selesaikan = 1 AND agenda.tindak_lanjut = 4 AND disposisi.laporan IS NULL
+        '), ['role' => $role]);
+
+        $agendaSelesai = DB::select(DB::raw('
+            SELECT disposisi.id AS id, agenda.tanggal_dokumen AS tanggal_dokumen, agenda.nomor_dokumen AS nomor_dokumen, agenda.asal_dokumen AS asal_dokumen, agenda.perihal AS perihal, agenda.file_path AS file_path, disposisi.disposisi AS disposisi, disposisi.catatan AS catatan, disposisi.laporan AS laporan, agenda.tindak_lanjut AS tindak_lanjut
+            FROM disposisi
+            JOIN agenda ON disposisi.agenda_id = agenda.id
+            WHERE disposisi.disposisi = :role AND agenda.status = 1 AND disposisi.selesaikan = 1
+            AND NOT (agenda.tindak_lanjut = 4 AND disposisi.laporan IS NULL)
+        '), ['role' => $role]);
+        return view('user.subbag.agenda.agenda_saya', compact('agenda', 'agendaSelesai'));
+    }
+
+    public function selesaikan($id)
     {
         $disposisi = Disposisi::findOrFail($id);
         $agenda = Agenda::findOrFail($disposisi->agenda_id);
-
-        return view('user.subbag.agenda.disposisi', compact('agenda', 'disposisi'));
-    }
-
-    public function storeDisposisiAgenda(Request $request, $id)
-    {
-        $agenda = Agenda::findOrFail($id);
-        $ke = intval($request->disposisi);
-        $catatan = $request->catatan;
-        $disposisi = Disposisi::where('agenda_id', $agenda->id)->first();
-        $role = Auth()->user()->role;
-
-        if($disposisi->dp2 == null){
-            $disposisi = [
-                'disposisi' => $ke,
-                'catatan' => $catatan,
-                'dp2' => $role,
-            ];
-             Disposisi::where('agenda_id', $agenda->id)->update($disposisi);
-        
-            Alert::success('Berhasil', 'Disposisi Berhasil Dikirim');
-            return redirect()->route('agendaSubbag');
-        }else if($disposisi->dp3 == null){
-            $disposisi = [
-                'disposisi' => $ke,
-                'catatan' => $catatan,
-                'dp3' => $role,
-            ];
-            Disposisi::where('agenda_id', $agenda->id)->update($disposisi);
-        
-            Alert::success('Berhasil', 'Disposisi Berhasil Dikirim');
-            return redirect()->route('agendaSubbag');
-        }else{
-            $disposisi = [
-                'disposisi' => $ke,
-                'catatan' => $catatan,
-                'dp4' => $role,
-            ];
-             Disposisi::where('agenda_id', $agenda->id)->update($disposisi);
-        
-            Alert::success('Berhasil', 'Disposisi Berhasil Dikirim');
-            return redirect()->route('agendaSubbag');
-        }
+        $disposisi->update([
+            'selesaikan' => 1,
+        ]);
+        Alert::success('Berhasil', 'Berhasil Menyelesaikan Data Agenda');
+        return redirect()->route('agendaSubbag');
     }
     // Agenda End
 
@@ -147,21 +188,28 @@ class SubbagController extends Controller
     public function indexDisposisi()
     {
         $role = Auth()->user()->role;
-        $disposisi = DB::table('disposisi')
-            ->join('agenda', 'disposisi.agenda_id', '=', 'agenda.id')
-            ->select(
-                'agenda.tanggal_dokumen',
-                'agenda.nomor_dokumen',
-                'agenda.asal_dokumen',
-                'agenda.perihal',
-                'agenda.file_path',
-                'disposisi.disposisi',
-                'disposisi.catatan',
-                'disposisi.laporan'
-            )
-            ->where('disposisi.dp2', '=', $role)
-            ->orWhere('disposisi.dp3', '=', $role)
-            ->get();
+        if($role == 8){
+            $disposisi = DB::select(DB::raw('
+            SELECT disposisi.id AS id, agenda.tanggal_dokumen AS tanggal_dokumen, agenda.tindak_lanjut AS tindak_lanjut, disposisi.disposisi AS disposisi, agenda.nomor_dokumen AS nomor_dokumen, agenda.perihal AS perihal, agenda.asal_dokumen AS asal_dokumen, disposisi.dp2 AS dp2, disposisi.dp3 AS dp3, disposisi.dp4 AS dp4, disposisi.dp5 AS dp5, agenda.file_path AS file_path
+            FROM disposisi
+            JOIN agenda ON disposisi.agenda_id = agenda.id
+            WHERE (disposisi.dp3 = 8 AND disposisi.disposisi IN (24)) OR (disposisi.dp3 = 8 AND disposisi.disposisi NOT IN (24) OR disposisi.dp4 = 8);
+        '));
+        }else if($role == 9){
+            $disposisi = DB::select(DB::raw('
+            SELECT disposisi.id AS id, agenda.tanggal_dokumen AS tanggal_dokumen, agenda.tindak_lanjut AS tindak_lanjut, disposisi.disposisi AS disposisi, agenda.nomor_dokumen AS nomor_dokumen, agenda.perihal AS perihal, agenda.asal_dokumen AS asal_dokumen, disposisi.dp2 AS dp2, disposisi.dp3 AS dp3, disposisi.dp4 AS dp4, disposisi.dp5 AS dp5, agenda.file_path AS file_path
+            FROM disposisi
+            JOIN agenda ON disposisi.agenda_id = agenda.id
+            WHERE (disposisi.dp3 = 9 AND disposisi.disposisi IN (25)) OR (disposisi.dp3 = 9 AND disposisi.disposisi NOT IN (25) OR disposisi.dp4 = 9);
+        '));
+        }else{
+            $disposisi = DB::select(DB::raw('
+            SELECT disposisi.id AS id, agenda.tanggal_dokumen AS tanggal_dokumen, agenda.tindak_lanjut AS tindak_lanjut, disposisi.disposisi AS disposisi, agenda.nomor_dokumen AS nomor_dokumen, agenda.perihal AS perihal, agenda.asal_dokumen AS asal_dokumen, disposisi.dp2 AS dp2, disposisi.dp3 AS dp3, disposisi.dp4 AS dp4, disposisi.dp5 AS dp5, agenda.file_path AS file_path
+            FROM disposisi
+            JOIN agenda ON disposisi.agenda_id = agenda.id
+            WHERE (disposisi.dp3 = 10 AND disposisi.disposisi IN (26)) OR (disposisi.dp3 = 10 AND disposisi.disposisi NOT IN (26) OR disposisi.dp4 = 10);
+        '));
+        }
 
         return view('user.subbag.disposisi.index', compact('disposisi'));
     }
@@ -429,4 +477,37 @@ class SubbagController extends Controller
         return redirect()->route('dokumentasiSubbag');
     }
     // Dokumentasi End
+
+    // Ganti Password Start
+    public function gantiPassword()
+    {
+        $user = User::findOrFail(Auth::user()->id);
+        return view ('user.subbag.password.index', compact('user'));
+    }
+
+    public function updatePassword(Request $request, $id)
+    {
+        $user = User::findOrFail($id);
+        $request->validate([
+            'password_lama' => 'required',
+            'password' => 'required|confirmed',
+        ], [
+            'password_lama.required' => 'Masukkan password lama Anda.',
+            'password.required' => 'Masukkan password baru.',
+            'password.confirmed' => 'Konfirmasi password baru tidak cocok.',
+        ]);
+
+        $user = Auth::user();
+
+        if (!Hash::check($request->password_lama, $user->password)) {
+            return back()->withErrors(['password_lama' => 'Password lama salah'])->withInput();
+        }
+
+        $user->password = Hash::make($request->password);
+        $user->save();
+
+        Alert::success('Berhasil', 'Berhasil Mengubah Password');
+        return redirect()->route('dashboardSubbag');
+    }
+    // Ganti Password End
 }

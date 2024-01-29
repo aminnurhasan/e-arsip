@@ -20,6 +20,7 @@ class Agenda extends Model
         'perihal',
         'tanggal_kegiatan',
         'file_path',
+        'tindak_lanjut',
         'status'
     ];
 

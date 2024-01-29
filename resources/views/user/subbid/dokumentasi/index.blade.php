@@ -39,9 +39,9 @@
                                         <td>{{\Carbon\Carbon::parse($item->tanggal_kegiatan)->format('d M Y')}}</td>
                                         <td>{{$item->nama_kegiatan}}</td>
                                         <td style="text-align: center">
-                                            <a href='{{ route('showDokumentasiSubbid', $item->id) }}' class="btn btn-warning btn-sm fas fa-eye"></a>
-                                            <a href="{{url('/subbid/dokumentasi/' . $item->id . '/edit')}}" class="btn btn-warning btn-sm fas fa-pen-to-square"></a>
-                                            <form onsubmit="return confirm('Apakah Anda Ingin Menghapus Data ?')" data-confirm-delete="true" class="d-inline" 
+                                            <a href='{{ route('showDokumentasiSubbid', $item->id) }}' class="btn btn-warning btn-sm fas fa-eye m-1"></a>
+                                            <a href="{{url('/subbid/dokumentasi/' . $item->id . '/edit')}}" class="btn btn-warning btn-sm fas fa-pen-to-square m-1"></a>
+                                            <form onsubmit="return confirm('Apakah Anda Ingin Menghapus Data ?')" data-confirm-delete="true" class="d-inline m-1" 
                                             action="{{ url('subbid/dokumentasi/' . $item->id) }}" method="post">
                                                 @csrf
                                                 @method('DELETE')

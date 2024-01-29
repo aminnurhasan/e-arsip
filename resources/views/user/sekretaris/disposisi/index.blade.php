@@ -32,6 +32,7 @@
                                     <th class="col-2">Nomor</th>
                                     <th class="col-2">Perihal</th>
                                     <th class="col-2">Asal Dokumen</th>
+                                    <th class="col-1">Tindakan</th>
                                     <th class="col-1">Unduh</th>
                                 </tr>
                             </thead>
@@ -40,25 +41,69 @@
                                     <tr>
                                         <td>{{ \Carbon\Carbon::parse($item->tanggal_dokumen)->format('d M Y') }}</td>
 
-                                        @if ($item->disposisi == 4)
-                                            <td>Bidang Anggaran</td>
-                                        @elseif ($item->disposisi == 5)
-                                            <td>Bidang Perbendaharaan</td>
-                                        @elseif ($item->disposisi == 6)
-                                            <td>Bidang Akuntansi</td>
-                                        @elseif ($item->disposisi == 7)
-                                            <td>Bidang Aset</td>
-                                        @elseif ($item->disposisi == 8)
-                                            <td>SubBag Perencanaan & Evaluasi</td>
-                                        @elseif ($item->disposisi == 9)
-                                            <td>SubBag Keuangan</td>
-                                        @elseif ($item->disposisi == 10)
-                                            <td>SubBag Umum & Kepegawaian</td>
+                                        @if (in_array($item->disposisi, [4, 5, 6, 7, 8, 9, 10]))
+                                            @if ($item->disposisi == 4)
+                                                <td>Bidang Anggaran</td>
+                                            @elseif ($item->disposisi == 5)
+                                                <td>Bidang Perbendaharaan</td>
+                                            @elseif ($item->disposisi == 6)
+                                                <td>Bidang Akuntansi</td>
+                                            @elseif ($item->disposisi == 7)
+                                                <td>Bidang Aset</td>
+                                            @elseif ($item->disposisi == 8)
+                                                <td>SubBag Perencanaan & Evaluasi</td>
+                                            @elseif ($item->disposisi == 9)
+                                                <td>SubBag Keuangan</td>
+                                            @elseif ($item->disposisi == 10)
+                                                <td>SubBag Umum & Kepegawaian</td>
+                                            @endif
+                                        @elseif (in_array($item->dp3, [4, 5, 6, 7, 8, 9, 10]))
+                                            @if ($item->dp3 == 4)
+                                                <td>Bidang Anggaran</td>
+                                            @elseif ($item->dp3 == 5)
+                                                <td>Bidang Perbendaharaan</td>
+                                            @elseif ($item->dp3 == 6)
+                                                <td>Bidang Akuntansi</td>
+                                            @elseif ($item->dp3 == 7)
+                                                <td>Bidang Aset</td>
+                                            @elseif ($item->dp3 == 8)
+                                                <td>SubBag Perencanaan & Evaluasi</td>
+                                            @elseif ($item->dp3 == 9)
+                                                <td>SubBag Keuangan</td>
+                                            @elseif ($item->dp3 == 10)
+                                                <td>SubBag Umum & Kepegawaian</td>
+                                            @endif
+                                        @elseif (in_array($item->dp4, [4, 5, 6, 7, 8, 9, 10]))
+                                            @if ($item->dp4 == 4)
+                                                <td>Bidang Anggaran</td>
+                                            @elseif ($item->dp4 == 5)
+                                                <td>Bidang Perbendaharaan</td>
+                                            @elseif ($item->dp4 == 6)
+                                                <td>Bidang Akuntansi</td>
+                                            @elseif ($item->dp4 == 7)
+                                                <td>Bidang Aset</td>
+                                            @elseif ($item->dp4 == 8)
+                                                <td>SubBag Perencanaan & Evaluasi</td>
+                                            @elseif ($item->dp4 == 9)
+                                                <td>SubBag Keuangan</td>
+                                            @elseif ($item->dp4 == 10)
+                                                <td>SubBag Umum & Kepegawaian</td>
+                                            @endif
                                         @endif
 
                                         <td>{{ $item->nomor_dokumen }}</td>
                                         <td>{{ $item->perihal }}</td>
                                         <td>{{ $item->asal_dokumen }}</td>
+
+                                        @if ($item->tindak_lanjut == 1)
+                                            <td>Tindak Lanjuti</td>
+                                        @elseif ($item->tindak_lanjut == 2)
+                                            <td>Koordinasikan</td>
+                                        @elseif ($item->tindak_lanjut == 3)
+                                            <td>Cukupi</td>
+                                        @elseif ($item->tindak_lanjut == 4)
+                                            <td>Hadiri</td>
+                                        @endif
 
                                         <td style="text-align: center">
                                             <a href="{{asset('storage/' .$item->file_path)}}" download class="btn btn-primary btn-sm ">Unduh</a>

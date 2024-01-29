@@ -22,6 +22,7 @@ return new class extends Migration
             $table->string('perihal');
             $table->date('tanggal_kegiatan')->nullable();
             $table->string('file_path');
+            $table->integer('tindak_lanjut')->nullable();
             $table->integer('status')->default(0);
         });
     }

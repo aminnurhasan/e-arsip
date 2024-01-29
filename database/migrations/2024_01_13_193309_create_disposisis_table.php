@@ -22,6 +22,8 @@ return new class extends Migration
             $table->integer('dp2')->nullable();
             $table->integer('dp3')->nullable();
             $table->integer('dp4')->nullable();
+            $table->integer('dp5')->nullable();
+            $table->integer('selesaikan')->default(0);
 
             $table->foreign('agenda_id')->references('id')->on('agenda')->onDelete('cascade')->onUpdate('cascade');
         });

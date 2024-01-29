@@ -7,6 +7,7 @@
   <meta name="csrf-token" content="{{ csrf_token() }}">
 
   <title>SIKAP (Sistem Informasi dan Komunikasi Administrasi Perkantoran)</title>
+  <link rel="icon" type="image/png" href="{{asset('image/SIKAP Hitam.png')}}">
 
   <!-- Font Awesome Icons -->
   <link rel="stylesheet" href="{{asset('adminlte/plugins/fontawesome-free/css/all.min.css')}}">

@@ -30,7 +30,7 @@
                                     <th class="col-1">No</th>
                                     <th class="col-3">Tanggal</th>
                                     <th class="col-4">Nama Kegiatan</th>
-                                    <th class="col-1">Aksi</th>
+                                    <th class="col-2">Aksi</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -40,9 +40,9 @@
                                         <td>{{\Carbon\Carbon::parse($item->tanggal_kegiatan)->format('d M Y')}}</td>
                                         <td>{{$item->nama_kegiatan}}</td>
                                         <td>
-                                            <a href='{{ route('showDokumentasiSuperAdmin', $item->id) }}' class="btn btn-warning btn-sm fas fa-eye"></a>
-                                            <a href="{{url('/superadmin/dokumentasi/' . $item->id . '/edit')}}" class="btn btn-warning btn-sm fas fa-pen-to-square"></a>
-                                            <form onsubmit="return confirm('Apakah Anda Ingin Menghapus Data ?')" data-confirm-delete="true" class="d-inline" 
+                                            <a href='{{ route('showDokumentasiSuperAdmin', $item->id) }}' class="btn btn-warning btn-sm fas fa-eye m-1"></a>
+                                            <a href="{{url('/superadmin/dokumentasi/' . $item->id . '/edit')}}" class="btn btn-warning btn-sm fas fa-pen-to-square m-1"></a>
+                                            <form onsubmit="return confirm('Apakah Anda Ingin Menghapus Data ?')" data-confirm-delete="true" class="d-inline m-1" 
                                             action="{{ url('superadmin/dokumentasi/' . $item->id) }}" method="post">
                                                 @csrf
                                                 @method('DELETE')

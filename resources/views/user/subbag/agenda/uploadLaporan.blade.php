@@ -15,8 +15,7 @@
     <div class="container-fluid">
         <div class="row">
             <section class="col-lg-12">
-                <a href="{{ route('agendaSubbag') }}" class="btn btn-md btn-info mb-2">Kembali</a>
-
+                <a href="{{ route('agendaSayaSubbag') }}" class="btn btn-md btn-info mb-2">Kembali</a>
                 <div class="card">  
                     <div class="card-body">
                         <form action="{{ route('storeLaporanSubbag', $disposisi->id) }}" method="post" enctype="multipart/form-data">
@@ -42,6 +41,26 @@
                                     </select>
                                 </div>
                             </div>
+                            <div class="form-group row">
+                                <div class="col-6">
+                                    <label for="tindak_lanjut">
+                                        Tindak Lanjut
+                                    </label>
+                                    <select name="tindak_lanjut" disabled id="tindak_lanjut" class="form-control">
+                                        <option value="">-- Pilih Tindakan --</option>
+                                        <option value="1" {{$agenda->tindak_lanjut == 1 ? 'selected' : ''}}>Tindak Lanjuti</option>
+                                        <option value="2" {{$agenda->tindak_lanjut == 2 ? 'selected' : ''}}>Koordinasikan</option>
+                                        <option value="3" {{$agenda->tindak_lanjut == 3 ? 'selected' : ''}}>Cukupi</option>
+                                        <option value="4" {{$agenda->tindak_lanjut == 4 ? 'selected' : ''}}>Hadiri</option>
+                                    </select>
+                                </div>
+                                <div class="col-6">
+                                    <label for="">
+                                        Tanggal Kegiatan
+                                    </label>
+                                    <input type="date" name="tanggal_kegiatan" disabled class="form-control" value="{{$agenda->tanggal_kegiatan}}">
+                                </div>
+                            </div>
                             <div class="form-group">
                                 <label for="catatan">Catatan</label>
                                 <textarea name="catatan" id="" cols="30" rows="2" disabled class="form-control">{{ $disposisi->catatan }}</textarea>
@@ -49,7 +68,6 @@
                             <div class="form-group">
                                 <label for="">
                                     Upload Laporan
-                                    <span style="color:red">*</span>
                                 </label>
                                 <input type="file" name="laporan" class="form-control h-100">
                                 @error('laporan')

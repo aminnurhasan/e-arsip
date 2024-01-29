@@ -60,6 +60,11 @@ Route::middleware(['auth', 'superAdmin'])->group(function () {
     Route::get('/superadmin/keuangan', [SuperAdminController::class, 'keuanganIndex'])->name('keuanganSuperAdmin');
     Route::get('/superadmin/slide', [SuperAdminController::class, 'slideIndex'])->name('slideSuperAdmin');
     Route::get('/superadmin/lainnya', [SuperAdminController::class, 'lainnyaIndex'])->name('lainnyaSuperAdmin');
+    Route::get('/superadmin/suratmasuk', [SuperAdminController::class, 'suratMasukIndex'])->name('suratMasukSuperAdmin');
+
+    // Ganti Password
+    Route::get('/superadmin/gantipassword', [SuperAdminController::class, 'gantiPassword'])->name('gantiPasswordSuperAdmin');
+    Route::put('/superadmin/gantipassword/{id}', [SuperAdminController::class, 'updatePassword'])->name('updatePasswordSuperAdmin');
 
     Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 });
@@ -72,6 +77,9 @@ Route::middleware(['auth', 'kepalaBadan'])->group(function () {
     Route::get('/kepalabadan/agenda', [KepalaBadanController::class, 'indexAgenda'])->name('agendaKepalaBadan');
     Route::get('/kepalabadan/agenda/{id}/disposisi', [KepalaBadanController::class, 'disposisiAgenda'])->name('disposisiAgendaKepalaBadan');
     Route::put('/kepalabadan/agenda/{id}', [KepalaBadanController::class, 'storeDisposisiAgenda'])->name('updateDisposisiAgendaKepalaBadan');
+    Route::get('/kepalabadan/agenda/tindaklanjut/{id}', [KepalaBadanController::class, 'tindakLanjut'])->name('tindakLanjutKepalaBadan');
+    Route::put('/kepalabadan/agenda/tindaklanjut/{id}', [KepalaBadanController::class, 'storeTindakLanjut'])->name('storeTindakLanjutKepalaBadan');
+    Route::get('/kepalabadan/agenda/saya', [KepalaBadanController::class, 'indexAgendaSaya'])->name('agendaSayaKepalaBadan');
 
     // Laporan
     Route::get('/kepalabadan/laporan/{id}/upload', [KepalaBadanController::class, 'uploadLaporan'])->name('uploadLaporanKepalaBadan');
@@ -111,6 +119,10 @@ Route::middleware(['auth', 'kepalaBadan'])->group(function () {
     Route::put('/kepalabadan/dokumentasi/{id}', [KepalaBadanController::class, 'updateDokumentasi'])->name('updateDokumentasiKepalaBadan');
     Route::delete('/kepalabadan/dokumentasi/{id}', [KepalaBadanController::class, 'destroyDokumentasi'])->name('deleteDokumentasiKepalaBadan');
 
+    // Ganti Password
+    Route::get('/kepalabadan/gantipassword', [KepalaBadanController::class, 'gantiPassword'])->name('gantiPasswordKepalaBadan');
+    Route::put('/kepalabadan/gantipassword/{id}', [KepalaBadanController::class, 'updatePassword'])->name('updatePasswordKepalaBadan');
+
     Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 });
 
@@ -122,6 +134,10 @@ Route::middleware(['auth', 'sekretaris'])->group(function () {
     Route::get('/sekretaris/agenda', [SekretarisController::class, 'indexAgenda'])->name('agendaSekretaris');
     Route::get('/sekretaris/agenda/{id}/disposisi', [SekretarisController::class, 'disposisiAgenda'])->name('disposisiAgendaSekretaris');
     Route::put('/sekretaris/agenda/{id}', [SekretarisController::class, 'storeDisposisiAgenda'])->name('updateDisposisiAgendaSekretaris');
+    Route::get('/sekretaris/agenda/tindaklanjut/{id}', [SekretarisController::class, 'tindakLanjut'])->name('tindakLanjutSekretaris');
+    Route::put('/sekretaris/agenda/tindaklanjut/{id}', [SekretarisController::class, 'tindakLanjutStore'])->name('storeTindakLanjutSekretaris');
+    Route::get('/sekretaris/agenda/saya', [SekretarisController::class, 'indexAgendaSaya'])->name('agendaSayaSekretaris');
+    Route::get('/sekretaris/agenda/selesaikan/{id}', [SekretarisController::class, 'selesaikan'])->name('selesaikanAgendaSekretaris');
 
     // Laporan
     Route::get('/sekretaris/laporan/{id}/upload', [SekretarisController::class, 'uploadLaporan'])->name('uploadLaporanSekretaris');
@@ -153,6 +169,10 @@ Route::middleware(['auth', 'sekretaris'])->group(function () {
     Route::put('/sekretaris/dokumentasi/{id}', [SekretarisController::class, 'updateDokumentasi'])->name('updateDokumentasiSekretaris');
     Route::delete('/sekretaris/dokumentasi/{id}', [SekretarisController::class, 'destroyDokumentasi'])->name('deleteDokumentasiSekretaris');
 
+    // Ganti Password
+    Route::get('/sekretaris/gantipassword', [SekretarisController::class, 'gantiPassword'])->name('gantiPasswordSekretaris');
+    Route::put('/sekretaris/gantipassword/{id}', [SekretarisController::class, 'updatePassword'])->name('updatePasswordSekretaris');
+
     Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 });
 
@@ -164,6 +184,10 @@ Route::middleware(['auth', 'kabid'])->group(function () {
     Route::get('/kabid/agenda', [KabidController::class, 'indexAgenda'])->name('agendaKabid');
     Route::get('/kabid/agenda/{id}/disposisi', [KabidController::class, 'disposisiAgenda'])->name('disposisiAgendaKabid');
     Route::put('/kabid/agenda/{id}', [KabidController::class, 'storeDisposisiAgenda'])->name('updateDisposisiAgendaKabid');
+    Route::get('/kabid/agenda/tindaklanjut/{id}', [KabidController::class, 'tindakLanjut'])->name('tindakLanjutKabid');
+    Route::put('/kabid/agenda/tindaklanjut/{id}', [KabidController::class, 'storeTindakLanjut'])->name('storeTindakLanjutKabid');
+    Route::get('/kabid/agenda/saya', [KabidController::class, 'indexAgendaSaya'])->name('agendaSayaKabid');
+    Route::get('/kabid/agenda/selesaikan/{id}', [KabidController::class, 'selesaikan'])->name('selesaikanAgendaKabid');
 
     // Laporan
     Route::get('/kabid/laporan/{id}/upload', [KabidController::class, 'uploadLaporan'])->name('uploadLaporanKabid');
@@ -195,6 +219,10 @@ Route::middleware(['auth', 'kabid'])->group(function () {
     Route::put('/kabid/dokumentasi/{id}', [KabidController::class, 'updateDokumentasi'])->name('updateDokumentasiKabid');
     Route::delete('/kabid/dokumentasi/{id}', [KabidController::class, 'destroyDokumentasi'])->name('deleteDokumentasiKabid');
 
+    // Ganti Password
+    Route::get('/kabid/gantipassword', [KabidController::class, 'gantiPassword'])->name('gantiPasswordKabid');
+    Route::put('/kabid/gantipassword/{id}', [KabidController::class, 'updatePassword'])->name('updatePasswordKabid');
+
     Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 });
 
@@ -206,6 +234,10 @@ Route::middleware(['auth', 'subbag'])->group(function () {
     Route::get('/subbag/agenda', [SubbagController::class, 'indexAgenda'])->name('agendaSubbag');
     Route::get('/subbag/agenda/{id}/disposisi', [SubbagController::class, 'disposisiAgenda'])->name('disposisiAgendaSubbag');
     Route::put('/subbag/agenda/{id}', [SubbagController::class, 'storeDisposisiAgenda'])->name('updateDisposisiAgendaSubbag');
+    Route::get('/subbag/agenda/tindaklanjut/{id}', [SubbagController::class, 'tindakLanjut'])->name('tindakLanjutSubbag');
+    Route::put('/subbag/agenda/tindaklanjut/{id}', [SubbagController::class, 'storeTindakLanjut'])->name('storeTindakLanjutSubbag');
+    Route::get('/subbag/agenda/saya', [SubbagController::class, 'indexAgendaSaya'])->name('agendaSayaSubbag');
+    Route::get('/subbag/agenda/selesaikan/{id}', [SubbagController::class, 'selesaikan'])->name('selesaikanAgendaSubbag');
 
     // Laporan
     Route::get('/subbag/laporan/{id}/upload', [SubbagController::class, 'uploadLaporan'])->name('uploadLaporanSubbag');
@@ -237,6 +269,10 @@ Route::middleware(['auth', 'subbag'])->group(function () {
     Route::put('/subbag/dokumentasi/{id}', [SubbagController::class, 'updateDokumentasi'])->name('updateDokumentasiSubbag');
     Route::delete('/subbag/dokumentasi/{id}', [SubbagController::class, 'destroyDokumentasi'])->name('deleteDokumentasiSubbag');
 
+    // Ganti Password
+    Route::get('/subbag/gantipassword', [SubbagController::class, 'gantiPassword'])->name('gantiPasswordSubbag');
+    Route::put('/subbag/gantipassword/{id}', [SubbagController::class, 'updatePassword'])->name('updatePasswordSubbag');
+
     Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 });
 
@@ -248,6 +284,10 @@ Route::middleware(['auth', 'subbid'])->group(function () {
     Route::get('/subbid/agenda', [SubbidController::class, 'indexAgenda'])->name('agendaSubbid');
     Route::get('/subbid/agenda/{id}/disposisi', [SubbidController::class, 'disposisiAgenda'])->name('disposisiAgendaSubbid');
     Route::put('/subbid/agenda/{id}', [SubbidController::class, 'storeDisposisiAgenda'])->name('updateDisposisiAgendaSubbid');
+    Route::get('/subbid/agenda/tindaklanjut/{id}', [SubbidController::class, 'tindakLanjut'])->name('tindakLanjutSubbid');
+    Route::put('/subbid/agenda/tindaklanjut/{id}', [SubbidController::class, 'storeTindakLanjut'])->name('storeTindakLanjutSubbid');
+    Route::get('/subbid/agenda/saya', [SubbidController::class, 'indexAgendaSaya'])->name('agendaSayaSubbid');
+    Route::get('/subbid/agenda/selesaikan/{id}', [SubbidController::class, 'selesaikan'])->name('selesaikanAgendaSubbid');
 
     // Laporan
     Route::get('/subbid/laporan/{id}/upload', [SubbidController::class, 'uploadLaporan'])->name('uploadLaporanSubbid');
@@ -278,6 +318,10 @@ Route::middleware(['auth', 'subbid'])->group(function () {
     Route::get('/subbid/dokumentasi/{id}/edit', [SubbidController::class, 'editDokumentasi'])->name('editDokumentasiSubbid');
     Route::put('/subbid/dokumentasi/{id}', [SubbidController::class, 'updateDokumentasi'])->name('updateDokumentasiSubbid');
     Route::delete('/subbid/dokumentasi/{id}', [SubbidController::class, 'destroyDokumentasi'])->name('deleteDokumentasiSubbid');
+
+    // Ganti Password
+    Route::get('/subbid/gantipassword', [SubbidController::class, 'gantiPassword'])->name('gantiPasswordSubbid');
+    Route::put('/subbid/gantipassword/{id}', [SubbidController::class, 'updatePassword'])->name('updatePasswordSubbid');
 
     Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 });
@@ -326,6 +370,10 @@ Route::middleware(['auth', 'admin'])->group(function () {
     Route::get('/admin/slide', [AdminController::class, 'slideIndex'])->name('slideAdmin');
     Route::get('/admin/lainnya', [AdminController::class, 'lainnyaIndex'])->name('lainnyaAdmin');
 
+    // Ganti Password
+    Route::get('/admin/gantipassword', [AdminController::class, 'gantiPassword'])->name('gantiPasswordAdmin');
+    Route::put('/admin/gantipassword/{id}', [AdminController::class, 'updatePassword'])->name('updatePasswordAdmin');
+
     Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 });
 
@@ -336,6 +384,10 @@ Route::middleware(['auth', 'staff'])->group(function () {
     // Agenda
     Route::get('/staff/agenda', [StaffController::class, 'indexAgenda'])->name('agendaStaff');
     Route::put('/staff/agenda/{id}', [StaffController::class, 'storeDisposisiAgenda'])->name('updateDisposisiAgendaStaff');
+    Route::get('/staff/agenda/tindaklanjut/{id}', [StaffController::class, 'tindakLanjut'])->name('tindakLanjutStaff');
+    Route::put('/staff/agenda/tindaklanjut/{id}', [StaffController::class, 'storeTindakLanjut'])->name('storeTindakLanjutStaff');
+    Route::get('/staff/agenda/saya', [StaffController::class, 'indexAgendaSaya'])->name('agendaSayaStaff');
+    Route::get('/staff/agenda/selesaikan/{id}', [StaffController::class, 'selesaikan'])->name('selesaikanAgendaStaff');
 
     // Laporan
     Route::get('/staff/laporan/{id}/upload', [StaffController::class, 'uploadLaporan'])->name('uploadLaporanStaff');
@@ -363,6 +415,10 @@ Route::middleware(['auth', 'staff'])->group(function () {
     Route::get('/staff/dokumentasi/{id}/edit', [StaffController::class, 'editDokumentasi'])->name('editDokumentasiStaff');
     Route::put('/staff/dokumentasi/{id}', [StaffController::class, 'updateDokumentasi'])->name('updateDokumentasiStaff');
     Route::delete('/staff/dokumentasi/{id}', [StaffController::class, 'destroyDokumentasi'])->name('deleteDokumentasiStaff');
+
+    // Ganti Password
+    Route::get('/staff/gantipassword', [StaffController::class, 'gantiPassword'])->name('gantiPasswordStaff');
+    Route::put('/staff/gantipassword/{id}', [StaffController::class, 'updatePassword'])->name('updatePasswordStaff');
 
     Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 });

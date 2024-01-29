@@ -31,6 +31,7 @@
                                     <th class="col-2">Nomor</th>
                                     <th class="col-2">Perihal</th>
                                     <th class="col-2">Asal Dokumen</th>
+                                    <th class="col-1">Tindakan</th>
                                     <th class="col-1">Unduh</th>
                                 </tr>
                             </thead>
@@ -55,11 +56,23 @@
                                             <td>Staff Bidang Perencanaan & Penatausahaan</td>
                                         @elseif ($item->disposisi == 34)
                                             <td>Staff Bidang Penggunaan & Pemanfaatan</td>
+                                        @else
+                                            <td></td>
                                         @endif
 
                                         <td>{{ $item->nomor_dokumen }}</td>
                                         <td>{{ $item->perihal }}</td>
                                         <td>{{ $item->asal_dokumen }}</td>
+
+                                        @if ($item->tindak_lanjut == 1)
+                                            <td>Tindak Lanjuti</td>
+                                        @elseif ($item->tindak_lanjut == 2)
+                                            <td>Koordinasikan</td>
+                                        @elseif ($item->tindak_lanjut == 3)
+                                            <td>Cukupi</td>
+                                        @elseif ($item->tindak_lanjut == 4)
+                                            <td>Hadiri</td>
+                                        @endif
 
                                         <td style="text-align: center">
                                             <a href="{{asset('storage/' .$item->file_path)}}" download class="btn btn-primary btn-sm ">Unduh</a>

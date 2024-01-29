@@ -15,6 +15,9 @@ use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\DB;
+use App\Notifications\AgendaAddNotification;
+use App\Mail\agendaMail;
+use Illuminate\Support\Facades\Mail;
 
 class AdminController extends Controller
 {
@@ -54,7 +57,7 @@ class AdminController extends Controller
     // Agenda Start
     public function indexAgenda()
     {
-        $agenda = Agenda::all();
+        $agenda = Agenda::where('status', 0)->get();
         return view ('user.admin.agenda.index', compact('agenda'));
     }
 
@@ -95,7 +98,6 @@ class AdminController extends Controller
         $agenda->nomor_dokumen = $request->nomor_dokumen;
         $agenda->asal_dokumen = $request->asal_dokumen;
         $agenda->perihal = $request->perihal;
-        $agenda->tanggal_kegiatan = $request->tanggal_kegiatan;
         $agenda->file_path = $file_path;
         $agenda->status = 0;
         $agenda->save();
@@ -510,4 +512,37 @@ class AdminController extends Controller
         return redirect ('/admin/staff');
     }
     // Staff End
+
+    // Ganti Password Start
+    public function gantiPassword()
+    {
+        $user = User::findOrFail(Auth::user()->id);
+        return view ('user.admin.password.index', compact('user'));
+    }
+
+    public function updatePassword(Request $request, $id)
+    {
+        $user = User::findOrFail($id);
+        $request->validate([
+            'password_lama' => 'required',
+            'password' => 'required|confirmed',
+        ], [
+            'password_lama.required' => 'Masukkan password lama Anda.',
+            'password.required' => 'Masukkan password baru.',
+            'password.confirmed' => 'Konfirmasi password baru tidak cocok.',
+        ]);
+
+        $user = Auth::user();
+
+        if (!Hash::check($request->password_lama, $user->password)) {
+            return back()->withErrors(['password_lama' => 'Password lama salah'])->withInput();
+        }
+
+        $user->password = Hash::make($request->password);
+        $user->save();
+
+        Alert::success('Berhasil', 'Berhasil Mengubah Password');
+        return redirect()->route('dashboardAdmin');
+    }
+    // Ganti Password End
 }

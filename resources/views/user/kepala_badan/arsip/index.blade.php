@@ -24,7 +24,7 @@
                     </div>
                     <div class="card-body">
                         <div class="row">
-                            <div class="col-lg-2 col-md-6 col-6">
+                            <div class="col-lg-4 col-md-4 col-12">
                                 <div class="info-box btn btn-light" style="display: flex; align-items: center;" onclick="redirectPeraturan()">
                                     <span class="info-box-icon bg-info" style="max-width: 50px; max-height: 50px; height: 50px"><i class="fas fa-gavel custom-icon"></i></span>
                                     <div class="info-box-content">
@@ -33,7 +33,7 @@
                                     </div>
                                 </div>
                             </div>
-                            <div class="col-lg-2 col-md-6 col-6">
+                            <div class="col-lg-4 col-md-4 col-12">
                                 <div class="info-box btn btn-light" style="display: flex; align-items: center" onclick="redirectAPBD()">
                                     <span class="info-box-icon bg-info" style="max-width: 50px; max-height: 50px; height: 50px"><i class="fas fa-chart-column custom-icon"></i></span>
                                     <div class="info-box-content">
@@ -42,7 +42,7 @@
                                     </div>
                                 </div>
                             </div>
-                            <div class="col-lg-2 col-md-6 col-6">
+                            <div class="col-lg-4 col-md-4 col-12">
                                 <div class="info-box btn btn-light" style="display: flex; align-items: center" onclick="redirectKeuangan()">
                                     <span class="info-box-icon bg-info" style="max-width: 50px; max-height: 50px; height: 50px"><i class="fas fa-coins custom-icon"></i></span>
                                     <div class="info-box-content">
@@ -51,7 +51,7 @@
                                     </div>
                                 </div>
                             </div>
-                            <div class="col-lg-2 col-md-6 col-6">
+                            <div class="col-lg-4 col-md-4 col-12">
                                 <div class="info-box btn btn-light" style="display: flex; align-items: center" onclick="redirectSlide()">
                                     <span class="info-box-icon bg-info" style="max-width: 50px; max-height: 50px; height: 50px"><i class="fas fa-file-powerpoint custom-icon"></i></span>
                                     <div class="info-box-content">
@@ -60,11 +60,20 @@
                                     </div>
                                 </div>
                             </div>
-                            <div class="col-lg-2 col-md-6 col-6">
+                            <div class="col-lg-4 col-md-4 col-12">
                                 <div class="info-box btn btn-light" style="display: flex; align-items: center" onclick="redirectLainnya()">
                                     <span class="info-box-icon bg-info" style="max-width: 50px; max-height: 50px; height: 50px"><i class="fas fa-book custom-icon"></i></span>
                                     <div class="info-box-content">
                                         <span class="info-box-text"> Lainnya</span>
+                                        <span class="info-box-number">{{$lainnya}}</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-lg-4 col-md-4 col-12">
+                                <div class="info-box btn btn-light" style="display: flex; align-items: center" onclick="redirectLainnya()">
+                                    <span class="info-box-icon bg-info" style="max-width: 50px; max-height: 50px; height: 50px"><i class="fas fa-book custom-icon"></i></span>
+                                    <div class="info-box-content">
+                                        <span class="info-box-text"> Surat Masuk</span>
                                         <span class="info-box-number">{{$lainnya}}</span>
                                     </div>
                                 </div>

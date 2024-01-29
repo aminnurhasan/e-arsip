@@ -31,6 +31,7 @@
                                     <th class="col-2">Nomor</th>
                                     <th class="col-2">Perihal</th>
                                     <th class="col-2">Asal Dokumen</th>
+                                    <th class="col-1">Tindakan</th>
                                     <th class="col-1">Unduh</th>
                                 </tr>
                             </thead>
@@ -39,23 +40,47 @@
                                     <tr>
                                         <td>{{ \Carbon\Carbon::parse($item->tanggal_dokumen)->format('d M Y') }}</td>
 
-                                        @if ($item->disposisi == 2)
-                                            <td>Kepala Badan</td>
-                                        @elseif ($item->disposisi == 3)
-                                            <td>Sekretaris</td>
-                                        @elseif ($item->disposisi == 4)
-                                            <td>Bidang Anggaran</td>
-                                        @elseif ($item->disposisi == 5)
-                                            <td>Bidang Perbendaharaan</td>
-                                        @elseif ($item->disposisi == 6)
-                                            <td>Bidang Akuntansi</td>
-                                        @else ()
-                                            <td>Bidang Aset</td>
+                                        @if (in_array($item->disposisi, [3, 4, 5, 6, 7]))
+                                            @if ($item->disposisi == 3)
+                                                <td>Sekretaris</td>
+                                            @elseif ($item->disposisi == 4)
+                                                <td>Bidang Anggaran</td>
+                                            @elseif ($item->disposisi == 5)
+                                                <td>Bidang Perbendaharaan</td>
+                                            @elseif ($item->disposisi == 6)
+                                                <td>Bidang Akuntansi</td>
+                                            @elseif ($item->disposisi == 7)
+                                                <td>Bidang Aset</td>
+                                            @endif
+                                        @elseif (in_array($item->dp3, [3, 4, 5, 6, 7]))
+                                            @if ($item->dp3 == 3)
+                                                <td>Sekretaris</td>
+                                            @elseif ($item->dp3 == 4)
+                                                <td>Bidang Anggaran</td>
+                                            @elseif ($item->dp3 == 5)
+                                                <td>Bidang Perbendaharaan</td>
+                                            @elseif ($item->dp3 == 6)
+                                                <td>Bidang Akuntansi</td>
+                                            @elseif ($item->dp3 == 7)
+                                                <td>Bidang Aset</td>
+                                            @endif
                                         @endif
 
                                         <td>{{ $item->nomor_dokumen }}</td>
                                         <td>{{ $item->perihal }}</td>
                                         <td>{{ $item->asal_dokumen }}</td>
+                                        
+                                        @if ($item->tindak_lanjut == 1)
+                                            <td>Tindak Lanjuti</td>
+                                        @elseif ($item->tindak_lanjut == 2)
+                                            <td>Koordinasikan</td>
+                                        @elseif ($item->tindak_lanjut == 3)
+                                            <td>Cukupi</td>
+                                        @elseif ($item->tindak_lanjut == 4)
+                                            <td>Hadiri</td>
+                                        @else
+                                            <td></td>
+                                        @endif
 
                                         <td style="text-align: center">
                                             <a href="{{asset('storage/' .$item->file_path)}}" download class="btn btn-primary btn-sm ">Unduh</a>

@@ -15,7 +15,7 @@
     <div class="container-fluid">
         <div class="row">
             <section class="col-lg-12">
-                <a href="{{ route('agendaKabid') }}" class="btn btn-md btn-info mb-2">Kembali</a>
+                <a href="{{ route('agendaSayaKabid') }}" class="btn btn-md btn-info mb-2">Kembali</a>
                 <div class="card">  
                     <div class="card-body">
                         <form action="{{ route('storeLaporanKabid', $disposisi->id) }}" method="post" enctype="multipart/form-data">
@@ -39,6 +39,26 @@
                                     <label for="role">Perihal</label>
                                     <input type="text" name="perihal" disabled class="form-control" value="{{ $agenda->perihal }}">
                                     </select>
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                <div class="col-6">
+                                    <label for="tindak_lanjut">
+                                        Tindak Lanjut
+                                    </label>
+                                    <select name="tindak_lanjut" disabled id="tindak_lanjut" class="form-control">
+                                        <option value="">-- Pilih Tindakan --</option>
+                                        <option value="1" {{$agenda->tindak_lanjut == 1 ? 'selected' : ''}}>Tindak Lanjuti</option>
+                                        <option value="2" {{$agenda->tindak_lanjut == 2 ? 'selected' : ''}}>Koordinasikan</option>
+                                        <option value="3" {{$agenda->tindak_lanjut == 3 ? 'selected' : ''}}>Cukupi</option>
+                                        <option value="4" {{$agenda->tindak_lanjut == 4 ? 'selected' : ''}}>Hadiri</option>
+                                    </select>
+                                </div>
+                                <div class="col-6">
+                                    <label for="">
+                                        Tanggal Kegiatan
+                                    </label>
+                                    <input type="date" name="tanggal_kegiatan" disabled class="form-control" value="{{$agenda->tanggal_kegiatan}}">
                                 </div>
                             </div>
                             <div class="form-group">

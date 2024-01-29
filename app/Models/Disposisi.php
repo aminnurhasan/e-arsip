@@ -20,6 +20,8 @@ class Disposisi extends Model
         'dp2',
         'dp3',
         'dp4',
+        'dp5',
+        'selesaikan'
     ];
 
     public static $disposisiLabels = [
