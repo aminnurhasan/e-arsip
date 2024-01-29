@@ -121,10 +121,13 @@ class SuperAdminController extends Controller
         $keuangan = Arsip::where('jenis_dokumen', 3)->count();
         $slide = Arsip::where('jenis_dokumen', 4)->count();
         $lainnya = Arsip::where('jenis_dokumen', 5)->count();
-        
         $dokumentasi = Dokumentasi::all()->count();
+        $suratMasuk = Agenda::join('disposisi', 'agenda.id', '=', 'disposisi.agenda_id')
+            ->where('disposisi.selesaikan', 1)
+            ->select('agenda.id AS id', 'agenda.tanggal_dokumen AS tanggal_dokumen', 'agenda.nomor_dokumen AS nomor_dokumen', 'agenda.asal_dokumen AS asal_dokumen', 'agenda.perihal AS perihal', 'agenda.file_path AS file_path', 'disposisi.selesaikan AS selesaikan')
+            ->count();
 
-        return view ('user.super_admin.arsip.index', compact('arsip', 'peraturan', 'apbd', 'keuangan', 'slide', 'dokumentasi', 'lainnya'));
+        return view ('user.super_admin.arsip.index', compact('arsip', 'peraturan', 'apbd', 'keuangan', 'slide', 'dokumentasi', 'lainnya', 'suratMasuk'));
     }
 
     public function createArsip()
@@ -226,32 +229,109 @@ class SuperAdminController extends Controller
 
     public function peraturanIndex()
     {
+        $years = Arsip::selectRaw('YEAR(tanggal_dokumen) as year')->distinct()->pluck('year')->toArray();
         $peraturan = Arsip::where('jenis_dokumen', 1)->get();
-        return view ('user.super_admin.arsip.peraturan.index', compact('peraturan'));
+        return view ('user.super_admin.arsip.peraturan.index', compact('peraturan', 'years'));
+    }
+
+    public function peraturanFilter(Request $request)
+{
+        $tahun = $request->tahun;
+        $data = Arsip::whereYear('tanggal_dokumen', $tahun)
+            ->where('jenis_dokumen', 1)
+            ->get();
+
+        return response()->json(['data' => $data]);
     }
 
     public function apbdIndex()
     {
+        $years = Arsip::selectRaw('YEAR(tanggal_dokumen) as year')->distinct()->pluck('year')->toArray();
         $apbd = Arsip::where('jenis_dokumen', 2)->get();
-        return view ('user.super_admin.arsip.apbd.index', compact('apbd'));
+        return view ('user.super_admin.arsip.apbd.index', compact('apbd', 'years'));
+    }
+
+    public function apbdFilter(Request $request)
+    {
+        $tahun = $request->tahun;
+        $data = Arsip::whereYear('tanggal_dokumen', $tahun)
+            ->where('jenis_dokumen', 2)
+            ->get();
+
+        return response()->json(['data' => $data]);
     }
 
     public function keuanganIndex()
     {
+        $years = Arsip::selectRaw('YEAR(tanggal_dokumen) as year')->distinct()->pluck('year')->toArray();
         $keuangan = Arsip::where('jenis_dokumen', 3)->get();
-        return view ('user.super_admin.arsip.keuangan.index', compact('keuangan'));
+        return view ('user.super_admin.arsip.keuangan.index', compact('keuangan', 'years'));
+    }
+
+    public function keuanganFilter(Request $request)
+    {
+        $tahun = $request->tahun;
+        $data = Arsip::whereYear('tanggal_dokumen', $tahun)
+            ->where('jenis_dokumen', 3)
+            ->get();
+
+        return response()->json(['data' => $data]);
     }
 
     public function slideIndex()
     {
+        $years = Arsip::selectRaw('YEAR(tanggal_dokumen) as year')->distinct()->pluck('year')->toArray();
         $slide = Arsip::where('jenis_dokumen', 4)->get();
-        return view ('user.super_admin.arsip.slide.index', compact('slide'));
+        return view ('user.super_admin.arsip.slide.index', compact('slide', 'years'));
+    }
+
+    public function slideFilter(Request $request)
+    {
+        $tahun = $request->tahun;
+        $data = Arsip::whereYear('tanggal_dokumen', $tahun)
+            ->where('jenis_dokumen', 4)
+            ->get();
+
+        return response()->json(['data' => $data]);
     }
 
     public function lainnyaIndex()
     {
+        $years = Arsip::selectRaw('YEAR(tanggal_dokumen) as year')->distinct()->pluck('year')->toArray();
         $lainnya = Arsip::where('jenis_dokumen', 5)->get();
-        return view ('user.super_admin.arsip.lainnya.index', compact('lainnya'));
+        return view ('user.super_admin.arsip.lainnya.index', compact('lainnya', 'years'));
+    }
+
+    public function lainnyaFilter(Request $request)
+    {
+        $tahun = $request->tahun;
+        $data = Arsip::whereYear('tanggal_dokumen', $tahun)
+            ->where('jenis_dokumen', 5)
+            ->get();
+
+        return response()->json(['data' => $data]);
+    }
+
+    public function suratMasukIndex()
+    {
+        $years = Agenda::selectRaw('YEAR(tanggal_dokumen) as year')->distinct()->pluck('year')->toArray();
+        $suratMasuk = Agenda::join('disposisi', 'agenda.id', '=', 'disposisi.agenda_id')
+            ->where('disposisi.selesaikan', 1)
+            ->select('agenda.id AS id', 'agenda.tanggal_dokumen AS tanggal_dokumen', 'agenda.nomor_dokumen AS nomor_dokumen', 'agenda.asal_dokumen AS asal_dokumen', 'agenda.perihal AS perihal', 'agenda.file_path AS file_path', 'agenda.tindak_lanjut AS tindak_lanjut', 'disposisi.selesaikan AS selesaikan')
+            ->get();
+        return view ('user.super_admin.arsip.surat_masuk.index', compact('suratMasuk', 'years'));
+    }
+
+    public function suratMasukFilter(Request $request)
+    {
+        $tahun = $request->tahun;
+        $data = Agenda::join('disposisi', 'agenda.id', '=', 'disposisi.agenda_id')
+            ->where('disposisi.selesaikan', 1)
+            ->whereYear('agenda.tanggal_dokumen', $tahun)
+            ->select('agenda.id AS id', 'agenda.tanggal_dokumen AS tanggal_dokumen', 'agenda.nomor_dokumen AS nomor_dokumen', 'agenda.asal_dokumen AS asal_dokumen', 'agenda.perihal AS perihal', 'agenda.file_path AS file_path', 'agenda.tindak_lanjut AS tindak_lanjut', 'disposisi.selesaikan AS selesaikan')
+            ->get();
+        
+        return response()->json(['data' => $data]);
     }
     // Arsip End
 

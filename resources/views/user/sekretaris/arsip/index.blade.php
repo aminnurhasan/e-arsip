@@ -81,56 +81,6 @@
                         </div>
                     </div>
                 </div>
-                
-                <div class="card">
-                    <div class="card-header">
-                        <h3 class="card-title">
-                            <i class="ion ion-clipboard mr-1"></i>
-                            List Seluruh Dokumen
-                        </h3>
-                    </div>
-
-                    <div class="card-body">
-                        <table id="datatable" class="table table-bordered table-striped">
-                            <thead>
-                                <tr>
-                                    <th class="col-2">Tanggal</th>
-                                    <th class="col-2">Jenis</th>
-                                    <th class="col-2">Nomor</th>
-                                    <th class="col-3">Perihal</th>
-                                    <th class="col-2">Asal</th>
-                                    <th class="col-1">Aksi</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                @foreach ($arsip as $item)
-                                    <tr>
-                                        <td>{{\Carbon\Carbon::parse($item->tanggal_dokumen)->format('d M Y')}}</td>
-                                        @if ($item->jenis_dokumen == 1)
-                                            <td>Peraturan</td>
-                                        @elseif ($item->jenis_dokumen == 2)
-                                            <td>APBD</td>
-                                        @elseif ($item->jenis_dokumen == 3)
-                                            <td>Laporan Keuangan</td>
-                                        @elseif ($item->jenis_dokumen == 4)
-                                            <td>Presentasi / Slide</td>
-                                        @else ()
-                                            <td>Dokumen Lainnya</td>
-                                        @endif
-
-                                        <td>{{$item->nomor_dokumen}}</td>
-                                        <td>{{$item->perihal}}</td>
-                                        <td>{{$item->asal_dokumen}}</td>
-                                        <td style="text-align: center">
-                                            <a href="{{asset('storage/' .$item->file_path)}}" download class="btn btn-primary btn-sm "><ion-icon name="cloud-download-outline"></ion-icon></a>
-                                            <a href="{{url('/sekretaris/arsip/' . $item->id . '/edit')}}" class="btn btn-warning btn-sm fas fa-pen-to-square"></a>
-                                        </td>
-                                    </tr>
-                                @endforeach
-                            </tbody>
-                        </table>
-                    </div>
-                </div>
             </section>
         </div>
     </div>

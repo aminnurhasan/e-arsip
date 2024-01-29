@@ -66,6 +66,14 @@ Route::middleware(['auth', 'superAdmin'])->group(function () {
     Route::get('/superadmin/gantipassword', [SuperAdminController::class, 'gantiPassword'])->name('gantiPasswordSuperAdmin');
     Route::put('/superadmin/gantipassword/{id}', [SuperAdminController::class, 'updatePassword'])->name('updatePasswordSuperAdmin');
 
+    // Filter Arsip
+    Route::get('/superadmin/filterperaturan', [SuperAdminController::class, 'peraturanFilter'])->name('filterPeraturanSuperAdmin');
+    Route::get('/superadmin/filterapbd', [SuperAdminController::class, 'apbdFilter'])->name('filterApbdSuperAdmin');
+    Route::get('/superadmin/filterkeuangan', [SuperAdminController::class, 'keuanganFilter'])->name('filterKeuanganSuperAdmin');
+    Route::get('/superadmin/filterslide', [SuperAdminController::class, 'slideFilter'])->name('filterSlideSuperAdmin');
+    Route::get('/superadmin/filterlainnya', [SuperAdminController::class, 'lainnyaFilter'])->name('filterLainnyaSuperAdmin');
+    Route::get('/superadmin/filtersuratmasuk', [SuperAdminController::class, 'suratMasukFilter'])->name('filterSuratMasukSuperAdmin');
+
     Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 });
 
@@ -109,6 +117,7 @@ Route::middleware(['auth', 'kepalaBadan'])->group(function () {
     Route::get('/kepalabadan/keuangan', [KepalaBadanController::class, 'keuanganIndex'])->name('keuanganKepalaBadan');
     Route::get('/kepalabadan/slide', [KepalaBadanController::class, 'slideIndex'])->name('slideKepalaBadan');
     Route::get('/kepalabadan/lainnya', [KepalaBadanController::class, 'lainnyaIndex'])->name('lainnyaKepalaBadan');
+    Route::get('/kepalabadan/suratmasuk', [KepalaBadanController::class, 'suratMasukIndex'])->name('suratMasukKepalaBadan');
 
     // Dokumentasi
     Route::get('/kepalabadan/dokumentasi', [KepalaBadanController::class, 'indexDokumentasi'])->name('dokumentasiKepalaBadan');
@@ -122,6 +131,14 @@ Route::middleware(['auth', 'kepalaBadan'])->group(function () {
     // Ganti Password
     Route::get('/kepalabadan/gantipassword', [KepalaBadanController::class, 'gantiPassword'])->name('gantiPasswordKepalaBadan');
     Route::put('/kepalabadan/gantipassword/{id}', [KepalaBadanController::class, 'updatePassword'])->name('updatePasswordKepalaBadan');
+
+    // Filter Arsip
+    Route::get('/kepalabadan/filterperaturan', [KepalaBadanController::class, 'peraturanFilter'])->name('filterPeraturanKepalaBadan');
+    Route::get('/kepalabadan/filterapbd', [KepalaBadanController::class, 'apbdFilter'])->name('filterApbdKepalaBadan');
+    Route::get('/kepalabadan/filterkeuangan', [KepalaBadanController::class, 'keuanganFilter'])->name('filterKeuanganKepalaBadan');
+    Route::get('/kepalabadan/filterslide', [KepalaBadanController::class, 'slideFilter'])->name('filterSlideKepalaBadan');
+    Route::get('/kepalabadan/filterlainnya', [KepalaBadanController::class, 'lainnyaFilter'])->name('filterLainnyaKepalaBadan');
+    Route::get('/kepalabadan/filtersuratmasuk', [KepalaBadanController::class, 'suratMasukFilter'])->name('filterSuratMasukKepalaBadan');
 
     Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 });
@@ -159,6 +176,7 @@ Route::middleware(['auth', 'sekretaris'])->group(function () {
     Route::get('/sekretaris/keuangan', [SekretarisController::class, 'keuanganIndex'])->name('keuanganSekretaris');
     Route::get('/sekretaris/slide', [SekretarisController::class, 'slideIndex'])->name('slideSekretaris');
     Route::get('/sekretaris/lainnya', [SekretarisController::class, 'lainnyaIndex'])->name('lainnyaSekretaris');
+    Route::get('/sekretaris/suratmasuk', [SekretarisController::class, 'suratMasukIndex'])->name('suratMasukSekretaris');
 
     // Dokumentasi
     Route::get('/sekretaris/dokumentasi', [SekretarisController::class, 'indexDokumentasi'])->name('dokumentasiSekretaris');
@@ -172,6 +190,14 @@ Route::middleware(['auth', 'sekretaris'])->group(function () {
     // Ganti Password
     Route::get('/sekretaris/gantipassword', [SekretarisController::class, 'gantiPassword'])->name('gantiPasswordSekretaris');
     Route::put('/sekretaris/gantipassword/{id}', [SekretarisController::class, 'updatePassword'])->name('updatePasswordSekretaris');
+
+    // Filter Arsip
+    Route::get('/sekretaris/filterperaturan', [SekretarisController::class, 'peraturanFilter'])->name('filterPeraturanSekretaris');
+    Route::get('/sekretaris/filterapbd', [SekretarisController::class, 'apbdFilter'])->name('filterApbdSekretaris');
+    Route::get('/sekretaris/filterkeuangan', [SekretarisController::class, 'keuanganFilter'])->name('filterKeuanganSekretaris');
+    Route::get('/sekretaris/filterslide', [SekretarisController::class, 'slideFilter'])->name('filterSlideSekretaris');
+    Route::get('/sekretaris/filterlainnya', [SekretarisController::class, 'lainnyaFilter'])->name('filterLainnyaSekretaris');
+    Route::get('/sekretaris/filtersuratmasuk', [SekretarisController::class, 'suratMasukFilter'])->name('filterSuratMasukSekretaris');
 
     Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 });
@@ -209,6 +235,7 @@ Route::middleware(['auth', 'kabid'])->group(function () {
     Route::get('/kabid/keuangan', [KabidController::class, 'keuanganIndex'])->name('keuanganKabid');
     Route::get('/kabid/slide', [KabidController::class, 'slideIndex'])->name('slideKabid');
     Route::get('/kabid/lainnya', [KabidController::class, 'lainnyaIndex'])->name('lainnyaKabid');
+    Route::get('/kabid/suratmasuk', [KabidController::class, 'suratMasukIndex'])->name('suratMasukKabid');
 
     // Dokumentasi
     Route::get('/kabid/dokumentasi', [KabidController::class, 'indexDokumentasi'])->name('dokumentasiKabid');
@@ -222,6 +249,14 @@ Route::middleware(['auth', 'kabid'])->group(function () {
     // Ganti Password
     Route::get('/kabid/gantipassword', [KabidController::class, 'gantiPassword'])->name('gantiPasswordKabid');
     Route::put('/kabid/gantipassword/{id}', [KabidController::class, 'updatePassword'])->name('updatePasswordKabid');
+
+    // Filter Arsip
+    Route::get('/kabid/filterperaturan', [KabidController::class, 'peraturanFilter'])->name('filterPeraturanKabid');
+    Route::get('/kabid/filterapbd', [KabidController::class, 'apbdFilter'])->name('filterApbdKabid');
+    Route::get('/kabid/filterkeuangan', [KabidController::class, 'keuanganFilter'])->name('filterKeuanganKabid');
+    Route::get('/kabid/filterslide', [KabidController::class, 'slideFilter'])->name('filterSlideKabid');
+    Route::get('/kabid/filterlainnya', [KabidController::class, 'lainnyaFilter'])->name('filterLainnyaKabid');
+    Route::get('/kabid/filtersuratmasuk', [KabidController::class, 'suratMasukFilter'])->name('filterSuratMasukKabid');
 
     Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 });
@@ -259,6 +294,7 @@ Route::middleware(['auth', 'subbag'])->group(function () {
     Route::get('/subbag/keuangan', [SubbagController::class, 'keuanganIndex'])->name('keuanganSubbag');
     Route::get('/subbag/slide', [SubbagController::class, 'slideIndex'])->name('slideSubbag');
     Route::get('/subbag/lainnya', [SubbagController::class, 'lainnyaIndex'])->name('lainnyaSubbag');
+    Route::get('/subbag/suratmasuk', [SubbagController::class, 'suratMasukIndex'])->name('suratMasukSubbag');
 
     // Dokumentasi
     Route::get('/subbag/dokumentasi', [SubbagController::class, 'indexDokumentasi'])->name('dokumentasiSubbag');
@@ -272,6 +308,14 @@ Route::middleware(['auth', 'subbag'])->group(function () {
     // Ganti Password
     Route::get('/subbag/gantipassword', [SubbagController::class, 'gantiPassword'])->name('gantiPasswordSubbag');
     Route::put('/subbag/gantipassword/{id}', [SubbagController::class, 'updatePassword'])->name('updatePasswordSubbag');
+
+    // Filter Arsip
+    Route::get('/subbag/filterperaturan', [SubbagController::class, 'peraturanFilter'])->name('filterPeraturanSubbag');
+    Route::get('/subbag/filterapbd', [SubbagController::class, 'apbdFilter'])->name('filterApbdSubbag');
+    Route::get('/subbag/filterkeuangan', [SubbagController::class, 'keuanganFilter'])->name('filterKeuanganSubbag');
+    Route::get('/subbag/filterslide', [SubbagController::class, 'slideFilter'])->name('filterSlideSubbag');
+    Route::get('/subbag/filterlainnya', [SubbagController::class, 'lainnyaFilter'])->name('filterLainnyaSubbag');
+    Route::get('/subbag/filtersuratmasuk', [SubbagController::class, 'suratMasukFilter'])->name('filterSuratMasukSubbag');
 
     Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 });
@@ -309,6 +353,7 @@ Route::middleware(['auth', 'subbid'])->group(function () {
     Route::get('/subbid/keuangan', [SubbidController::class, 'keuanganIndex'])->name('keuanganSubbid');
     Route::get('/subbid/slide', [SubbidController::class, 'slideIndex'])->name('slideSubbid');
     Route::get('/subbid/lainnya', [SubbidController::class, 'lainnyaIndex'])->name('lainnyaSubbid');
+    Route::get('/subbid/suratmasuk', [SubbidController::class, 'suratMasukIndex'])->name('suratMasukSubbid');
 
     // Dokumentasi
     Route::get('/subbid/dokumentasi', [SubbidController::class, 'indexDokumentasi'])->name('dokumentasiSubbid');
@@ -322,6 +367,14 @@ Route::middleware(['auth', 'subbid'])->group(function () {
     // Ganti Password
     Route::get('/subbid/gantipassword', [SubbidController::class, 'gantiPassword'])->name('gantiPasswordSubbid');
     Route::put('/subbid/gantipassword/{id}', [SubbidController::class, 'updatePassword'])->name('updatePasswordSubbid');
+
+    // Filter Arsip
+    Route::get('/subbid/filterperaturan', [SubbidController::class, 'peraturanFilter'])->name('filterPeraturanSubbid');
+    Route::get('/subbid/filterapbd', [SubbidController::class, 'apbdFilter'])->name('filterApbdSubbid');
+    Route::get('/subbid/filterkeuangan', [SubbidController::class, 'keuanganFilter'])->name('filterKeuanganSubbid');
+    Route::get('/subbid/filterslide', [SubbidController::class, 'slideFilter'])->name('filterSlideSubbid');
+    Route::get('/subbid/filterlainnya', [SubbidController::class, 'lainnyaFilter'])->name('filterLainnyaSubbid');
+    Route::get('/subbid/filtersuratmasuk', [SubbidController::class, 'suratMasukFilter'])->name('filterSuratMasukSubbid');
 
     Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 });
@@ -369,10 +422,19 @@ Route::middleware(['auth', 'admin'])->group(function () {
     Route::get('/admin/keuangan', [AdminController::class, 'keuanganIndex'])->name('keuanganAdmin');
     Route::get('/admin/slide', [AdminController::class, 'slideIndex'])->name('slideAdmin');
     Route::get('/admin/lainnya', [AdminController::class, 'lainnyaIndex'])->name('lainnyaAdmin');
+    Route::get('/admin/suratmasuk', [AdminController::class, 'suratMasukIndex'])->name('suratMasukAdmin');
 
     // Ganti Password
     Route::get('/admin/gantipassword', [AdminController::class, 'gantiPassword'])->name('gantiPasswordAdmin');
     Route::put('/admin/gantipassword/{id}', [AdminController::class, 'updatePassword'])->name('updatePasswordAdmin');
+
+    // Filter Arsip
+    Route::get('/admin/filterperaturan', [AdminController::class, 'peraturanFilter'])->name('filterPeraturanAdmin');
+    Route::get('/admin/filterapbd', [AdminController::class, 'apbdFilter'])->name('filterApbdAdmin');
+    Route::get('/admin/filterkeuangan', [AdminController::class, 'keuanganFilter'])->name('filterKeuanganAdmin');
+    Route::get('/admin/filterslide', [AdminController::class, 'slideFilter'])->name('filterSlideAdmin');
+    Route::get('/admin/filterlainnya', [AdminController::class, 'lainnyaFilter'])->name('filterLainnyaAdmin');
+    Route::get('/admin/filtersuratmasuk', [AdminController::class, 'suratMasukFilter'])->name('filterSuratMasukAdmin');
 
     Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 });
@@ -406,6 +468,7 @@ Route::middleware(['auth', 'staff'])->group(function () {
     Route::get('/staff/keuangan', [StaffController::class, 'keuanganIndex'])->name('keuanganStaff');
     Route::get('/staff/slide', [StaffController::class, 'slideIndex'])->name('slideStaff');
     Route::get('/staff/lainnya', [StaffController::class, 'lainnyaIndex'])->name('lainnyaStaff');
+    Route::get('/staff/suratmasuk', [StaffController::class, 'suratMasukIndex'])->name('suratMasukStaff');
 
     // Dokumentasi
     Route::get('/staff/dokumentasi', [StaffController::class, 'indexDokumentasi'])->name('dokumentasiStaff');
@@ -419,6 +482,14 @@ Route::middleware(['auth', 'staff'])->group(function () {
     // Ganti Password
     Route::get('/staff/gantipassword', [StaffController::class, 'gantiPassword'])->name('gantiPasswordStaff');
     Route::put('/staff/gantipassword/{id}', [StaffController::class, 'updatePassword'])->name('updatePasswordStaff');
+
+    // Filter Arsip
+    Route::get('/staff/filterperaturan', [StaffController::class, 'peraturanFilter'])->name('filterPeraturanStaff');
+    Route::get('/staff/filterapbd', [StaffController::class, 'apbdFilter'])->name('filterApbdStaff');
+    Route::get('/staff/filterkeuangan', [StaffController::class, 'keuanganFilter'])->name('filterKeuanganStaff');
+    Route::get('/staff/filterslide', [StaffController::class, 'slideFilter'])->name('filterSlideStaff');
+    Route::get('/staff/filterlainnya', [StaffController::class, 'lainnyaFilter'])->name('filterLainnyaStaff');
+    Route::get('/staff/filtersuratmasuk', [StaffController::class, 'suratMasukFilter'])->name('filterSuratMasukStaff');
 
     Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 });
